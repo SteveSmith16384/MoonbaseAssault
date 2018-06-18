@@ -301,7 +301,7 @@ public class MapLoader {
 		// Mark area as handled
 		for (int y=sy ; y<ey ; y++) {
 			for (int x=sx ; x<ex ; x++) {
-				mapCode[x][sy] = HANDLED;
+				mapCode[x][y] = HANDLED;
 			}
 		}
 
