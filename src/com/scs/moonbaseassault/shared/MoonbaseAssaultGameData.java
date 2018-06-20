@@ -1,6 +1,6 @@
 package com.scs.moonbaseassault.shared;
 
-public class MoonbaseAssaultGameData { //extends SimpleGameData {
+public class MoonbaseAssaultGameData {
 
 	public int computersDestroyed = 0;
 

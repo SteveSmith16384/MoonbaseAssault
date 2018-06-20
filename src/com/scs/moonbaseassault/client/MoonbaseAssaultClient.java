@@ -267,7 +267,7 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 	@Override
 	protected Spatial getPlayersWeaponModel() {
-		if (!Globals.HIDE_BELLS_WHISTLES) {
+		//if (!Globals.HIDE_BELLS_WHISTLES) {
 			Spatial model = assetManager.loadModel("Models/pistol/pistol.blend");
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/pistol/pistol_tex.png");
 			model.scale(0.1f);
@@ -275,9 +275,9 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 			//model.setLocalTranslation(-0.35f, -.3f, .5f);
 			model.setLocalTranslation(-0.20f, -.2f, 0.4f);
 			return model;
-		} else {
+		/*} else {
 			return null;
-		}
+		}*/
 	}
 
 

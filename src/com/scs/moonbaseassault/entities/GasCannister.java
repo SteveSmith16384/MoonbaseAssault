@@ -17,6 +17,7 @@ import com.scs.stevetech1.components.ICausesHarmOnContact;
 import com.scs.stevetech1.components.IDamagable;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
+import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
@@ -27,7 +28,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 	private float health = 100;
 
 	public GasCannister(IEntityController _game, int id, float x, float y, float z) {
-		super(_game, id, MoonbaseAssaultClientEntityCreator.GAS_CANNISTER, "GasCannister", false, true, false);
+		super(_game, id, MoonbaseAssaultClientEntityCreator.GAS_CANNISTER, "GasCannister", false, true, true);
 
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
@@ -47,8 +48,10 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 			geometry.setMaterial(floor_mat);
 		}
 		JMEAngleFunctions.rotateToDirection(geometry, new Vector3f(0, 1, 0));
-		this.mainNode.attachChild(geometry);
 		geometry.setLocalTranslation(RAD, -HEIGHT, RAD);
+		JMEModelFunctions.moveYOriginTo(geometry, 0f);
+		
+		this.mainNode.attachChild(geometry);
 		mainNode.setLocalTranslation(x, y, z);
 
 		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);

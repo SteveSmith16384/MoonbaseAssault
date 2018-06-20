@@ -8,16 +8,17 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.entities.Computer;
 import com.scs.moonbaseassault.entities.Floor;
+import com.scs.moonbaseassault.entities.GasCannister;
 import com.scs.moonbaseassault.entities.GenericFloorTex;
 import com.scs.moonbaseassault.entities.MapBorder;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
 import com.scs.moonbaseassault.entities.SlidingDoor;
-import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.Globals;
+
+import ssmith.lang.NumberFunctions;
 
 public class MapLoader {
 
@@ -36,9 +37,10 @@ public class MapLoader {
 	private int totalWalls, totalFloors, totalCeilings, numCrates;
 	private MoonbaseAssaultServer moonbaseAssaultServer;
 	public int scannerData[][];
-	public ArrayList<Point>[] deploySquares;// = new ArrayList<Point>()[2];
+	public ArrayList<Point>[] deploySquares;
 
 	public Point firstInteriorFloor = null;
+	public ArrayList<Point> floorSquares;// = new ArrayList<Point>()[2];
 
 	public MapLoader(MoonbaseAssaultServer _moonbaseAssaultServer) {
 		super();
@@ -203,6 +205,16 @@ public class MapLoader {
 		moonbaseAssaultServer.actuallyAddEntity(borderFront);
 
 		//Globals.p("Finished.  Created " + this.totalWalls + " walls, " + this.totalFloors + " floors, " + this.totalCeilings + " ceilings, " + numCrates + " spacecrates.");
+		
+		// Scenery
+		for (int i=0 ; i<10 ; i++) {
+			Point p = this.floorSquares.remove(NumberFunctions.rnd(0,  floorSquares.size()-1));
+			GasCannister gas = new GasCannister(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), p.x+0.5f, INT_FLOOR_HEIGHT + 0.1f, p.y+0.5f);
+			moonbaseAssaultServer.actuallyAddEntity(gas);
+			moonbaseAssaultServer.moveEntityUntilItHitsSomething(gas, new Vector3f(1, 0, 0));
+			moonbaseAssaultServer.moveEntityUntilItHitsSomething(gas, new Vector3f(0, -1, 0), 0.1f);
+			Globals.p("Gas can at " + gas.getWorldTranslation());
+		}
 	}
 
 
@@ -239,6 +251,7 @@ public class MapLoader {
 
 
 	private void doInteriorFloorsAndCeilings() {
+		floorSquares = new ArrayList<Point>();
 		boolean found = true;
 		while (found) {
 			found = false;
@@ -302,6 +315,7 @@ public class MapLoader {
 		for (int y=sy ; y<ey ; y++) {
 			for (int x=sx ; x<ex ; x++) {
 				mapCode[x][y] = HANDLED;
+				floorSquares.add(new Point(x, y));
 			}
 		}
 

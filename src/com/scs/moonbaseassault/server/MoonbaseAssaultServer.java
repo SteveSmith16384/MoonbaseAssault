@@ -36,7 +36,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	public static final boolean PLAYERS_ARE_DEFENDERS = true;
 
 	public static final String GAME_ID = "Moonbase Assault";
-	
+
 	// Sides
 	public static final int SIDE_ATTACKER = 1;
 	public static final int SIDE_DEFENDER = 2;
@@ -51,7 +51,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	private int winningSide = 2; // Defenders win by default
 	private CreateUnitsSystem createUnitsSystem;
 	private MoonbaseAssaultGameData maGameData;
-	
+
 	public static void main(String[] args) {
 		try {
 			MyProperties props = null;
@@ -116,19 +116,19 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 		super.simpleInitApp();
 	}
 
-	
+
 	@Override
 	public void simpleUpdate(float tpf_secs) {
 		super.simpleUpdate(tpf_secs);
-		
+
 		if (this.gameData.isInGame()) {
 			if (!Globals.TEST_AI && !Globals.NO_AI_UNITS) {
 				this.createUnitsSystem.process();
 			}
 		}
 	}
-	
-	
+
+
 	@Override
 	public void moveAvatarToStartPosition(AbstractAvatar avatar) {
 		this.moveAISoldierToStartPosition(avatar, avatar.side);
@@ -159,6 +159,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			System.exit(-1);
 		}
 
+		if (!PLAYERS_ARE_DEFENDERS) {
 		Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getRotation(-1, 0));
 		this.actuallyAddEntity(ss);
 
@@ -167,7 +168,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
 		this.actuallyAddEntity(fs);
-
+		}
+		
 		//GasCannister gas = new GasCannister(this, getNextEntityID(), 2f, 0.5f, 2f);
 		//this.actuallyAddEntity(gas);
 
@@ -188,26 +190,26 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 		moveAISoldierToStartPosition(s, s.side);
 		Globals.p("Created AI soldier on side " + side);
 	}
-	
-	
+
+
 	private void moveAISoldierToStartPosition(PhysicalEntity soldier, int side) {
 		float startHeight = .1f;
 		//if (!Globals.TEST_AI) {
-			List<Point> deploySquares = this.deploySquares[side-1];
-			boolean found = false;
-			for (int i=0 ; i<20 ; i++) { // only try a certain number of times
-				Point p = deploySquares.get(NumberFunctions.rnd(0, deploySquares.size()-1));
-				soldier.setWorldTranslation(p.x+0.5f, startHeight, p.y+0.5f);
-				if (soldier.simpleRigidBody.checkForCollisions().size() == 0) {
-					found = true;
-					break;
-				}
+		List<Point> deploySquares = this.deploySquares[side-1];
+		boolean found = false;
+		for (int i=0 ; i<20 ; i++) { // only try a certain number of times
+			Point p = deploySquares.get(NumberFunctions.rnd(0, deploySquares.size()-1));
+			soldier.setWorldTranslation(p.x+0.5f, startHeight, p.y+0.5f);
+			if (soldier.simpleRigidBody.checkForCollisions().size() == 0) {
+				found = true;
+				break;
 			}
-			if (found) {
-				Globals.p(soldier + " starting at " + soldier.getWorldTranslation());
-			} else {
-				throw new RuntimeException("No space to start!");
-			}
+		}
+		if (found) {
+			Globals.p(soldier + " starting at " + soldier.getWorldTranslation());
+		} else {
+			throw new RuntimeException("No space to start!");
+		}
 		/*} else {
 			soldier.setWorldTranslation(1.5f, startHeight, 1.5f);
 		}*/
@@ -305,6 +307,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	public void computerDestroyed(Point p) {
+		super.appendToGameLog("Computer destroyed!");
+
 		this.computerSquares.remove(p);
 		this.maGameData.computersDestroyed++;
 		this.mapData[p.x][p.y] = MapLoader.INT_FLOOR;
@@ -322,6 +326,12 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	protected int getWinningSideAtEnd() {
 		return this.winningSide;
+	}
+
+
+	@Override
+	public int getMinPlayersRequiredForGame() {
+		return 1;
 	}
 
 
@@ -351,12 +361,6 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	}
 
 	//--------------------------------
-
-
-	@Override
-	public int getMinPlayersRequiredForGame() {
-		return 1;
-	}
 
 
 }

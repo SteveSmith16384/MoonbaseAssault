@@ -2,6 +2,7 @@ package com.scs.moonbaseassault.client.hud;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.bounding.BoundingBox;
@@ -33,9 +34,6 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 	private static ColorRGBA defaultColour = ColorRGBA.Green;
 
-	private TextArea log_ta;
-	private List<String> logLines = new ArrayList<String>();
-	
 	private float hud_width, hud_height;
 	private Camera cam;
 	private Geometry damage_box;
@@ -48,7 +46,8 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 	private BitmapText abilityGun, abilityOther, healthText; // Update instantly 
 	private String debugText, gameStatus, gameTime, pingText, compsDestroyedText, numPlayers, gameID;
-	private BitmapText textArea; 
+	private BitmapText textArea; // For showing all other stats 
+	private TextArea log_ta;
 
 	public MoonbaseAssaultHUD(AbstractGameClient _game, Camera _cam) { 
 		super("HUD");
@@ -193,7 +192,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 	}
 
-
+/*
 	public void log(String s) {
 		this.logLines.add(s);
 		while (this.logLines.size() > MAX_LINES) {
@@ -205,7 +204,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		}
 		this.log_ta.setText(str.toString());
 	}
-
+*/
 
 	private void updateTextArea() {
 		StringBuilder str = new StringBuilder();
@@ -344,13 +343,24 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 	@Override
 	public void showMessage(String s) {
-		this.log(s);
+		//this.log(s);
 	}
 	
 
 	@Override
 	public void addItem(Node n) {
 		this.attachChild(n);
+	}
+
+
+	@Override
+	public void setLog(LinkedList<String> gameLog) {
+		StringBuilder str = new StringBuilder();
+		for(String line : gameLog) {
+			str.append(line + "\n");
+		}
+		this.log_ta.setText(str.toString());
+		
 	}
 
 	
