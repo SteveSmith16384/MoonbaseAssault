@@ -86,7 +86,6 @@ IDebrisTexture {
 		}
 
 		// Create box for collisions
-		//Box box = new Box(soldierModel.getBoundingBox().getXExtent(), soldierModel.getBoundingBox().getYExtent(), soldierModel.getBoundingBox().getZExtent());
 		Box box = new Box(soldierModel.getSize().x/2, soldierModel.getSize().y/2, soldierModel.getSize().z/2);
 		Geometry bbGeom = new Geometry("bbGeom_" + name, box);
 		bbGeom.setLocalTranslation(0, soldierModel.getSize().y/2, 0); // origin is centre!
@@ -97,7 +96,7 @@ IDebrisTexture {
 		mainNode.setUserData(Globals.ENTITY, this);
 		mainNode.setLocalTranslation(x, y, z);
 
-		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), game.isServer(), this); // was false
+		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), game.isServer(), this);
 		simpleRigidBody.canWalkUpSteps = true;
 		simpleRigidBody.setBounciness(0);
 
@@ -174,6 +173,8 @@ IDebrisTexture {
 				this.simpleRigidBody.setMovedByForces(false);
 				
 				this.timeKilled = System.currentTimeMillis();
+				
+				server.appendToGameLog(name + " killed");
 			}
 		}
 	}

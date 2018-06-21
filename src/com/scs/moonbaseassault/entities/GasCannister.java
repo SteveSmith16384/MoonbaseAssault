@@ -11,13 +11,14 @@ import com.jme3.scene.shape.Cylinder;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
-import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.components.ICausesHarmOnContact;
 import com.scs.stevetech1.components.IDamagable;
+import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.jme.JMEModelFunctions;
+import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
@@ -67,8 +68,11 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 		//Globals.p("Gas can hit!");
 		this.health -= amt;
 		if (this.health <= 0) {
-			// todo - explode
-			this.remove();
+			AbstractGameServer server  = (AbstractGameServer)game;
+			String tex = "Textures/sun.jpg";
+			server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
+			this.remove(); // So we don't block LOS when damaging surrounding entities
+			server.damageSurroundingEntities(this.getMainNode().getWorldBound().getCenter(), 10f, 1);
 		}
 
 	}

@@ -272,8 +272,9 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/pistol/pistol_tex.png");
 			model.scale(0.1f);
 			// x moves l-r, z moves further away
-			//model.setLocalTranslation(-0.35f, -.3f, .5f);
-			model.setLocalTranslation(-0.20f, -.2f, 0.4f);
+			//model.setLocalTranslation(-0.20f, -.2f, 0.4f);
+			//model.setLocalTranslation(-0.15f, -.2f, 0.2f);
+			model.setLocalTranslation(-0.10f, -.15f, 0.2f);
 			return model;
 		/*} else {
 			return null;

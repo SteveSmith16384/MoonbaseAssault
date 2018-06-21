@@ -224,7 +224,8 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			Vector3f size = (Vector3f)msg.data.get("size");
 			String tex = (String)msg.data.get("tex");
-			SpaceCrate crate = new SpaceCrate(game, id, pos.x, pos.y, pos.z, size.x, size.y, size.z, tex, 0); // Give def rotation of 0, since it will get rotated anyway
+			float rot = (float)msg.data.get("rot");
+			SpaceCrate crate = new SpaceCrate(game, id, pos.x, pos.y, pos.z, size.x, size.y, size.z, tex, rot);
 			return crate;
 		}
 
@@ -278,7 +279,7 @@ public class MoonbaseAssaultClientEntityCreator {
 			return bullet;
 		}
 
-		case Globals.BULLET_EXPLOSION_EFFECT:
+		case Globals.EXPLOSION_SHARD:
 		{
 			Vector3f forceDirection = (Vector3f) msg.data.get("forceDirection");
 			float size = (float) msg.data.get("size");

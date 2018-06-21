@@ -20,12 +20,14 @@ public class MA_AISoldier extends AbstractAISoldier {
 		}
 	}
 
+	
 	@Override
 	protected AbstractAIBullet createBullet(Vector3f pos, Vector3f dir) {
 		AILaserBullet bullet = new AILaserBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
 		return bullet;
 	}
 
+	
 	@Override
 	public String getDebrisTexture() {
 		return "Textures/blood.png";

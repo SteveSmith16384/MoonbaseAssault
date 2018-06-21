@@ -28,7 +28,6 @@ import ssmith.util.RealtimeInterval;
 public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 	private static final float LINE_SPACING = 10;
-	private static final int MAX_LINES = 5;
 
 	private RealtimeInterval updateHudTextInterval = new RealtimeInterval(1000);
 
@@ -103,7 +102,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 		log_ta = new TextArea("log", font_small, 6, "");
 		log_ta.setColor(defaultColour);
-		log_ta.setLocalTranslation(0, hud_height/2, 0);
+		log_ta.setLocalTranslation(hud_width/2, hud_height/2, 0);
 		this.attachChild(log_ta);
 
 		// Damage box
@@ -150,7 +149,6 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 		this.updateGeometricState();
 
-		//this.setModelBound(new BoundingBox());  scs new
 		this.updateModelBound();
 
 	}
