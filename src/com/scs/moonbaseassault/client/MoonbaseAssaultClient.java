@@ -8,6 +8,7 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.post.filters.BloomFilter;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
@@ -16,7 +17,6 @@ import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.moonbaseassault.netmessages.HudDataMessage;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
-import com.scs.moonbaseassault.shared.MoonbaseAssaultGameData;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.components.IEntity;
@@ -105,6 +105,15 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 	}
 
+
+	@Override
+	protected void setupFilters() {
+		super.setupFilters();
+
+		//BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects); 
+		//bloom.setBlurScale(5f);
+		//fpp.addFilter(bloom);
+	}
 
 	@Override
 	protected void setUpLight() {
@@ -268,14 +277,14 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	@Override
 	protected Spatial getPlayersWeaponModel() {
 		//if (!Globals.HIDE_BELLS_WHISTLES) {
-			Spatial model = assetManager.loadModel("Models/pistol/pistol.blend");
-			JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/pistol/pistol_tex.png");
-			model.scale(0.1f);
-			// x moves l-r, z moves further away
-			//model.setLocalTranslation(-0.20f, -.2f, 0.4f);
-			//model.setLocalTranslation(-0.15f, -.2f, 0.2f);
-			model.setLocalTranslation(-0.10f, -.15f, 0.2f);
-			return model;
+		Spatial model = assetManager.loadModel("Models/pistol/pistol.blend");
+		JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/pistol/pistol_tex.png");
+		model.scale(0.1f);
+		// x moves l-r, z moves further away
+		//model.setLocalTranslation(-0.20f, -.2f, 0.4f);
+		//model.setLocalTranslation(-0.15f, -.2f, 0.2f);
+		model.setLocalTranslation(-0.10f, -.15f, 0.2f);
+		return model;
 		/*} else {
 			return null;
 		}*/
@@ -299,8 +308,8 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 			return null;
 		}*/
 	//}
-	
-	
+
+
 	@Override
 	protected Class[] getListofMessageClasses() {
 		return new Class[] {HudDataMessage.class};//, MoonbaseAssaultGameData.class};

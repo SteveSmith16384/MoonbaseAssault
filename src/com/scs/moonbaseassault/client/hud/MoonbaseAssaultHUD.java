@@ -74,9 +74,11 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 			}
 		}*/
 
+		float xPos = hud_width - 150f;
+
 		textArea = new BitmapText(font_small, false);
 		textArea.setColor(defaultColour);
-		textArea.setLocalTranslation(10, hud_height/2, 0);
+		textArea.setLocalTranslation(xPos, hud_height/2, 0);
 		this.attachChild(textArea);
 		textArea.setText("Waiting for data...\n...");
 
@@ -85,24 +87,25 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		yPos -= LINE_SPACING;
 		abilityGun = new BitmapText(font_small, false);
 		abilityGun.setColor(defaultColour);
-		abilityGun.setLocalTranslation(10, yPos, 0);
+		abilityGun.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(abilityGun);
 
 		yPos -= LINE_SPACING;
 		abilityOther = new BitmapText(font_small, false);
 		abilityOther.setColor(defaultColour);
-		abilityOther.setLocalTranslation(10, yPos, 0);
+		abilityOther.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(abilityOther);
 
 		yPos -= LINE_SPACING;
 		healthText = new BitmapText(font_small, false);
 		healthText.setColor(defaultColour);
-		healthText.setLocalTranslation(10, yPos, 0);
+		healthText.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(healthText);
 
 		log_ta = new TextArea("log", font_small, 6, "");
 		log_ta.setColor(defaultColour);
-		log_ta.setLocalTranslation(hud_width/2, hud_height/2, 0);
+		//log_ta.setLocalTranslation(hud_width/2, hud_height/2, 0);
+		log_ta.setLocalTranslation(20, hud_height-20, 0);
 		this.attachChild(log_ta);
 
 		// Damage box
@@ -261,7 +264,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 
 	public void setCompsDestroyed(int s) {
-		this.compsDestroyedText = "Computers Destroyed: " + s;
+		this.compsDestroyedText = "CPUs Destroyed: " + s;
 	}
 
 
@@ -327,7 +330,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		hudMapImage = new HUDMapImage(game.getAssetManager(), (int)sizeInPixels, mapSize);
 		hudMapImage.setWidth(sizeInPixels);
 		hudMapImage.setHeight(sizeInPixels);
-		hudMapImage.setLocalTranslation((cam.getWidth() - sizeInPixels)/2, cam.getHeight() *.1f, 0);
+		hudMapImage.setLocalTranslation((cam.getWidth() - sizeInPixels)/2, 0, 0);//cam.getHeight() *.1f, 0);
 		this.attachChild(hudMapImage);
 		return hudMapImage;
 	}

@@ -36,7 +36,7 @@ public class FlyingSpaceship2 extends PhysicalEntity implements ISetRotation, IG
 			//JMEModelFunctions.setTextureOnSpatial(game.getAssetManager(), model, "Models/spaceships2/BigSpaceship.png");
 			JMEModelFunctions.setTextureOnSpatial(game.getAssetManager(), model, "Models/spaceships2/SpaceshipTexture.png");
 			model.setShadowMode(ShadowMode.Cast);
-			JMEAngleFunctions.rotateToDirection(model, new Vector3f(1, 0, 0)); // Face the right way
+			JMEAngleFunctions.rotateToWorldDirection(model, new Vector3f(1, 0, 0)); // Face the right way
 		}
 		this.mainNode.attachChild(model);
 		//mainNode.setLocalRotation(q);
@@ -79,7 +79,7 @@ public class FlyingSpaceship2 extends PhysicalEntity implements ISetRotation, IG
 
 	@Override
 	public void setRotation(Vector3f dir) {
-		JMEAngleFunctions.rotateToDirection(this.getMainNode(), dir);
+		JMEAngleFunctions.rotateToWorldDirection(this.getMainNode(), dir);
 		
 	}
 

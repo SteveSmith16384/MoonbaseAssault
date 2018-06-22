@@ -24,12 +24,12 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 
 	private static final String INVISIBLE_TEX = "Textures/fence.png";
 	private String tex;
-	
+
 	public MoonbaseWall(IEntityController _game, int id, float x, float yBottom, float z, float w, float h, float d, String _tex) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.WALL, "Wall", false, true, false);
 
 		tex = _tex;
-		
+
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
 			creationData.put("w", w);
@@ -67,11 +67,10 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
 
-			Material floor_mat = null;
-				floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-				floor_mat.setTexture("DiffuseMap", tex3);
+			Material floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+			floor_mat.setTexture("DiffuseMap", tex3);
 			geometry.setMaterial(floor_mat);
-			
+
 			if (Globals.TRANSPARENT_WALLS) {
 				floor_mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
 				geometry.setQueueBucket(Bucket.Transparent);
@@ -94,7 +93,7 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 
 	}
 
-	
+
 	@Override
 	public String getDebrisTexture() {
 		return tex;

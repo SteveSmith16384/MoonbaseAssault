@@ -48,7 +48,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 			floor_mat.setTexture("DiffuseMap", tex3);
 			geometry.setMaterial(floor_mat);
 		}
-		JMEAngleFunctions.rotateToDirection(geometry, new Vector3f(0, 1, 0));
+		JMEAngleFunctions.rotateToWorldDirection(geometry, new Vector3f(0, 1, 0));
 		geometry.setLocalTranslation(RAD, -HEIGHT, RAD);
 		JMEModelFunctions.moveYOriginTo(geometry, 0f);
 		
@@ -72,7 +72,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 			String tex = "Textures/sun.jpg";
 			server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
 			this.remove(); // So we don't block LOS when damaging surrounding entities
-			server.damageSurroundingEntities(this.getMainNode().getWorldBound().getCenter(), 10f, 1);
+			server.damageSurroundingEntities(this.getMainNode().getWorldBound().getCenter(), 4f, 1);
 		}
 
 	}

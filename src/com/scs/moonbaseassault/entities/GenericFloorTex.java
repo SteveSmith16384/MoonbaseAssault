@@ -43,7 +43,7 @@ public class GenericFloorTex extends PhysicalEntity {
 			geometry.setMaterial(floor_mat);
 		}
 		this.mainNode.attachChild(geometry);
-		JMEAngleFunctions.rotateToDirection(geometry, new Vector3f(0, 1, 0));
+		JMEAngleFunctions.rotateToWorldDirection(geometry, new Vector3f(0, 1, 0));
 		geometry.setLocalTranslation((w/2), 0.001f, (d/2));
 		mainNode.setLocalTranslation(x, y, z);
 
