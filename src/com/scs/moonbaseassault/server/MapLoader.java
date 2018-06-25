@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.entities.Computer;
+import com.scs.moonbaseassault.entities.DestroyedComputer;
 import com.scs.moonbaseassault.entities.Floor;
 import com.scs.moonbaseassault.entities.GasCannister;
 import com.scs.moonbaseassault.entities.GenericFloorTex;
@@ -31,6 +32,7 @@ public class MapLoader {
 	public static final int DOOR_LR = 4;
 	public static final int DOOR_UD = 5;
 	public static final int COMPUTER = 6;
+	public static final int DESTROYED_COMPUTER = 7;
 	
 	private static final float INT_FLOOR_HEIGHT = 0.05f;
 
@@ -183,6 +185,10 @@ public class MapLoader {
 						Computer comp = new Computer(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, x, y);
 						moonbaseAssaultServer.actuallyAddEntity(comp);
 						mapCode[x][y] = INT_FLOOR; // So we create a floor below it
+					} else if (mapCode[x][y] == DESTROYED_COMPUTER) {
+						DestroyedComputer comp = new DestroyedComputer(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y);
+						moonbaseAssaultServer.actuallyAddEntity(comp);
+						mapCode[x][y] = DESTROYED_COMPUTER; // So we create a floor below it
 					}
 				}
 			}

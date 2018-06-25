@@ -311,7 +311,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		this.computerSquares.remove(p);
 		this.maGameData.computersDestroyed++;
-		this.mapData[p.x][p.y] = MapLoader.INT_FLOOR;
+		this.mapData[p.x][p.y] = MapLoader.DESTROYED_COMPUTER;
 		this.gameNetworkServer.sendMessageToAll(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
 		this.maGameData.computersDestroyed++;//.pointsForSide[1] += 10;
 
@@ -351,7 +351,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	public boolean isMapSquareTraversable(int x, int z) {
-		return this.mapData[x][z] != MapLoader.WALL && this.mapData[x][z] != MapLoader.COMPUTER;
+		return this.mapData[x][z] != MapLoader.WALL && this.mapData[x][z] != MapLoader.COMPUTER && this.mapData[x][z] != MapLoader.DESTROYED_COMPUTER;
 	}
 
 

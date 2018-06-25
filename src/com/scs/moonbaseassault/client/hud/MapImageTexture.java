@@ -50,11 +50,19 @@ public class MapImageTexture extends PaintableImage {
 		// Origin is bottom-left
 		if (data != null) {
 			// Map walls
-			g.setColor(new Color(0f, 1f, 0f, 0.5f)); // green
 			for (int y=0 ; y<data.length ; y++) {
 				for (int x=0 ; x<data[0].length ; x++) {
 					if (data[x][y] == MapLoader.WALL) {
 						//g.fillRect((data.length-1-y)*pixelSize, (data[0].length-1-x)*pixelSize, pixelSize, pixelSize);
+						g.setColor(new Color(0f, 1f, 0f, 0.5f)); // green
+						paintSquare(g, x, y, 1);
+					} else if (data[x][y] == MapLoader.COMPUTER) {
+						//g.fillRect((data.length-1-y)*pixelSize, (data[0].length-1-x)*pixelSize, pixelSize, pixelSize);
+						g.setColor(new Color(1f, 1f, 1f, ALPHA)); // White
+						paintSquare(g, x, y, 1);
+					} else if (data[x][y] == MapLoader.DESTROYED_COMPUTER) {
+						//g.fillRect((data.length-1-y)*pixelSize, (data[0].length-1-x)*pixelSize, pixelSize, pixelSize);
+						g.setColor(new Color(.3f, .3f, .3f, ALPHA));
 						paintSquare(g, x, y, 1);
 					}
 				}
@@ -81,14 +89,14 @@ public class MapImageTexture extends PaintableImage {
 			}
 
 			// Computers
-			if (computers != null) {
+			/*if (computers != null) {
 				g.setColor(new Color(1f, 1f, 1f, ALPHA)); // White
 				for (int i=0 ; i<computers.size() ; i++) {
 					Point p = computers.get(i);
 					//g.fillRect((data.length-p.y)*pixelSize, (data.length-p.x)*pixelSize, pixelSize, pixelSize);
 					paintSquare(g, p.x, p.y, 1);
 				}			
-			}
+			}*/
 
 			// Player
 			if (player != null) {
