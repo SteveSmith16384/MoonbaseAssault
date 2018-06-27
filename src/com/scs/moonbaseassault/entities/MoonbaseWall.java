@@ -100,4 +100,16 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 	}
 
 
+	@Override
+	public float getMinDebrisSize() {
+		return 0.01f;
+	}
+
+
+	@Override
+	public float getMaxDebrisSize() {
+		return 0.04f;
+	}
+
+	
 }

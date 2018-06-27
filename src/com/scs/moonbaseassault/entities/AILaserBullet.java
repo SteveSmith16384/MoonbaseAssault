@@ -83,11 +83,15 @@ public class AILaserBullet extends AbstractAIBullet {
 		if (game.isServer()) {
 			AbstractGameServer server = (AbstractGameServer)game;
 			String tex = "Textures/sun.jpg";
+			float minSize = .01f;
+			float maxSize = .04f;
 			if (pe instanceof IDebrisTexture) {
 				IDebrisTexture dt = (IDebrisTexture)pe;
 				tex = dt.getDebrisTexture();
+				minSize = dt.getMinDebrisSize();
+				maxSize = dt.getMaxDebrisSize();
 			}
-			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .01f, .04f, tex);
+			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, minSize, maxSize, tex);
 		}
 		this.remove();
 	}

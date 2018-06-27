@@ -220,7 +220,10 @@ public class MapLoader {
 			Point p = this.floorSquares.remove(NumberFunctions.rnd(0,  floorSquares.size()-1));
 			GasCannister gas = new GasCannister(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), p.x+0.5f, INT_FLOOR_HEIGHT + 0.1f, p.y+0.5f);
 			moonbaseAssaultServer.actuallyAddEntity(gas);
-			moonbaseAssaultServer.moveEntityUntilItHitsSomething(gas, JMEAngleFunctions.getRandomDirection_4());
+			Vector3f dir = JMEAngleFunctions.getRandomDirection_4();
+			moonbaseAssaultServer.moveEntityUntilItHitsSomething(gas, dir);
+			Vector3f dir2 = JMEAngleFunctions.turnRight(dir);
+			moonbaseAssaultServer.moveEntityUntilItHitsSomething(gas, dir2);
 			moonbaseAssaultServer.moveEntityUntilItHitsSomething(gas, down, 0.1f);
 			Globals.p("Gas can at " + gas.getWorldTranslation());
 		}
@@ -231,7 +234,10 @@ public class MapLoader {
 			int rot = NumberFunctions.rnd(0,  90);
 			SpaceCrate spacecrate = new SpaceCrate(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), p.x+.5f, size+0.1f, p.y+.5f, size, size, size, "Textures/spacecrate1.png", rot);
 			moonbaseAssaultServer.actuallyAddEntity(spacecrate);
-			moonbaseAssaultServer.moveEntityUntilItHitsSomething(spacecrate, JMEAngleFunctions.getRandomDirection_4());
+			Vector3f dir = JMEAngleFunctions.getRandomDirection_4();
+			moonbaseAssaultServer.moveEntityUntilItHitsSomething(spacecrate, dir);
+			Vector3f dir2 = JMEAngleFunctions.turnRight(dir);
+			moonbaseAssaultServer.moveEntityUntilItHitsSomething(spacecrate, dir2);
 			moonbaseAssaultServer.moveEntityUntilItHitsSomething(spacecrate, down, 0.1f);
 			Globals.p("SpaceCrate at " + spacecrate.getWorldTranslation());
 		}

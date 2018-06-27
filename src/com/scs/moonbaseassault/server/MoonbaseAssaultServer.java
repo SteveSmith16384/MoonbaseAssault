@@ -363,4 +363,13 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	//--------------------------------
 
 
+	@Override
+	protected String getSideName(int side) {
+		switch (side) {
+		case 1: return "The Attackers";
+		case 2: return "The Defenders";
+		default: return "Unknown";
+		}
+	}
+
 }

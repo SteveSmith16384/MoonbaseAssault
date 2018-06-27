@@ -34,4 +34,16 @@ public class MA_AISoldier extends AbstractAISoldier {
 	}
 
 	
+	@Override
+	public float getMinDebrisSize() {
+		return 0.001f;
+	}
+
+
+	@Override
+	public float getMaxDebrisSize() {
+		return 0.004f;
+	}
+
+	
 }

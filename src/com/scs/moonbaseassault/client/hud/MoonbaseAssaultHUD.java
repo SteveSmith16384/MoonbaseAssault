@@ -80,7 +80,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		textArea.setColor(defaultColour);
 		textArea.setLocalTranslation(xPos, hud_height/2, 0);
 		this.attachChild(textArea);
-		textArea.setText("Waiting for data...\n...");
+		textArea.setText("Waiting for data...");
 
 		float yPos = hud_height - LINE_SPACING;
 

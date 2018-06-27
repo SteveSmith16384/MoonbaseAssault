@@ -172,5 +172,17 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 		return 1;
 	}
 
+
+	@Override
+	public float getMinDebrisSize() {
+		return 0.01f;
+	}
+
+
+	@Override
+	public float getMaxDebrisSize() {
+		return 0.04f;
+	}
+
 	
 }
