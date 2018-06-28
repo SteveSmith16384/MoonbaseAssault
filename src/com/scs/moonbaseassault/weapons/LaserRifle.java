@@ -9,8 +9,10 @@ import com.scs.stevetech1.components.ICanShoot;
 import com.scs.stevetech1.components.IEntityContainer;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractPlayersBullet;
+import com.scs.stevetech1.netmessages.PlaySoundMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
+import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IAbility;
 import com.scs.stevetech1.shared.IEntityController;
 import com.scs.stevetech1.weapons.AbstractMagazineGun;
@@ -34,6 +36,13 @@ public class LaserRifle extends AbstractMagazineGun<PlayersLaserBullet> implemen
 			PlayersLaserBullet bullet = ammoCache.remove();
 			ICanShoot ic = (ICanShoot)owner;
 			bullet.launch(owner, ic.getBulletStartPos(), ic.getShootDir());
+			/*if (game.isServer()) {
+				AbstractGameServer server = (AbstractGameServer) game;
+				server.gameNetworkServer.sendMessageToAll(new PlaySoundMessage("todo", bullet.getWorldTranslation(), Globals.DEF_VOL, false));
+			/*} else {
+
+			}*/
+			game.playSound("todo", bullet.getWorldTranslation(), Globals.DEF_VOL, false);
 			return true;
 		}
 		return false;

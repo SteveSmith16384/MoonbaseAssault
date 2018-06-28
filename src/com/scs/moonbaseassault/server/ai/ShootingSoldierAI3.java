@@ -43,6 +43,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 	private WayPoints route = null;
 	private float speed;
 	private boolean walks;
+	private Vector3f tmpDir = new Vector3f();
 
 	public ShootingSoldierAI3(AbstractAISoldier _pe, boolean _attacker, boolean _walks) {
 		super();
@@ -96,10 +97,10 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 
 		if (currentTarget != null) {
 			PhysicalEntity pe = (PhysicalEntity)this.currentTarget;
-			Vector3f dir = pe.getWorldTranslation().subtract(this.soldierEntity.getWorldTranslation()); // todo - don't create each time
-			dir.y = 0;
-			dir.normalizeLocal();
-			this.changeDirection(dir);
+			tmpDir = pe.getWorldTranslation().subtract(this.soldierEntity.getWorldTranslation(), tmpDir);
+			tmpDir.y = 0;
+			tmpDir.normalizeLocal();
+			this.changeDirection(tmpDir);
 
 			soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
 			animCode = AbstractAvatar.ANIM_IDLE;
@@ -155,13 +156,14 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 			this.route = null;
 		} else {
 			Point p = this.route.get(0);
-			Vector3f dest = new Vector3f(p.x+0.5f, this.soldierEntity.getWorldTranslation().y, p.y+0.5f); // todo - don't create each time
-			float dist = this.soldierEntity.getWorldTranslation().distance(dest);
+			tmpDir.set(p.x+0.5f, this.soldierEntity.getWorldTranslation().y, p.y+0.5f);
+			float dist = this.soldierEntity.getWorldTranslation().distance(tmpDir);
 			if (dist < .3f) {
 				this.route.remove(0);
 			} else {
-				Vector3f dir = dest.subtract(this.soldierEntity.getWorldTranslation()).normalizeLocal();
-				changeDirection(dir);
+				tmpDir.subtractLocal(this.soldierEntity.getWorldTranslation());
+				tmpDir.normalizeLocal();
+				changeDirection(tmpDir);
 			}
 		}
 	}

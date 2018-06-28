@@ -47,7 +47,7 @@ IDebrisTexture {
 	public static final int BULLETS_IN_MAG = 6;
 	public static final float SHOOT_INTERVAL = 1f;
 	public static final float RELOAD_INTERVAL = 4f;
-	
+
 	public static final float START_HEALTH = 5f;
 	public static final float WALKING_SPEED = .53f;
 	public static final float RUNNING_SPEED = 1.3f;//1.21f;//1.19f; //1.13f; //0.93
@@ -58,7 +58,7 @@ IDebrisTexture {
 	protected IArtificialIntelligence ai;
 	private int serverSideCurrentAnimCode; // Server-side
 	private long timeKilled;
-	
+
 	// Weapon
 	private int bullets = BULLETS_IN_MAG;
 	private float timeToNextShot = 0; 
@@ -66,6 +66,7 @@ IDebrisTexture {
 	// HUD
 	private BitmapText hudNode;
 	private static BitmapFont font_small;
+	private Vector3f tmpScreenCoords = new Vector3f();
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, int _side, 
 			IAvatarModel _model, int _csInitialAnimCode, String name) {
@@ -171,10 +172,12 @@ IDebrisTexture {
 
 				this.game.getPhysicsController().removeSimpleRigidBody(this.simpleRigidBody); // Prevent us colliding
 				this.simpleRigidBody.setMovedByForces(false);
-				
+
 				this.timeKilled = System.currentTimeMillis();
-				
+
 				server.appendToGameLog(name + " killed");
+
+				game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
 			}
 		}
 	}
@@ -238,19 +241,20 @@ IDebrisTexture {
 	@Override
 	public void drawOnHud(Camera cam) {
 		if (hudNode != null) {
-		if (health > 0) {
-			FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
-			if (insideoutside != FrustumIntersect.Outside) {
-				if (this.hudNode.getText().length() == 0) {
-					hudNode.setText(name);
+			if (health > 0) {
+				FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
+				if (insideoutside != FrustumIntersect.Outside) {
+					if (this.hudNode.getText().length() == 0) {
+						hudNode.setText(name);
+					}
+					Vector3f pos = this.getWorldTranslation().add(0, soldierModel.getSize().y, 0);
+					Vector3f screen_pos = cam.getScreenCoordinates(pos, this.tmpScreenCoords);
+					pos = null;
+					this.hudNode.setLocalTranslation(screen_pos.x, screen_pos.y, 0);
+				} else {
+					this.hudNode.setText(""); // Hide it
 				}
-				Vector3f pos = this.getWorldTranslation().add(0, soldierModel.getSize().y, 0); // todo - not this every time
-				Vector3f screen_pos = cam.getScreenCoordinates(pos);
-				this.hudNode.setLocalTranslation(screen_pos.x, screen_pos.y, 0);
-			} else {
-				this.hudNode.setText(""); // Hide it
 			}
-		}
 		}
 	}
 
@@ -299,7 +303,7 @@ IDebrisTexture {
 			Vector3f dir = target.getMainNode().getWorldBound().getCenter().subtract(pos).normalizeLocal();
 			AbstractAIBullet bullet = this.createBullet(pos, dir);// new AIBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
 			this.game.addEntity(bullet);
-			
+
 			this.bullets--;
 			if (this.bullets > 0) {
 				this.timeToNextShot = SHOOT_INTERVAL;
@@ -337,5 +341,5 @@ IDebrisTexture {
 		return 2;
 	}
 
-	
+
 }

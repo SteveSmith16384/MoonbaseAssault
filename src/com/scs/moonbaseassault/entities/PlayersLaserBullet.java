@@ -39,6 +39,7 @@ public class PlayersLaserBullet extends AbstractPlayersBullet implements INotifi
 		this.mainNode.attachChild(laserNode);
 
 	}
+	
 
 	/*
 	@Override
@@ -50,6 +51,7 @@ public class PlayersLaserBullet extends AbstractPlayersBullet implements INotifi
 	}
 	 */
 
+	
 	@Override
 	public void collided(PhysicalEntity pe) {
 		if (game.isServer()) {
@@ -61,6 +63,7 @@ public class PlayersLaserBullet extends AbstractPlayersBullet implements INotifi
 				tex = dt.getDebrisTexture();
 			}
 			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .005f, .02f, tex);
+			game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
 		}
 		this.remove();
 	}

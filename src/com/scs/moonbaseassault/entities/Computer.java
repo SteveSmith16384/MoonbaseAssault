@@ -25,6 +25,7 @@ import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IDrawOnHUD;
 import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.entities.PhysicalEntity;
+import com.scs.stevetech1.netmessages.PlaySoundMessage;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
@@ -38,6 +39,8 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 	// HUD
 	private BitmapText hudNode;
 	private static BitmapFont font_small;
+	
+	//private AudioNode audioNodeExplode;
 
 	public Computer(IEntityController _game, int id, float x, float y, float z, int mx, int my) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.COMPUTER, "Computer", true, true, false); // Requires processing so it can be a target
@@ -47,11 +50,9 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 			position = new Point(mx, my);
 		}
 
-
 		float w = SIZE;
 		float h = SIZE;
 		float d = SIZE;
-
 		Box box1 = new Box(w/2, h/2, d/2);
 
 		Geometry geometry = new Geometry("Computer", box1);
@@ -62,13 +63,9 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 			key3.setGenerateMips(true);
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
-
 			Material floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
 			floor_mat.setTexture("DiffuseMap", tex3);
-
 			geometry.setMaterial(floor_mat);
-		} else {
-			server = (MoonbaseAssaultServer)game;
 		}
 		this.mainNode.attachChild(geometry);
 		geometry.setLocalTranslation(w/2, h/2, d/2);
@@ -98,6 +95,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 				this.remove();
 
 				server.sendExplosion(this.getWorldTranslation(), 10, .8f, 1.2f, .06f, .12f, "Textures/computerconsole2.jpg");
+				server.gameNetworkServer.sendMessageToAll(new PlaySoundMessage("todo", this.getWorldTranslation(), Globals.DEF_VOL, false));
 				
 				Vector3f pos = this.getWorldTranslation();
 				DestroyedComputer dc = new DestroyedComputer(game, game.getNextEntityID(), pos.x, pos.y, pos.z);

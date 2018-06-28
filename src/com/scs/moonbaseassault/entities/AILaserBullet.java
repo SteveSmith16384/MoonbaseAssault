@@ -92,6 +92,7 @@ public class AILaserBullet extends AbstractAIBullet {
 				maxSize = dt.getMaxDebrisSize();
 			}
 			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, minSize, maxSize, tex);
+			game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
 		}
 		this.remove();
 	}
