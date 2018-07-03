@@ -42,8 +42,10 @@ public class PlayersGrenade extends AbstractPlayersBullet {
 			ball_geo.setMaterial(floor_mat);
 		}
 
-		ball_geo.setModelBound(new BoundingBox());
+		ball_geo.setModelBound(new BoundingBox()); // Replace the BoundingSphere
 		this.mainNode.attachChild(ball_geo);
+		
+		ball_geo.setUserData(Globals.ENTITY, this);
 		this.getMainNode().setUserData(Globals.ENTITY, this);
 
 	}

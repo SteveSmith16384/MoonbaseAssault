@@ -66,7 +66,8 @@ IDebrisTexture {
 	// HUD
 	private BitmapText hudNode;
 	private static BitmapFont font_small;
-	private Vector3f tmpScreenCoords = new Vector3f();
+	private Vector3f tmpHudPos = new Vector3f();
+	private Vector3f tmpScreenPos = new Vector3f();
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, int _side, 
 			IAvatarModel _model, int _csInitialAnimCode, String name) {
@@ -247,9 +248,14 @@ IDebrisTexture {
 					if (this.hudNode.getText().length() == 0) {
 						hudNode.setText(name);
 					}
-					Vector3f pos = this.getWorldTranslation().add(0, soldierModel.getSize().y, 0);
+					/*Vector3f pos = this.getWorldTranslation().add(0, soldierModel.getSize().y, 0);
 					Vector3f screen_pos = cam.getScreenCoordinates(pos, this.tmpScreenCoords);
-					pos = null;
+					pos = null;*/
+
+					tmpHudPos.set(this.getWorldTranslation());
+					tmpHudPos.y += soldierModel.getSize().y;
+					Vector3f screen_pos = cam.getScreenCoordinates(tmpHudPos, tmpScreenPos);
+
 					this.hudNode.setLocalTranslation(screen_pos.x, screen_pos.y, 0);
 				} else {
 					this.hudNode.setText(""); // Hide it
@@ -293,7 +299,6 @@ IDebrisTexture {
 
 
 	public void shoot(PhysicalEntity target) {
-		//if (this.shootInt.hitInterval()) {
 		if (this.timeToNextShot <= 0) {
 			if (Globals.DEBUG_AI_BULLET_POS) {
 				Globals.p("AI shooting!  AI at " + this.getWorldTranslation());

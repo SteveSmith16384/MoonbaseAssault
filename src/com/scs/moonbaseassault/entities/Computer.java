@@ -33,7 +33,6 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 	private static final float SIZE = 0.9f;
 	private float health = 100;
-	private MoonbaseAssaultServer server;
 	private Point position; // Server-side only
 
 	// HUD
@@ -90,6 +89,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 			Globals.p("Computer hit!");
 			this.health -= amt;
 			if (this.health <= 0) {
+				MoonbaseAssaultServer server = (MoonbaseAssaultServer)game;
 				server.computerDestroyed(position);
 
 				this.remove();

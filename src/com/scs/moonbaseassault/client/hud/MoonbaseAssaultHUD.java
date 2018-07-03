@@ -27,6 +27,7 @@ import ssmith.util.RealtimeInterval;
 
 public class MoonbaseAssaultHUD extends Node implements IHUD {
 
+	private static final int MAX_LINES = 6;
 	private static final float LINE_SPACING = 10;
 
 	private RealtimeInterval updateHudTextInterval = new RealtimeInterval(1000);
@@ -47,7 +48,8 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	private String debugText, gameStatus, gameTime, pingText, compsDestroyedText, numPlayers, gameID;
 	private BitmapText textArea; // For showing all other stats 
 	private TextArea log_ta;
-
+	private LinkedList<String> logLines = new LinkedList<>();
+	
 	public MoonbaseAssaultHUD(AbstractGameClient _game, Camera _cam) { 
 		super("HUD");
 
@@ -193,8 +195,8 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 	}
 
-/*
-	public void log(String s) {
+
+	public void appendToLog(String s) {
 		this.logLines.add(s);
 		while (this.logLines.size() > MAX_LINES) {
 			this.logLines.remove(0);
@@ -205,7 +207,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		}
 		this.log_ta.setText(str.toString());
 	}
-*/
+
 
 	private void updateTextArea() {
 		StringBuilder str = new StringBuilder();
@@ -353,7 +355,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		this.attachChild(n);
 	}
 
-
+/*
 	@Override
 	public void setLog(LinkedList<String> gameLog) {
 		StringBuilder str = new StringBuilder();
@@ -363,6 +365,6 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		this.log_ta.setText(str.toString());
 		
 	}
-
+*/
 	
 }
