@@ -84,7 +84,7 @@ IDebrisTexture {
 		} else {
 			this.soldierModel.createAndGetModel(_side);
 			game.getGameNode().attachChild(this.soldierModel.getModel());
-			this.setAnimCode(_csInitialAnimCode);
+			this.setAnimCode_ClientSide(_csInitialAnimCode);
 		}
 
 		// Create box for collisions
@@ -212,20 +212,15 @@ IDebrisTexture {
 
 
 	@Override
-	public void setAnimCode(int animCode) {
+	public void setAnimCode_ClientSide(int animCode) {
 		if (soldierModel != null) {
 			this.soldierModel.setAnim(animCode);
-			if (Globals.DEBUG_DIE_ANIM) {
-				if (animCode == AbstractAvatar.ANIM_DIED) {
-					Globals.p("setAnimCode=" + animCode);
-				}
-			}
 		}
 	}
 
 
 	@Override
-	public void processManualAnimation(float tpf_secs) {
+	public void processManualAnimation_ClientSide(float tpf_secs) {
 		// Do nothing, already handled
 	}
 

@@ -21,7 +21,7 @@ public class SoldierEnemyAvatar extends AbstractEnemyAvatar implements AnimEvent
 	
 
 	@Override
-	public void setAnimCode(int animCode) {
+	public void setAnimCode_ClientSide(int animCode) {
 		//Globals.p("SoldierEnemyAvatar: setCurrentAnimForCode(" + s + ")");
 		if (animCode != this.currentAnimCode) {
 			soldier.setAnim(animCode);
@@ -31,7 +31,7 @@ public class SoldierEnemyAvatar extends AbstractEnemyAvatar implements AnimEvent
 
 
 	@Override
-	public void processManualAnimation(float tpf_secs) {
+	public void processManualAnimation_ClientSide(float tpf_secs) {
 		// Do nothing, JME handles it
 	}
 

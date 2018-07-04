@@ -44,6 +44,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 	private float speed;
 	private boolean walks;
 	private Vector3f tmpDir = new Vector3f();
+	private Vector3f tmpMove = new Vector3f();
 
 	public ShootingSoldierAI3(AbstractAISoldier _pe, boolean _attacker, boolean _walks) {
 		super();
@@ -121,14 +122,14 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 				animCode = AbstractAvatar.ANIM_IDLE;
 
 			} else if (maintainDirectionForSecs > 0) {
-				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(speed)); // Walk forwards
+				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(speed, tmpMove)); // Walk forwards
 				animCode = walks? AbstractAvatar.ANIM_WALKING : AbstractAvatar.ANIM_RUNNING;
 
 			} else {
 				if (route != null) { //this.attacker && 
 					checkRoute();
 				}
-				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(speed)); // Walk forwards
+				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(speed, tmpMove)); // Walk forwards
 				animCode = walks? AbstractAvatar.ANIM_WALKING : AbstractAvatar.ANIM_RUNNING;
 			}
 		}
@@ -226,7 +227,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 	public void wounded(ICausesHarmOnContact collider) {
 		if (collider.getActualShooter() != null) {
 			PhysicalEntity pe = (PhysicalEntity)collider.getActualShooter();
-			Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation()).normalizeLocal();
+			Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation(), tmpDir).normalizeLocal();
 			this.changeDirection(dir);
 		}
 	}
