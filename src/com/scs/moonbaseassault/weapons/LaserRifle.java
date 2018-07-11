@@ -36,12 +36,6 @@ public class LaserRifle extends AbstractMagazineGun<PlayersLaserBullet> implemen
 			PlayersLaserBullet bullet = ammoCache.remove();
 			ICanShoot ic = (ICanShoot)owner;
 			bullet.launch(owner, ic.getBulletStartPos(), ic.getShootDir());
-			/*if (game.isServer()) {
-				AbstractGameServer server = (AbstractGameServer) game;
-				server.gameNetworkServer.sendMessageToAll(new PlaySoundMessage("todo", bullet.getWorldTranslation(), Globals.DEF_VOL, false));
-			/*} else {
-
-			}*/
 			game.playSound("todo", bullet.getWorldTranslation(), Globals.DEF_VOL, false);
 			return true;
 		}

@@ -329,7 +329,7 @@ public class MapLoader {
 		case 6: floorTex = "floor006.png"; break;
 		case 7: floorTex = "floor015.png"; break;
 		case 8: floorTex = "metalfloor1.jpg"; break;
-		default: throw new RuntimeException("todo");
+		default: throw new RuntimeException("Invalid floor tex");
 		}*/
 		
 		Floor floor = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Int floor", sx, INT_FLOOR_HEIGHT, sy, w, .5f, d, "Textures/" + floorTex);//"Textures/escape_hatch.jpg");

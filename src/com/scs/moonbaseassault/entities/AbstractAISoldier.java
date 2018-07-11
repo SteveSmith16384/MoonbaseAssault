@@ -174,6 +174,7 @@ IDebrisTexture {
 				this.game.getPhysicsController().removeSimpleRigidBody(this.simpleRigidBody); // Prevent us colliding
 				this.simpleRigidBody.setMovedByForces(false);
 
+				this.collideable = false;
 				this.timeKilled = System.currentTimeMillis();
 
 				server.appendToGameLog(name + " killed");

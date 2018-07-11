@@ -72,7 +72,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 			String tex = "Textures/sun.jpg";
 			server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
 			this.remove(); // So we don't block LOS when damaging surrounding entities
-			server.damageSurroundingEntities(this.getMainNode().getWorldBound().getCenter(), 4f, 1);
+			server.damageSurroundingEntities(this, 4f, 1);
 		}
 
 	}

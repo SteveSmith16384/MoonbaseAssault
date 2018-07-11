@@ -138,6 +138,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	protected void createGame() {
 		this.maGameData = new MoonbaseAssaultGameData();
+		this.gameNetworkServer.sendMessageToAll(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
+
 		MapLoader map = new MapLoader(this);
 		try {
 			//map.loadMap("/serverdata/moonbaseassault_small.csv");
@@ -160,18 +162,15 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 		}
 
 		if (!PLAYERS_ARE_DEFENDERS) {
-		Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
-		this.actuallyAddEntity(ss);
+			Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
+			this.actuallyAddEntity(ss);
 
-		ss = new Spaceship1(this, this.getNextEntityID(), 48, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
-		this.actuallyAddEntity(ss);
+			ss = new Spaceship1(this, this.getNextEntityID(), 48, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
+			this.actuallyAddEntity(ss);
 
-		FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
-		this.actuallyAddEntity(fs);
+			FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
+			this.actuallyAddEntity(fs);
 		}
-		
-		//GasCannister gas = new GasCannister(this, getNextEntityID(), 2f, 0.5f, 2f);
-		//this.actuallyAddEntity(gas);
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
