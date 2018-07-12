@@ -33,6 +33,7 @@ import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.AbstractAIBullet;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
+import com.scs.stevetech1.hud.IHUD;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.netmessages.EntityKilledMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
@@ -45,12 +46,14 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 IDebrisTexture {
 
 	public static final int BULLETS_IN_MAG = 6;
-	public static final float SHOOT_INTERVAL = 1f;
+	public static final float SHOOT_INTERVAL = .3f;
 	public static final float RELOAD_INTERVAL = 4f;
 
 	public static final float START_HEALTH = 5f;
 	public static final float WALKING_SPEED = .53f;
 	public static final float RUNNING_SPEED = 1.3f;//1.21f;//1.19f; //1.13f; //0.93
+
+	private static final float HUD_DIST = 1.3f;
 
 	private IAvatarModel soldierModel; // Need this to animate the model
 	private float health = START_HEALTH;
@@ -236,26 +239,29 @@ IDebrisTexture {
 
 
 	@Override
-	public void drawOnHud(Camera cam) {
+	public void drawOnHud(IHUD hud, Camera cam) {
 		if (hudNode != null) {
 			if (health > 0) {
-				FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
-				if (insideoutside != FrustumIntersect.Outside) {
-					if (this.hudNode.getText().length() == 0) {
-						hudNode.setText(name);
+				/*if (this.getWorldTranslation().distance(cam.getLocation()) < HUD_DIST) {
+					FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
+					if (insideoutside != FrustumIntersect.Outside) {
+						if (this.hudNode.getText().length() == 0) {
+							hudNode.setText(name);
+						}
+						tmpHudPos.set(this.getWorldTranslation());
+						tmpHudPos.y += soldierModel.getSize().y;
+						Vector3f screen_pos = cam.getScreenCoordinates(tmpHudPos, tmpScreenPos);
+
+						this.hudNode.setLocalTranslation(screen_pos.x, screen_pos.y, 0);
+					} else {
+						this.hudNode.setText(""); // Hide it
 					}
-					/*Vector3f pos = this.getWorldTranslation().add(0, soldierModel.getSize().y, 0);
-					Vector3f screen_pos = cam.getScreenCoordinates(pos, this.tmpScreenCoords);
-					pos = null;*/
-
-					tmpHudPos.set(this.getWorldTranslation());
-					tmpHudPos.y += soldierModel.getSize().y;
-					Vector3f screen_pos = cam.getScreenCoordinates(tmpHudPos, tmpScreenPos);
-
-					this.hudNode.setLocalTranslation(screen_pos.x, screen_pos.y, 0);
 				} else {
 					this.hudNode.setText(""); // Hide it
 				}
+			}*/
+				super.checkHUDNode(hudNode, hud, cam, HUD_DIST, soldierModel.getSize().y);
+
 			}
 		}
 	}
@@ -302,7 +308,7 @@ IDebrisTexture {
 			Vector3f pos = this.getWorldTranslation().clone();
 			pos.y += this.soldierModel.getBulletStartHeight();
 			Vector3f dir = target.getMainNode().getWorldBound().getCenter().subtract(pos).normalizeLocal();
-			AbstractAIBullet bullet = this.createBullet(pos, dir);// new AIBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
+			AbstractAIBullet bullet = this.createBullet(pos, dir);
 			this.game.addEntity(bullet);
 
 			this.bullets--;

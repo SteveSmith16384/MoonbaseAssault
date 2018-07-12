@@ -1,9 +1,13 @@
 package com.scs.moonbaseassault.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.scs.moonbaseassault.entities.AbstractAISoldier;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 
+import ssmith.lang.NumberFunctions;
 import ssmith.util.RealtimeInterval;
 
 /**
@@ -15,15 +19,22 @@ import ssmith.util.RealtimeInterval;
  */
 public class CreateUnitsSystem {
 
-	private static int nextSoldierNum = 1; 
+	private static int nextSoldierNum = 1;
 	private RealtimeInterval recalcNumUnitsInterval = new RealtimeInterval(1000 * 10);
 	private MoonbaseAssaultServer server;
+	private String[] names;
 
-	public CreateUnitsSystem(MoonbaseAssaultServer _server) {
+	public CreateUnitsSystem(MoonbaseAssaultServer _server, String[] _names) {
 		server = _server;
+		names = _names;
 	}
 
 
+	private String getName() {
+		return names[NumberFunctions.rnd(0, names.length-1)] + " " + names[NumberFunctions.rnd(0, names.length-1)];
+	}
+	
+	
 	public void process() {
 		if (recalcNumUnitsInterval.hitInterval()) {
 
@@ -55,13 +66,13 @@ public class CreateUnitsSystem {
 
 			// Create attackers
 			while (numAttackers < 5) { // 2 players, one AI?
-				server.addAISoldier(1, nextSoldierNum++);
+				server.addAISoldier(1, getName());
 				numAttackers++;
 			}
 
 			// Create defenders
 			while (numDefenders < numAttackers*2 || numDefenders < 8) {
-				server.addAISoldier(2, nextSoldierNum++);
+				server.addAISoldier(2, getName());
 				numDefenders++;
 			}
 

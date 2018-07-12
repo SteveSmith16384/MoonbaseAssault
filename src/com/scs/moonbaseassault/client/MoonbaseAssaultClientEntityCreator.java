@@ -50,12 +50,12 @@ public class MoonbaseAssaultClientEntityCreator {
 	public static final int DESTROYED_COMPUTER = 12;
 	public static final int GRENADE = 13;
 	public static final int GRENADE_LAUNCHER = 14;
-	//public static final int SMALL_EXPLOSION_EFFECT = 15;
 	public static final int AI_LASER_BULLET = 17;
 	public static final int HITSCAN_RIFLE = 18;
 	public static final int GAS_CANNISTER = 21;
 	public static final int FLOOR_TEX = 22;
 	public static final int FLYING_SPACESHIP2 = 23;
+	public static final int AI_SUPER_SOLDIER = 10;
 
 
 	public MoonbaseAssaultClientEntityCreator() {

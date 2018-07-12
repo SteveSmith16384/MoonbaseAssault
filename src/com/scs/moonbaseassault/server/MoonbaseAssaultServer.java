@@ -1,7 +1,11 @@
 package com.scs.moonbaseassault.server;
 
 import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,8 +74,6 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			int sendUpdateIntervalMillis = props.getPropertyAsInt("sendUpdateIntervalMillis", 40);
 			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
 			int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
-			//float gravity = props.getPropertyAsFloat("gravity", -5);
-			//float aerodynamicness = props.getPropertyAsFloat("aerodynamicness", 0.99f);
 
 			//startLobbyServer(lobbyPort, timeoutMillis); // Start the lobby in the same process, why not?  Feel from to comment this line out and run it seperately (If you want a lobby).
 
@@ -105,14 +107,22 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
 		super(GAME_ID, "key", new GameOptions(5*1000, 10*60*1000, 10*1000, 
 				gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
-				10, 5), tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis);//, gravity, aerodynamicness);
+				10, 5), tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis);
+
 		start(JmeContext.Type.Headless);
 	}
 
 
 	@Override
 	public void simpleInitApp() {
-		createUnitsSystem = new CreateUnitsSystem(this);
+		try {
+			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/ai_names.txt").toURI())));
+			String[] lines = text.split(System.lineSeparator());
+			createUnitsSystem = new CreateUnitsSystem(this, lines);
+		} catch (Exception e) {
+			throw new RuntimeException("Todo", e);
+		}
+
 		super.simpleInitApp();
 	}
 
@@ -182,8 +192,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	}
 
 
-	public void addAISoldier(int side, int num) {
-		String name = (side == 1 ? "Attacker" : "Defender") + " " + num;
+	public void addAISoldier(int side, String name) {
+		//String name = (side == 1 ? "Attacker" : "Defender") + " " + num;
 		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, AbstractAvatar.ANIM_IDLE, name);
 		this.actuallyAddEntity(s);
 		moveAISoldierToStartPosition(s, s.side);

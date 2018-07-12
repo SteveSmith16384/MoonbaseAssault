@@ -225,7 +225,7 @@ public class MapLoader {
 			Vector3f dir2 = JMEAngleFunctions.turnRight(dir);
 			moonbaseAssaultServer.moveEntityUntilItHitsSomething(gas, dir2);
 			moonbaseAssaultServer.moveEntityUntilItHitsSomething(gas, down, 0.1f);
-			Globals.p("Gas can at " + gas.getWorldTranslation());
+			//Globals.p("Gas can at " + gas.getWorldTranslation());
 		}
 
 		for (int i=0 ; i<30 ; i++) {
@@ -239,7 +239,7 @@ public class MapLoader {
 			Vector3f dir2 = JMEAngleFunctions.turnRight(dir);
 			moonbaseAssaultServer.moveEntityUntilItHitsSomething(spacecrate, dir2);
 			moonbaseAssaultServer.moveEntityUntilItHitsSomething(spacecrate, down, 0.1f);
-			Globals.p("SpaceCrate at " + spacecrate.getWorldTranslation());
+			//Globals.p("SpaceCrate at " + spacecrate.getWorldTranslation());
 		}
 	}
 

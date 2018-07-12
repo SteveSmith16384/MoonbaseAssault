@@ -25,6 +25,7 @@ import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IDrawOnHUD;
 import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.entities.PhysicalEntity;
+import com.scs.stevetech1.hud.IHUD;
 import com.scs.stevetech1.netmessages.PlaySoundMessage;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
@@ -138,7 +139,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 
 	@Override
-	public void drawOnHud(Camera cam) {
+	public void drawOnHud(IHUD hud, Camera cam) {
 		float dist = this.getWorldTranslation().distance(cam.getLocation());
 		if (dist < 3f) {
 			FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());

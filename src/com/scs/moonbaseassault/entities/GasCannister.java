@@ -26,7 +26,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 
 	private static final float HEIGHT = 0.4f;
 	private static final float RAD = 0.1f;
-	private float health = 100;
+	private float health = 1;
 
 	public GasCannister(IEntityController _game, int id, float x, float y, float z) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.GAS_CANNISTER, "GasCannister", false, true, true);
