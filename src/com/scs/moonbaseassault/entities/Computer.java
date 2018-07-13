@@ -19,10 +19,10 @@ import com.jme3.texture.Texture.WrapMode;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.simplephysics.SimpleRigidBody;
-import com.scs.stevetech1.components.ICausesHarmOnContact;
 import com.scs.stevetech1.components.IDamagable;
 import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IDrawOnHUD;
+import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.hud.IHUD;
@@ -85,7 +85,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 
 	@Override
-	public void damaged(float amt, ICausesHarmOnContact collider, String reason) {
+	public void damaged(float amt, IEntity collider, String reason) {
 		if (this.health > 0) {
 			Globals.p("Computer hit!");
 			this.health -= amt;

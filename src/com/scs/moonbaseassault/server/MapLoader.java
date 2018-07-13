@@ -19,7 +19,6 @@ import com.scs.moonbaseassault.entities.MoonbaseWall;
 import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.entities.SpaceCrate;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
-import com.scs.stevetech1.server.Globals;
 
 import ssmith.lang.NumberFunctions;
 
@@ -216,7 +215,7 @@ public class MapLoader {
 		
 		Vector3f down = new Vector3f(0, -1, 0);
 		// Scenery
-		for (int i=0 ; i<30 ; i++) {
+		for (int i=0 ; i<Math.min(30, floorSquares.size()/4) ; i++) {
 			Point p = this.floorSquares.remove(NumberFunctions.rnd(0,  floorSquares.size()-1));
 			GasCannister gas = new GasCannister(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), p.x+0.5f, INT_FLOOR_HEIGHT + 0.1f, p.y+0.5f);
 			moonbaseAssaultServer.actuallyAddEntity(gas);
@@ -228,7 +227,7 @@ public class MapLoader {
 			//Globals.p("Gas can at " + gas.getWorldTranslation());
 		}
 
-		for (int i=0 ; i<30 ; i++) {
+		for (int i=0 ; i<Math.min(30, floorSquares.size()/4) ; i++) {
 			Point p = this.floorSquares.remove(NumberFunctions.rnd(0,  floorSquares.size()-1));
 			float size = .2f; //Must be thin enough for them to be able to move past each other when positioning //  NumberFunctions.rndFloat(.2f, .3f);
 			int rot = NumberFunctions.rnd(0,  90);

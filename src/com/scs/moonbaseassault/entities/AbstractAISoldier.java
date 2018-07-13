@@ -6,7 +6,6 @@ import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.Camera.FrustumIntersect;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial.CullHint;
@@ -17,11 +16,11 @@ import com.scs.stevetech1.components.IAffectedByPhysics;
 import com.scs.stevetech1.components.IAnimatedClientSide;
 import com.scs.stevetech1.components.IAnimatedServerSide;
 import com.scs.stevetech1.components.IAvatarModel;
-import com.scs.stevetech1.components.ICausesHarmOnContact;
 import com.scs.stevetech1.components.IDamagable;
 import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IDontCollideWithComrades;
 import com.scs.stevetech1.components.IDrawOnHUD;
+import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.IGetRotation;
 import com.scs.stevetech1.components.IKillable;
 import com.scs.stevetech1.components.INotifiedOfCollision;
@@ -69,8 +68,8 @@ IDebrisTexture {
 	// HUD
 	private BitmapText hudNode;
 	private static BitmapFont font_small;
-	private Vector3f tmpHudPos = new Vector3f();
-	private Vector3f tmpScreenPos = new Vector3f();
+	//private Vector3f tmpHudPos = new Vector3f();
+	//private Vector3f tmpScreenPos = new Vector3f();
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, int _side, 
 			IAvatarModel _model, int _csInitialAnimCode, String name) {
@@ -159,7 +158,7 @@ IDebrisTexture {
 
 
 	@Override
-	public void damaged(float amt, ICausesHarmOnContact collider, String reason) {
+	public void damaged(float amt, IEntity collider, String reason) {
 		if (Globals.DEBUG_BULLET_HIT) {
 			Globals.p(this + " damaged()");
 		}
@@ -170,7 +169,8 @@ IDebrisTexture {
 					Globals.p(this + " killed");
 				}
 				AbstractGameServer server = (AbstractGameServer)game;
-				server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, collider.getActualShooter()));
+				//server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, (collider != null ? collider.getActualShooter() : null) ));
+				server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, collider, reason));
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 				this.sendUpdate = true; // Send new anim code
 

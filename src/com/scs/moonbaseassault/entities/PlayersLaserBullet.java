@@ -41,21 +41,10 @@ public class PlayersLaserBullet extends AbstractPlayersBullet implements INotifi
 	}
 	
 
-	/*
-	@Override
-	public float getDamageCaused() {
-		//return ((RANGE-this.getDistanceTravelled()) / this.getDistanceTravelled()) * 10;
-		float dam = (((RANGE-this.getDistanceTravelled()) / this.getDistanceTravelled()) * 5)+5; 
-		Globals.p(this + " damage: " + dam);
-		return dam;
-	}
-	 */
-
-	
 	@Override
 	public void collided(PhysicalEntity pe) {
 		if (game.isServer()) {
-			Globals.p("PlayerLaserBullet collided");
+			//Globals.p("PlayerLaserBullet collided");
 			AbstractGameServer server = (AbstractGameServer)game;
 			String tex = "Textures/sun.jpg";
 			if (pe instanceof IDebrisTexture) {

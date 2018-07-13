@@ -1,8 +1,6 @@
 package com.scs.moonbaseassault.server;
 
 import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -120,7 +118,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			String[] lines = text.split(System.lineSeparator());
 			createUnitsSystem = new CreateUnitsSystem(this, lines);
 		} catch (Exception e) {
-			throw new RuntimeException("Todo", e);
+			throw new RuntimeException("Error loading names", e);
 		}
 
 		super.simpleInitApp();
@@ -131,8 +129,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	public void simpleUpdate(float tpf_secs) {
 		super.simpleUpdate(tpf_secs);
 
-		if (this.gameData.isInGame()) {
-			if (!Globals.TEST_AI && !Globals.NO_AI_UNITS) {
+		if (!Globals.TEST_AI && !Globals.NO_AI_UNITS) {
+			if (this.gameData.isInGame()) {
 				this.createUnitsSystem.process();
 			}
 		}

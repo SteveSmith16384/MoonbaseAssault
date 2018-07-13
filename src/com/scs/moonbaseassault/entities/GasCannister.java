@@ -12,9 +12,8 @@ import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.simplephysics.SimpleRigidBody;
-import com.scs.stevetech1.components.ICausesHarmOnContact;
 import com.scs.stevetech1.components.IDamagable;
-import com.scs.stevetech1.components.IDebrisTexture;
+import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.jme.JMEModelFunctions;
@@ -64,15 +63,15 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 
 
 	@Override
-	public void damaged(float amt, ICausesHarmOnContact collider, String reason) {
+	public void damaged(float amt, IEntity collider, String reason) {
 		//Globals.p("Gas can hit!");
 		this.health -= amt;
 		if (this.health <= 0) {
 			AbstractGameServer server  = (AbstractGameServer)game;
 			String tex = "Textures/sun.jpg";
 			server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
-			this.remove(); // So we don't block LOS when damaging surrounding entities
-			server.damageSurroundingEntities(this, 4f, 1);
+			server.damageSurroundingEntities(this, 4f, 50);
+			this.remove(); // Copy to other gas cans
 		}
 
 	}
