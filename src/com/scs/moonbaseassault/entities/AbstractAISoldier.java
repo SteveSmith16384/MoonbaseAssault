@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial.CullHint;
 import com.jme3.scene.shape.Box;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.IClientApp;
 import com.scs.stevetech1.components.IAffectedByPhysics;
@@ -104,11 +105,9 @@ IDebrisTexture {
 		simpleRigidBody.canWalkUpSteps = true;
 		simpleRigidBody.setBounciness(0);
 
-		if (Globals.SHOW_HUD_TEXT_FOR_UNITS) {
-			font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
-			hudNode = new BitmapText(font_small);
-			hudNode.setText(name);
-		}
+		font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+		hudNode = new BitmapText(font_small);
+		hudNode.setText(name);
 
 	}
 
@@ -180,7 +179,7 @@ IDebrisTexture {
 				this.collideable = false;
 				this.timeKilled = System.currentTimeMillis();
 
-				server.appendToGameLog(name + " killed");
+				server.appendToGameLog(entityName + " killed");
 
 				game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
 			}
@@ -345,7 +344,7 @@ IDebrisTexture {
 
 	@Override
 	public int getTargetPriority() {
-		return 2;
+		return MoonbaseAssaultGlobals.PRI_STD_AI;
 	}
 
 

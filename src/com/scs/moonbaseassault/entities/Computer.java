@@ -16,6 +16,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.simplephysics.SimpleRigidBody;
@@ -81,6 +82,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 		hudNode = new BitmapText(font_small);
 		//hudNode.setText(name);
 
+		hudNode.setText((int)this.health + "%");
 	}
 
 
@@ -90,6 +92,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 			Globals.p("Computer hit!");
 			this.health -= amt;
 			if (this.health <= 0) {
+				health = 0;
 				MoonbaseAssaultServer server = (MoonbaseAssaultServer)game;
 				server.computerDestroyed(position);
 
@@ -140,7 +143,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 	@Override
 	public void drawOnHud(IHUD hud, Camera cam) {
-		float dist = this.getWorldTranslation().distance(cam.getLocation());
+		/*float dist = this.getWorldTranslation().distance(cam.getLocation());
 		if (dist < 3f) {
 			FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
 			if (insideoutside != FrustumIntersect.Outside) {
@@ -156,7 +159,9 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 			if (this.hudNode.getText().length() > 0) {
 				this.hudNode.setText(""); // Hide it
 			}
-		}
+		}*/
+		super.checkHUDNode(hudNode, hud, cam, 3f, SIZE);
+		
 	}
 
 
@@ -168,7 +173,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 	@Override
 	public int getTargetPriority() {
-		return 1;
+		return MoonbaseAssaultGlobals.PRI_COMPUTER;
 	}
 
 

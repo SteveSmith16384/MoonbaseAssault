@@ -80,6 +80,12 @@ public class GrenadeLauncher extends AbstractMagazineGun<PlayersGrenade> impleme
 
 
 	@Override
+	public void removeFromCache(PlayersGrenade o) {
+		this.ammoCache.remove(o);
+	}
+
+
+	@Override
 	protected void emptyMagazine() {
 		while (!ammoCache.isEmpty()) {
 			PlayersGrenade g = ammoCache.remove();

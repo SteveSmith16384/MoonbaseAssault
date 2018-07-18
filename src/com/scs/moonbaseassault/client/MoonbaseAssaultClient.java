@@ -163,13 +163,14 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	@Override
-	protected void handleMessage(MyAbstractMessage message) {
+	protected boolean handleMessage(MyAbstractMessage message) {
 		if (message instanceof HudDataMessage) {
 			HudDataMessage hdm = (HudDataMessage) message;
 			this.hud.setMapData(hdm.scannerData);
 			this.hud.setCompsDestroyed(hdm.compsDestroyed);
+			return true;
 		} else {
-			super.handleMessage(message);
+			return super.handleMessage(message);
 		}
 	}
 

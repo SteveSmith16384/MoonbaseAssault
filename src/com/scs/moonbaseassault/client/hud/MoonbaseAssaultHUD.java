@@ -41,7 +41,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	private boolean process_damage_box;
 	private AbstractGameClient game;
 	private static BitmapFont font_small;
-	
+
 	private HUDMapImage hudMapImage;
 
 	private BitmapText abilityGun, abilityOther, healthText; // Update instantly 
@@ -49,7 +49,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	private BitmapText textArea; // For showing all other stats 
 	private TextArea log_ta;
 	private LinkedList<String> logLines = new LinkedList<>();
-	
+
 	public MoonbaseAssaultHUD(AbstractGameClient _game, Camera _cam) { 
 		super("HUD");
 
@@ -57,7 +57,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		hud_width = _cam.getWidth();
 		hud_height = _cam.getHeight();
 		cam = _cam;
-		
+
 		font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		super.setLocalTranslation(0, 0, 0);
@@ -65,7 +65,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		if (!Globals.HIDE_BELLS_WHISTLES) {
 			this.addTargetter();
 		}
-		
+
 		/*if (Globals.DEBUG_HUD) {
 			for (int i=0; i<100 ; i+=10) {
 				BitmapText deleteme = new BitmapText(font_small, false);
@@ -219,10 +219,10 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		str.append(this.compsDestroyedText + "\n");
 		str.append(this.numPlayers + "\n");
 		this.textArea.setText(str.toString());
-		
+
 	}
-	
-	
+
+
 	public void setDebugText(String s) {
 		//this.debugText.setText(s);
 		this.debugText = s;
@@ -242,7 +242,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		//this.gameTime.setText(s);
 		this.gameTime = s;
 		//this.updateTextArea();
-	
+
 	}
 
 
@@ -313,20 +313,19 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	public void setMapData(int scannerData[][]) {
 		if (this.hudMapImage == null) {
 			this.addMapImage(scannerData.length);
-			this.hudMapImage.mapImageTex.setMapData(scannerData);
 		}
-		
+		this.hudMapImage.mapImageTex.setMapData(scannerData);
 	}
-	
-	
+
+
 	public void setOtherData(Point _player, List<Point> _units, List<Point> _computers) {
 		if (this.hudMapImage != null) {
 			this.hudMapImage.mapImageTex.setOtherData(_player, _units, _computers);
 		}
-		
+
 	}
-	
-	
+
+
 	private HUDMapImage addMapImage(int mapSize) {
 		float sizeInPixels = Math.max(cam.getWidth()/3, mapSize);
 		hudMapImage = new HUDMapImage(game.getAssetManager(), (int)sizeInPixels, mapSize);
@@ -336,8 +335,8 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		this.attachChild(hudMapImage);
 		return hudMapImage;
 	}
-	
-	
+
+
 	@Override
 	public Node getRootNode() {
 		return this;
@@ -346,16 +345,16 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 	@Override
 	public void showMessage(String s) {
-		//this.log(s);
+		this.appendToLog(s);
 	}
-	
+
 
 	@Override
 	public void addItem(Node n) {
 		this.attachChild(n);
 	}
 
-/*
+	/*
 	@Override
 	public void setLog(LinkedList<String> gameLog) {
 		StringBuilder str = new StringBuilder();
@@ -363,8 +362,8 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 			str.append(line + "\n");
 		}
 		this.log_ta.setText(str.toString());
-		
+
 	}
-*/
-	
+	 */
+
 }

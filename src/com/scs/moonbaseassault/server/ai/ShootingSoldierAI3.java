@@ -225,11 +225,11 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 	@Override
 	public void wounded(IEntity collider) {
 		if (this.soldierEntity.getHealth() > 0) {
-		//if (collider.getActualShooter() != null) {
+			//if (collider.getActualShooter() != null) {
 			PhysicalEntity pe = (PhysicalEntity)collider;//.getActualShooter();
 			Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation(), tmpDir).normalizeLocal();
 			this.changeDirection(dir);
-		//}
+			//}
 		}
 	}
 
