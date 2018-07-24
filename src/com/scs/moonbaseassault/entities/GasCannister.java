@@ -50,7 +50,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 		JMEAngleFunctions.rotateToWorldDirection(geometry, new Vector3f(0, 1, 0));
 		geometry.setLocalTranslation(RAD, -HEIGHT, RAD);
 		JMEModelFunctions.moveYOriginTo(geometry, 0f);
-		
+
 		this.mainNode.attachChild(geometry);
 		mainNode.setLocalTranslation(x, y, z);
 
@@ -65,15 +65,16 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 	@Override
 	public void damaged(float amt, IEntity collider, String reason) {
 		//Globals.p("Gas can hit!");
-		this.health -= amt;
-		if (this.health <= 0) {
-			AbstractGameServer server  = (AbstractGameServer)game;
-			String tex = "Textures/sun.jpg";
-			server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
-			server.damageSurroundingEntities(this, 4f, 50);
-			this.remove(); // Copy to other gas cans
+		if (this.health > 0) { // Prevent re-exploding
+			this.health -= amt;
+			if (this.health <= 0) {
+				AbstractGameServer server  = (AbstractGameServer)game;
+				String tex = "Textures/sun.jpg";
+				server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
+				server.damageSurroundingEntities(this, 4f, 50);
+				this.remove(); // Copy to other gas cans
+			}
 		}
-
 	}
 
 

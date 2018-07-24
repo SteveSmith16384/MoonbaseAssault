@@ -3,7 +3,6 @@ package com.scs.moonbaseassault.server;
 import java.awt.Point;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +28,7 @@ import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
 
 import ssmith.astar.IAStarMapInterface;
+import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
 import ssmith.util.MyProperties;
 
@@ -47,7 +47,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	public static final float LASER_DIAM = 0.02f;
 
 	private int mapData[][]; // Also used to tell the client what the scanner should show
-	private List<Point> computerSquares;
+	private List<Point> computerSquares; // For A*
 	public ArrayList<Point>[] deploySquares;
 	private MoonbaseAssaultCollisionValidator collisionValidator = new MoonbaseAssaultCollisionValidator();
 	private int winningSide = 2; // Defenders win by default
@@ -114,8 +114,9 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	public void simpleInitApp() {
 		try {
-			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/ai_names.txt").toURI())));
-			String[] lines = text.split(System.lineSeparator());
+			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/ai_names.txt").toURI())));
+			String text = Functions.readAllFileFromJar(this.getClass().getClassLoader(), "serverdata/ai_names.txt");
+			String[] lines = text.split("\n");
 			createUnitsSystem = new CreateUnitsSystem(this, lines);
 		} catch (Exception e) {
 			throw new RuntimeException("Error loading names", e);
@@ -127,7 +128,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	public void simpleUpdate(float tpf_secs) {
-		super.simpleUpdate(tpf_secs);
+		super.simpleUpdate(tpf_secs); // this.maGameData
 
 		if (!Globals.TEST_AI && !Globals.NO_AI_UNITS) {
 			if (this.gameData.isInGame()) {
@@ -314,18 +315,18 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	public void computerDestroyed(Point p) {
-		super.appendToGameLog("Computer destroyed!");
+		if (this.computerSquares.contains(p)) {
+			super.appendToGameLog("Computer destroyed!  At " + p);
 
-		this.computerSquares.remove(p);
-		this.maGameData.computersDestroyed++;
-		this.mapData[p.x][p.y] = MapLoader.DESTROYED_COMPUTER;
-		this.gameNetworkServer.sendMessageToAll(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
-		this.maGameData.computersDestroyed++;//.pointsForSide[1] += 10;
+			this.computerSquares.remove(p);
+			this.maGameData.computersDestroyed++;
+			this.mapData[p.x][p.y] = MapLoader.DESTROYED_COMPUTER;
+			this.gameNetworkServer.sendMessageToAll(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
 
-		if (this.maGameData.computersDestroyed >= COMPS_DESTROYED_TO_WIN) {
-			winningSide = 1;
-			//this.gameStatusChanged(SimpleGameData.ST_FINISHED);
-			super.gameStatusSystem.setGameStatus(SimpleGameData.ST_FINISHED);
+			if (this.maGameData.computersDestroyed >= COMPS_DESTROYED_TO_WIN) {
+				winningSide = 1;
+				super.gameStatusSystem.setGameStatus(SimpleGameData.ST_FINISHED);
+			}
 		}
 	}
 

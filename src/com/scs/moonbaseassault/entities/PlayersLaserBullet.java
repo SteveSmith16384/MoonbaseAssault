@@ -9,6 +9,7 @@ import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IEntityContainer;
 import com.scs.stevetech1.components.INotifiedOfCollision;
 import com.scs.stevetech1.entities.AbstractPlayersBullet;
+import com.scs.stevetech1.entities.DebuggingSphere;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.models.BeamLaserModel;
 import com.scs.stevetech1.server.AbstractGameServer;
@@ -53,6 +54,14 @@ public class PlayersLaserBullet extends AbstractPlayersBullet implements INotifi
 			}
 			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .005f, .02f, tex);
 			game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
+			
+			if (Globals.SHOW_BULLET_COLLISION_POS) {
+				// Create debugging sphere
+				Vector3f pos = this.getWorldTranslation();
+				DebuggingSphere ds = new DebuggingSphere(game, game.getNextEntityID(), pos.x, pos.y, pos.z, true, false);
+				game.addEntity(ds);
+			}
+
 		}
 		this.remove();
 	}

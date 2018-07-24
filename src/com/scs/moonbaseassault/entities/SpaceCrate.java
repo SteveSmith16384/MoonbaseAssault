@@ -22,7 +22,7 @@ import com.scs.stevetech1.shared.IEntityController;
 public class SpaceCrate extends PhysicalEntity implements IAffectedByPhysics {
 
 	public SpaceCrate(IEntityController _game, int id, float x, float y, float z, float w, float h, float d, String tex, float rotDegrees) {
-		super(_game, id, MoonbaseAssaultClientEntityCreator.CRATE, "Space Crate", true, true, true);
+		super(_game, id, MoonbaseAssaultClientEntityCreator.CRATE, "Space Crate", false, true, true);
 
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
@@ -51,7 +51,7 @@ public class SpaceCrate extends PhysicalEntity implements IAffectedByPhysics {
 		geometry.rotate(0, rads, 0);
 		JMEModelFunctions.moveYOriginTo(geometry, 0f);
 
-		this.mainNode.attachChild(geometry); //This creates the model bounds!  mainNode.getWorldBound();
+		this.mainNode.attachChild(geometry);
 		mainNode.setLocalTranslation(x, y, z);
 
 		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), game.isServer(), this);

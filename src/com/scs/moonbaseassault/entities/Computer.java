@@ -41,8 +41,6 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 	private BitmapText hudNode;
 	private static BitmapFont font_small;
 	
-	//private AudioNode audioNodeExplode;
-
 	public Computer(IEntityController _game, int id, float x, float y, float z, int mx, int my) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.COMPUTER, "Computer", true, true, false); // Requires processing so it can be a target
 
@@ -89,7 +87,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 	@Override
 	public void damaged(float amt, IEntity collider, String reason) {
 		if (this.health > 0) {
-			Globals.p("Computer hit!");
+			//Globals.p("Computer hit!");
 			this.health -= amt;
 			if (this.health <= 0) {
 				health = 0;
