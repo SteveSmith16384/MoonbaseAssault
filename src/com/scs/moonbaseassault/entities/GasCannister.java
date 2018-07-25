@@ -53,6 +53,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 
 		this.mainNode.attachChild(geometry);
 		mainNode.setLocalTranslation(x, y, z);
+		mainNode.updateModelBound();
 
 		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);
 		simpleRigidBody.setNeverMoves(true);
@@ -71,6 +72,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 				AbstractGameServer server  = (AbstractGameServer)game;
 				String tex = "Textures/sun.jpg";
 				server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
+				server.sendExpandingSphere(this.getWorldTranslation());
 				server.damageSurroundingEntities(this, 4f, 50);
 				this.remove(); // Copy to other gas cans
 			}

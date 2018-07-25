@@ -12,8 +12,8 @@ import com.scs.moonbaseassault.entities.GenericFloorTex;
 import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.moonbaseassault.entities.MapBorder;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
-import com.scs.moonbaseassault.entities.PlayersLaserBullet;
 import com.scs.moonbaseassault.entities.PlayersGrenade;
+import com.scs.moonbaseassault.entities.PlayersLaserBullet;
 import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.entities.SoldierClientAvatar;
 import com.scs.moonbaseassault.entities.SoldierEnemyAvatar;
@@ -30,6 +30,7 @@ import com.scs.stevetech1.entities.AbstractPlayersBullet;
 import com.scs.stevetech1.entities.BulletTrail;
 import com.scs.stevetech1.entities.DebuggingSphere;
 import com.scs.stevetech1.entities.ExplosionShard;
+import com.scs.stevetech1.entities.ExplosionSphere;
 import com.scs.stevetech1.netmessages.NewEntityData;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.weapons.HitscanRifle;
@@ -306,6 +307,12 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			FlyingSpaceship2 spaceship1 = new FlyingSpaceship2(game, id, pos.x, pos.y, pos.z);
 			return spaceship1;
+		}
+
+		case Globals.EXPLOSION_SPHERE:
+		{
+			ExplosionSphere expl = new ExplosionSphere(game, pos.x, pos.y, pos.z);
+			return expl;
 		}
 
 		default:

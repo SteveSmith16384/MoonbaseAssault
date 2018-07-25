@@ -23,6 +23,7 @@ import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
+import com.scs.stevetech1.netmessages.GeneralCommandMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
@@ -259,7 +260,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	protected Class[] getListofMessageClasses() {
-		return new Class[] {HudDataMessage.class};//, MoonbaseAssaultGameData.class};
+		return new Class[] {HudDataMessage.class};
 	}
 
 
@@ -316,7 +317,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	public void computerDestroyed(Point p) {
 		if (this.computerSquares.contains(p)) {
-			super.appendToGameLog("Computer destroyed!  At " + p);
+			super.appendToGameLog("Computer destroyed!  At " + p.x + "," + p.y);
 
 			this.computerSquares.remove(p);
 			this.maGameData.computersDestroyed++;
@@ -340,6 +341,12 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	public int getMinPlayersRequiredForGame() {
 		return 1;
+	}
+
+
+	@Override
+	public void gameStatusChanged(int newStatus) {
+		this.gameNetworkServer.sendMessageToAll(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
 	}
 
 
