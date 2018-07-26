@@ -346,7 +346,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	public void gameStatusChanged(int newStatus) {
-		this.gameNetworkServer.sendMessageToAll(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
+		super.gameStatusChanged(newStatus);
+		this.gameNetworkServer.sendMessageToAll(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed)); // If new game started, show the new map
 	}
 
 

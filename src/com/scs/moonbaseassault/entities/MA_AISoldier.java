@@ -2,10 +2,14 @@ package com.scs.moonbaseassault.entities;
 
 import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
-import com.scs.moonbaseassault.client.SoldierTexture;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.moonbaseassault.server.ai.ShootingSoldierAI3;
+import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.entities.AbstractAIBullet;
+import com.scs.stevetech1.entities.PhysicalEntity;
+import com.scs.stevetech1.netmessages.PlaySoundMessage;
+import com.scs.stevetech1.server.AbstractGameServer;
+import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
 public class MA_AISoldier extends AbstractAISoldier {
@@ -23,11 +27,20 @@ public class MA_AISoldier extends AbstractAISoldier {
 	
 	@Override
 	protected AbstractAIBullet createBullet(Vector3f pos, Vector3f dir) {
+		game.playSound("Sounds/laser3.wav", pos, Globals.DEF_VOL, false);
 		AILaserBullet bullet = new AILaserBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
 		return bullet;
 	}
 
 	
+	@Override
+	public void handleKilledOnClientSide(PhysicalEntity killer) {
+		AbstractGameClient client = (AbstractGameClient)game;
+		client.playSound("todo", this.getWorldTranslation(), Globals.DEF_VOL, false);
+		super.handleKilledOnClientSide(killer);
+	}
+
+
 	@Override
 	public String getDebrisTexture() {
 		return "Textures/blood.png";
@@ -46,4 +59,10 @@ public class MA_AISoldier extends AbstractAISoldier {
 	}
 
 	
+	@Override
+	public void updateClientSideHealth(int amt) {
+		// todo - show health
+	}
+	
+
 }

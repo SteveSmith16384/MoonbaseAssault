@@ -43,4 +43,13 @@ public class SoldierServerAvatar extends AbstractServerAvatar implements IDebris
 	public float getMaxDebrisSize() {
 		return 0.004f;
 	}
+	
+	
+	@Override
+	public void updateClientSideHealth(int amt) {
+		
+	}
+	
+
+
 }

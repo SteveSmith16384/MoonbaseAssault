@@ -357,6 +357,9 @@ public class MapLoader {
 		Floor ceiling = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling", sx, MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy, w, .5f, d, "Textures/ufo2_03.png");
 		moonbaseAssaultServer.actuallyAddEntity(ceiling);
 		this.totalCeilings++;
+		
+		// Todo - Pipe greeble
+		
 
 		// Mark area as handled
 		for (int y=sy ; y<ey ; y++) {

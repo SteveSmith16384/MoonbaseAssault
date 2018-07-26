@@ -69,8 +69,6 @@ IDebrisTexture {
 	// HUD
 	private BitmapText hudNode;
 	private static BitmapFont font_small;
-	//private Vector3f tmpHudPos = new Vector3f();
-	//private Vector3f tmpScreenPos = new Vector3f();
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, int _side, 
 			IAvatarModel _model, int _csInitialAnimCode, String name) {
@@ -105,10 +103,11 @@ IDebrisTexture {
 		simpleRigidBody.canWalkUpSteps = true;
 		simpleRigidBody.setBounciness(0);
 
+		if (!_game.isServer()) {
 		font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 		hudNode = new BitmapText(font_small);
 		hudNode.setText(name);
-
+		}
 	}
 
 
@@ -168,7 +167,6 @@ IDebrisTexture {
 					Globals.p(this + " killed");
 				}
 				AbstractGameServer server = (AbstractGameServer)game;
-				//server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, (collider != null ? collider.getActualShooter() : null) ));
 				server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, collider, reason));
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 				this.sendUpdate = true; // Send new anim code

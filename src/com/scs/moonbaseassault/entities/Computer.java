@@ -40,7 +40,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 	// HUD
 	private BitmapText hudNode;
 	private static BitmapFont font_small;
-	
+
 	public Computer(IEntityController _game, int id, float x, float y, float z, int mx, int my) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.COMPUTER, "Computer", true, true, false); // Requires processing so it can be a target
 
@@ -76,11 +76,11 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 		geometry.setUserData(Globals.ENTITY, this);
 		mainNode.setUserData(Globals.ENTITY, this);
 
-		font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
-		hudNode = new BitmapText(font_small);
-		//hudNode.setText(name);
-
-		hudNode.setText((int)this.health + "%");
+		if (!_game.isServer()) {
+			font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+			hudNode = new BitmapText(font_small);
+			hudNode.setText((int)this.health + "%");
+		}
 	}
 
 
@@ -97,13 +97,13 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 				this.remove();
 
 				server.sendExplosion(this.getWorldTranslation(), 10, .8f, 1.2f, .06f, .12f, "Textures/computerconsole2.jpg");
-				server.gameNetworkServer.sendMessageToAll(new PlaySoundMessage("todo", this.getWorldTranslation(), Globals.DEF_VOL, false));
-				
+				game.playSound("Sounds/computer_destroyed.mp3", this.getWorldTranslation(), Globals.DEF_VOL, false);
+
 				Vector3f pos = this.getWorldTranslation();
 				DestroyedComputer dc = new DestroyedComputer(game, game.getNextEntityID(), pos.x, pos.y, pos.z);
 				game.addEntity(dc);
 			} else {
-				hudNode.setText((int)this.health + "%");
+				this.sendUpdate = true; // Send new health
 			}
 		}
 	}
@@ -159,7 +159,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 			}
 		}*/
 		super.checkHUDNode(hudNode, hud, cam, 3f, SIZE);
-		
+
 	}
 
 
@@ -186,5 +186,11 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 		return 0.04f;
 	}
 
-	
+
+	@Override
+	public void updateClientSideHealth(int amt) {
+		hudNode.setText((int)this.health + "%");
+	}
+
+
 }

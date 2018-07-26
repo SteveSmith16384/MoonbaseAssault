@@ -91,4 +91,12 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 		return health;
 	}
 
+
+	@Override
+	public void updateClientSideHealth(int amt) {
+		// Do nothing
+		
+	}
+	
+
 }
