@@ -116,12 +116,22 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	public void simpleInitApp() {
 		try {
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/ai_names.txt").toURI())));
-			String text = Functions.readAllFileFromJar(this.getClass().getClassLoader(), "serverdata/ai_names.txt");
+			String text = Functions.readAllFileFromJar("serverdata/ai_names.txt");
 			String[] lines = text.split("\n");
 			createUnitsSystem = new CreateUnitsSystem(this, lines);
 		} catch (Exception e) {
-			throw new RuntimeException("Error loading names", e);
+			e.printStackTrace();
+			//throw new RuntimeException("Error loading names", e);
 		}
+		/*try {
+			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/ai_names.txt").toURI())));
+			String text = Functions.readAllFileFromJar("/serverdata/ai_names.txt");
+			String[] lines = text.split("\n");
+			createUnitsSystem = new CreateUnitsSystem(this, lines);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//throw new RuntimeException("Error loading names", e);
+		}*/
 
 		super.simpleInitApp();
 	}
