@@ -20,6 +20,7 @@ import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.entities.SpaceCrate;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 
+import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
 
 public class MapLoader {
@@ -56,8 +57,9 @@ public class MapLoader {
 
 
 	public void loadMap(String s) throws FileNotFoundException, IOException, URISyntaxException {
-		String text = new String(Files.readAllBytes(Paths.get(getClass().getResource(s).toURI())));
-		String[] lines = text.split(System.lineSeparator());
+		//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource(s).toURI())));
+		String text = Functions.readAllFileFromJar(s);
+		String[] lines = text.split("\n");
 
 		mapsize = Integer.parseInt(lines[0].split(",")[0]);
 		mapCode = new int[mapsize][mapsize];

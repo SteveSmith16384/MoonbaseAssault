@@ -243,9 +243,7 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 		switch (newStatus) {
 		case SimpleGameData.ST_WAITING_FOR_PLAYERS:
 			removeCurrentHUDTextImage();
-			if (!Globals.HIDE_BELLS_WHISTLES) {
-				currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/waitingforplayers.png", x, y, width, height, 3);
-			}
+			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/waitingforplayers.png", x, y, width, height, 3);
 			break;
 		case SimpleGameData.ST_DEPLOYING:
 			removeCurrentHUDTextImage();

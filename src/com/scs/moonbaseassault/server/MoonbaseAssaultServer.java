@@ -2,7 +2,6 @@ package com.scs.moonbaseassault.server;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,6 @@ import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
-import com.scs.stevetech1.netmessages.GeneralCommandMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
@@ -162,8 +160,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		MapLoader map = new MapLoader(this);
 		try {
-			//map.loadMap("/serverdata/moonbaseassault_small.csv");
-			map.loadMap("/serverdata/moonbaseassault.csv");
+			//map.loadMap("serverdata/moonbaseassault_small.csv");
+			map.loadMap("serverdata/moonbaseassault.csv");
 			mapData = map.scannerData;
 			this.deploySquares = map.deploySquares;
 

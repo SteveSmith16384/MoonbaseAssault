@@ -62,9 +62,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 		super.setLocalTranslation(0, 0, 0);
 
-		if (!Globals.HIDE_BELLS_WHISTLES) {
-			this.addTargetter();
-		}
+		this.addTargetter();
 
 		/*if (Globals.DEBUG_HUD) {
 			for (int i=0; i<100 ; i+=10) {
