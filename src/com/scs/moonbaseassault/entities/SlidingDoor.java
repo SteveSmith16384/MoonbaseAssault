@@ -138,7 +138,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 		this.isOpening = true;
 		timeUntilClose = STAY_OPEN_DURATION;
 
-		game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
+		game.playSound("Sounds/slidingdoor.mp3", getWorldTranslation(), Globals.DEF_VOL, false);
 	}
 
 

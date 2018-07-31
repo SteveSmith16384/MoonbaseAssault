@@ -8,7 +8,6 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.post.filters.BloomFilter;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
@@ -59,9 +58,6 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
 			int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
 
-			//float gravity = props.getPropertyAsFloat("gravity", -5f);
-			//float aerodynamicness = props.getPropertyAsFloat("aerodynamicness", 0.99f);
-
 			float mouseSensitivity = props.getPropertyAsFloat("mouseSensitivity", 1f);
 
 			new MoonbaseAssaultClient(gameIpAddress, gamePort, lobbyIpAddress, lobbyPort,
@@ -96,7 +92,8 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 		//getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
 
 		// Add shadows
-		final int SHADOWMAP_SIZE = 1024*2;
+		//final int SHADOWMAP_SIZE = 1024*2;
+		final int SHADOWMAP_SIZE = 512*2;
 		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(getAssetManager(), SHADOWMAP_SIZE, 2);
 		dlsr.setLight(sun);
 		this.viewPort.addProcessor(dlsr);
@@ -115,6 +112,7 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 		//fpp.addFilter(bloom);
 	}
 
+	
 	@Override
 	protected void setUpLight() {
 		AmbientLight al = new AmbientLight();
@@ -197,10 +195,10 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	@Override
 	protected void playerHasWon() {
 		removeCurrentHUDTextImage();
-		int width = this.cam.getWidth()/5;
-		int height = this.cam.getHeight()/5;
+		int width = this.cam.getWidth()/2;
+		int height = this.cam.getHeight()/2;
 		int x = (this.cam.getWidth()/2)-(width/2);
-		int y = (int)(this.cam.getHeight() * 0.8f);
+		int y = (int)(this.cam.getHeight() * 0.5f);
 		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/victory.png", x, y, width, height, 5);
 	}
 
@@ -208,10 +206,10 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	@Override
 	protected void playerHasLost() {
 		removeCurrentHUDTextImage();
-		int width = this.cam.getWidth()/5;
-		int height = this.cam.getHeight()/5;
+		int width = this.cam.getWidth()/2;
+		int height = this.cam.getHeight()/2;
 		int x = (this.cam.getWidth()/2)-(width/2);
-		int y = (int)(this.cam.getHeight() * 0.8f);
+		int y = (int)(this.cam.getHeight() * 0.5f);
 		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/defeat.png", x, y, width, height, 5);
 	}
 
@@ -219,10 +217,10 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	@Override
 	protected void gameIsDrawn() {
 		removeCurrentHUDTextImage();
-		int width = this.cam.getWidth()/5;
-		int height = this.cam.getHeight()/5;
+		int width = this.cam.getWidth()/2;
+		int height = this.cam.getHeight()/2;
 		int x = (this.cam.getWidth()/2)-(width/2);
-		int y = (int)(this.cam.getHeight() * 0.8f);
+		int y = (int)(this.cam.getHeight() * 0.5f);
 		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/defeat.png", x, y, width, height, 5);
 	}
 
@@ -240,6 +238,11 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 		int height = this.cam.getHeight()/5;
 		int x = (this.cam.getWidth()/2)-(width/2);
 		int y = (int)(this.cam.getHeight() * 0.8f);
+/*
+		if (Globals.DEBUG_MISSING_WON_MSG) {
+			Globals.p("Showing image for game status");
+		}
+*/
 		switch (newStatus) {
 		case SimpleGameData.ST_WAITING_FOR_PLAYERS:
 			removeCurrentHUDTextImage();
@@ -290,28 +293,9 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	}
 
 
-	/*
-	@Override
-	protected Spatial getPlayersWeaponModel() {
-		//if (!Globals.HIDE_BELLS_WHISTLES) {
-			Spatial model = assetManager.loadModel("Models/QuaterniusGuns/Pistol.blend");
-			JMEAngleFunctions.rotateToDirection(model, new Vector3f(0, 0, -1));
-			//JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/pistol/pistol_tex.png");
-			model.scale(0.3f);
-			// x moves l-r, z moves further away
-			//model.setLocalTranslation(-0.20f, -.2f, 0.4f);
-			//model.setLocalTranslation(-0.20f, -.2f, 1.8f);
-			model.setLocalTranslation(-0.20f, -.2f, 1.2f);
-			return model;
-		/*} else {
-			return null;
-		}*/
-	//}
-
-
 	@Override
 	protected Class[] getListofMessageClasses() {
-		return new Class[] {HudDataMessage.class};//, MoonbaseAssaultGameData.class};
+		return new Class[] {HudDataMessage.class};
 	}
 
 

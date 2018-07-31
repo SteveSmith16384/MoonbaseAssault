@@ -356,12 +356,17 @@ public class MapLoader {
 		}*/
 
 
-		Floor ceiling = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling", sx, MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy, w, .5f, d, "Textures/ufo2_03.png");
+		Floor ceiling = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, "Textures/corridor.jpg");//ufo2_03.png");
 		moonbaseAssaultServer.actuallyAddEntity(ceiling);
 		this.totalCeilings++;
-		
-		// Todo - Pipe greeble
-		
+
+		if (w > 4 || d > 4) {
+			// Ceiling greeble
+			Floor ceiling2 = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling", sx+.95f, MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy+1, 1, .8f, 1, "Textures/ufo2_03.png");
+			moonbaseAssaultServer.actuallyAddEntity(ceiling2);
+			this.totalCeilings++;
+		}
+
 
 		// Mark area as handled
 		for (int y=sy ; y<ey ; y++) {
