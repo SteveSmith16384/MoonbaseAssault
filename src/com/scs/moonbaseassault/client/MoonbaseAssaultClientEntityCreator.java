@@ -93,18 +93,18 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			int playerID = (int)msg.data.get("playerID");
 			int side = (int)msg.data.get("side");
-			float moveSpeed = (float)msg.data.get("moveSpeed");
-			float jumpForce = (float)msg.data.get("jumpForce");
+			//float moveSpeed = (float)msg.data.get("moveSpeed");
+			//float jumpForce = (float)msg.data.get("jumpForce");
 			String playersName = (String)msg.data.get("playersName");
 
 			if (playerID == game.playerID) {
-				AbstractClientAvatar avatar = new SoldierClientAvatar(game, id, game.input, game.getCamera(), game.hud, id, pos.x, pos.y, pos.z, side, moveSpeed, jumpForce);
+				AbstractClientAvatar avatar = new SoldierClientAvatar(game, id, game.input, game.getCamera(), game.hud, id, pos.x, pos.y, pos.z, side);
 				//game.getCamera().lookAt(pos.add(Vector3f.UNIT_X), Vector3f.UNIT_Y); // Look somewhere
 				Vector3f look = new Vector3f(15f, 1f, 15f);
 				game.getCamera().lookAt(look, Vector3f.UNIT_Y); // Look somewhere
 				return avatar;
 			} else {
-				// Create a simple avatar since we don't control these
+				// Create an enemt avatar since we don't control these
 				AbstractEnemyAvatar avatar = new SoldierEnemyAvatar(game, SOLDIER_AVATAR, id, pos.x, pos.y, pos.z, side, playersName);
 				return avatar;
 			}

@@ -11,6 +11,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
+import com.scs.moonbaseassault.client.modules.IModule;
+import com.scs.moonbaseassault.client.modules.MainModule;
 import com.scs.moonbaseassault.entities.Computer;
 import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.moonbaseassault.netmessages.HudDataMessage;
@@ -39,6 +41,7 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	private MoonbaseAssaultHUD hud;
 	private RealtimeInterval updateHUDInterval;
 	private MoonbaseAssaultCollisionValidator collisionValidator;
+	private IModule currentModule;
 
 	public static void main(String[] args) {
 		try {
@@ -49,7 +52,7 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 				props = new MyProperties();
 				Globals.p("Warning: No config file specified");
 			}
-			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
+			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
 			int gamePort = props.getPropertyAsInt("gamePort", 6145);
 			String lobbyIpAddress = props.getPropertyAsString("lobbyIpAddress", "localhost");
 			int lobbyPort = props.getPropertyAsInt("lobbyPort", 6146);
@@ -76,6 +79,8 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 		super(MoonbaseAssaultServer.GAME_ID, "key", "Moonbase Assault", null, gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); // gravity, aerodynamicness, 
 
+		currentModule = new MainModule();
+		
 		start();
 	}
 
