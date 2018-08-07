@@ -43,6 +43,9 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	private MoonbaseAssaultCollisionValidator collisionValidator;
 	private IModule currentModule;
 
+	private static String gameIpAddress;
+	private static int gamePort;
+
 	public static void main(String[] args) {
 		try {
 			MyProperties props = null;
@@ -52,10 +55,10 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 				props = new MyProperties();
 				Globals.p("Warning: No config file specified");
 			}
-			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
-			int gamePort = props.getPropertyAsInt("gamePort", 6145);
-			String lobbyIpAddress = props.getPropertyAsString("lobbyIpAddress", "localhost");
-			int lobbyPort = props.getPropertyAsInt("lobbyPort", 6146);
+			gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
+			gamePort = props.getPropertyAsInt("gamePort", 6145);
+			//String lobbyIpAddress = props.getPropertyAsString("lobbyIpAddress", "localhost");
+			//int lobbyPort = props.getPropertyAsInt("lobbyPort", 6146);
 
 			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
 			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
@@ -63,7 +66,7 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 			float mouseSensitivity = props.getPropertyAsFloat("mouseSensitivity", 1f);
 
-			new MoonbaseAssaultClient(gameIpAddress, gamePort, lobbyIpAddress, lobbyPort,
+			new MoonbaseAssaultClient(//gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort,
 					tickrateMillis, clientRenderDelayMillis, timeoutMillis, //gravity, aerodynamicness,
 					mouseSensitivity);
 		} catch (Exception e) {
@@ -73,13 +76,13 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	}
 
 
-	private MoonbaseAssaultClient(String gameIpAddress, int gamePort, String lobbyIpAddress, int lobbyPort, 
+	private MoonbaseAssaultClient(//String gameIpAddress, int gamePort, String lobbyIpAddress, int lobbyPort, 
 			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,// float gravity, float aerodynamicness,
 			float mouseSensitivity) {
-		super(MoonbaseAssaultServer.GAME_ID, "key", "Moonbase Assault", null, gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
+		super(MoonbaseAssaultServer.GAME_ID, "key", "Moonbase Assault", null, //gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); // gravity, aerodynamicness, 
 
-		currentModule = new MainModule();
+		currentModule = new MainModule(this, gameIpAddress, gamePort);
 		
 		start();
 	}
@@ -104,6 +107,8 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 		this.viewPort.addProcessor(dlsr);
 
 		updateHUDInterval = new RealtimeInterval(2000);
+		
+		this.currentModule.simpleInit();
 
 	}
 
@@ -134,6 +139,8 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	@Override
 	public void simpleUpdate(float tpf_secs) {
 		super.simpleUpdate(tpf_secs);
+
+		this.currentModule.simpleUpdate();
 
 		if (this.updateHUDInterval.hitInterval()) {
 			// Get data for HUD
