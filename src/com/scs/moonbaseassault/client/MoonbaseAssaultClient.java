@@ -1,20 +1,11 @@
 package com.scs.moonbaseassault.client;
 
-import java.awt.Point;
-import java.util.LinkedList;
-import java.util.List;
-
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
 import com.scs.moonbaseassault.client.modules.IModule;
+import com.scs.moonbaseassault.client.modules.IntroModule;
 import com.scs.moonbaseassault.client.modules.MainModule;
-import com.scs.moonbaseassault.entities.Computer;
-import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.moonbaseassault.netmessages.HudDataMessage;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
@@ -31,20 +22,19 @@ import com.scs.stevetech1.netmessages.NewEntityData;
 import com.scs.stevetech1.server.Globals;
 
 import ssmith.util.MyProperties;
-import ssmith.util.RealtimeInterval;
 
 public class MoonbaseAssaultClient extends AbstractGameClient {
 
 	private MoonbaseAssaultClientEntityCreator entityCreator;
-	private DirectionalLight sun;
 	private AbstractHUDImage currentHUDTextImage;
-	private MoonbaseAssaultHUD hud;
-	private RealtimeInterval updateHUDInterval;
+	public MoonbaseAssaultHUD hud;
 	private MoonbaseAssaultCollisionValidator collisionValidator;
-	private IModule currentModule;
+	
+	private String ipAddress;
+	private int port;
 
-	private static String gameIpAddress;
-	private static int gamePort;
+	private IModule currentModule;
+	private MainModule mainModule;
 
 	public static void main(String[] args) {
 		try {
@@ -55,10 +45,8 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 				props = new MyProperties();
 				Globals.p("Warning: No config file specified");
 			}
-			gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
-			gamePort = props.getPropertyAsInt("gamePort", 6145);
-			//String lobbyIpAddress = props.getPropertyAsString("lobbyIpAddress", "localhost");
-			//int lobbyPort = props.getPropertyAsInt("lobbyPort", 6146);
+			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
+			int gamePort = props.getPropertyAsInt("gamePort", 6145);
 
 			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
 			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
@@ -66,8 +54,8 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 			float mouseSensitivity = props.getPropertyAsFloat("mouseSensitivity", 1f);
 
-			new MoonbaseAssaultClient(//gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort,
-					tickrateMillis, clientRenderDelayMillis, timeoutMillis, //gravity, aerodynamicness,
+			new MoonbaseAssaultClient(gameIpAddress, gamePort,
+					tickrateMillis, clientRenderDelayMillis, timeoutMillis,
 					mouseSensitivity);
 		} catch (Exception e) {
 			Globals.p("Error: " + e);
@@ -76,14 +64,13 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	}
 
 
-	private MoonbaseAssaultClient(//String gameIpAddress, int gamePort, String lobbyIpAddress, int lobbyPort, 
-			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,// float gravity, float aerodynamicness,
+	private MoonbaseAssaultClient(String gameIpAddress, int gamePort, 
+			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,
 			float mouseSensitivity) {
-		super(MoonbaseAssaultServer.GAME_ID, "key", "Moonbase Assault", null, //gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
-				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); // gravity, aerodynamicness, 
-
-		currentModule = new MainModule(this, gameIpAddress, gamePort);
-		
+		super(MoonbaseAssaultServer.GAME_ID, "key", "Moonbase Assault", null, 
+				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); 
+		ipAddress = gameIpAddress;
+		port = gamePort;
 		start();
 	}
 
@@ -99,76 +86,41 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 		//getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
 
-		// Add shadows
-		//final int SHADOWMAP_SIZE = 1024*2;
-		final int SHADOWMAP_SIZE = 512*2;
-		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(getAssetManager(), SHADOWMAP_SIZE, 2);
-		dlsr.setLight(sun);
-		this.viewPort.addProcessor(dlsr);
+		this.setModule(new IntroModule(this));
+		this.mainModule = new MainModule(this, ipAddress, port);
+	}
 
-		updateHUDInterval = new RealtimeInterval(2000);
-		
-		this.currentModule.simpleInit();
 
+	private void setModule(IModule m) {
+		if (this.currentModule != null) {
+			this.currentModule.destroy();
+		}
+		m.simpleInit();
+		this.currentModule = m;
+	}
+	
+	
+	public void setMainModule() {
+		this.setModule(this.mainModule);
 	}
 
 
 	@Override
-	protected void setupFilters() {
-		super.setupFilters();
-
-		//BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects); 
-		//bloom.setBlurScale(5f);
-		//fpp.addFilter(bloom);
+	public int getGameID() {
+		return this.gameData.gameID;
 	}
 
-	
+
 	@Override
 	protected void setUpLight() {
-		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(.6f));
-		getGameNode().addLight(al);
-
-		sun = new DirectionalLight();
-		sun.setColor(ColorRGBA.White);
-		sun.setDirection(new Vector3f(.4f, -.8f, .4f).normalizeLocal());
-		getGameNode().addLight(sun);
+		// Light is set up in modules
 	}
 
 
 	@Override
 	public void simpleUpdate(float tpf_secs) {
 		super.simpleUpdate(tpf_secs);
-
-		this.currentModule.simpleUpdate();
-
-		if (this.updateHUDInterval.hitInterval()) {
-			// Get data for HUD
-			List<Point> units = new LinkedList<Point>();
-			List<Point> computers = new LinkedList<Point>();
-			for (IEntity e : this.entities.values()) {
-				if (e instanceof PhysicalEntity) {
-					PhysicalEntity pe = (PhysicalEntity)e;  //pe.getWorldRotation();
-					if (pe instanceof Computer) {
-						Vector3f pos = pe.getWorldTranslation();
-						computers.add(new Point((int)pos.x, (int)pos.z));
-					} else if (pe instanceof MA_AISoldier) {
-						MA_AISoldier ai = (MA_AISoldier)pe;
-						if (ai.getSide() == this.side || Globals.SHOW_ALL_UNITS_ON_HUD) { // Only show our side
-							Vector3f pos = pe.getWorldTranslation();
-							units.add(new Point((int)pos.x, (int)pos.z));
-						}
-					}
-				}
-			}
-			Point player = null;
-			if (currentAvatar != null) {
-				Vector3f v = this.currentAvatar.getWorldTranslation();
-				player = new Point((int)v.x, (int)v.z);
-			}
-			//this.hud.hudMapImage.mapImageTex.setOtherData(player, units, computers);
-			this.hud.setOtherData(player, units, computers);
-		}
+		this.currentModule.simpleUpdate(tpf_secs);
 	}
 
 
@@ -194,7 +146,6 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	@Override
 	public void collisionOccurred(SimpleRigidBody<PhysicalEntity> a, SimpleRigidBody<PhysicalEntity> b) {
 		super.collisionOccurred(a, b);
-
 	}
 
 
@@ -250,11 +201,7 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 		int height = this.cam.getHeight()/5;
 		int x = (this.cam.getWidth()/2)-(width/2);
 		int y = (int)(this.cam.getHeight() * 0.8f);
-/*
-		if (Globals.DEBUG_MISSING_WON_MSG) {
-			Globals.p("Showing image for game status");
-		}
-*/
+
 		switch (newStatus) {
 		case SimpleGameData.ST_WAITING_FOR_PLAYERS:
 			removeCurrentHUDTextImage();

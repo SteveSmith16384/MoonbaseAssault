@@ -1,11 +1,9 @@
 package com.scs.moonbaseassault.client.hud;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.jme3.bounding.BoundingBox;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
@@ -17,11 +15,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import com.jme3.ui.Picture;
 import com.scs.stevetech1.client.AbstractGameClient;
-import com.scs.stevetech1.client.IClientApp;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.gui.TextArea;
 import com.scs.stevetech1.hud.IHUD;
-import com.scs.stevetech1.server.Globals;
 
 import ssmith.util.RealtimeInterval;
 

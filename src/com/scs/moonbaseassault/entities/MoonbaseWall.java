@@ -39,8 +39,6 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 			//creationData.put("rot", rotDegrees);
 		}
 
-		//float depth = 1f;//0.1f; // Default wall thickness
-
 		Box box1 = new Box(w/2, h/2, d/2);
 		//box1.scaleTextureCoordinates(new Vector2f(w, 1)); // Don't scale vertically
 		box1.setBuffer(Type.TexCoord, 2, BufferUtils.createFloatBuffer(new float[]{

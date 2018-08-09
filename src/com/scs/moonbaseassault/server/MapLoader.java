@@ -25,7 +25,7 @@ import ssmith.lang.NumberFunctions;
 
 public class MapLoader {
 
-	private static final int HANDLED = 0;
+	public static final int HANDLED = 0;
 	public static final int INT_FLOOR = 1;
 	public static final int EXT_FLOOR = 2;
 	public static final int WALL = 3;
@@ -43,7 +43,6 @@ public class MapLoader {
 	public int scannerData[][];
 	public ArrayList<Point>[] deploySquares;
 
-	public Point firstInteriorFloor = null;
 	public ArrayList<Point> floorSquares;// = new ArrayList<Point>()[2];
 
 	public MapLoader(MoonbaseAssaultServer _moonbaseAssaultServer) {
@@ -57,7 +56,6 @@ public class MapLoader {
 
 
 	public void loadMap(String s) throws FileNotFoundException, IOException, URISyntaxException {
-		//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource(s).toURI())));
 		String text = Functions.readAllFileFromJar(s);
 		String[] lines = text.split("\n");
 
@@ -81,9 +79,6 @@ public class MapLoader {
 							mapCode[x][lineNum-1] = DOOR_UD;
 						} else if (stringAndCode[1].equals("2")) {
 							mapCode[x][lineNum-1] = DOOR_LR;
-							if (this.firstInteriorFloor == null && x < 30) {
-								this.firstInteriorFloor = new Point(x, lineNum); // Put soldier behind door
-							}
 						}
 					} else if (stringAndCode[0].equals("FLOOR")) {
 						if (stringAndCode[1].equals("2")) {

@@ -4,5 +4,7 @@ public interface IModule {
 
 	void simpleInit();
 	
-	void simpleUpdate();
+	void simpleUpdate(float tpfSecs);
+	
+	void destroy();
 }
