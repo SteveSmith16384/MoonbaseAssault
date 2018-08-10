@@ -11,7 +11,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
-import com.scs.moonbaseassault.entities.MoonbaseWall;
+import com.scs.moonbaseassault.client.intro.SimpleMoonbaseWall;
 import com.scs.moonbaseassault.server.MapLoader;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.stevetech1.data.SimpleGameData;
@@ -21,7 +21,7 @@ import com.scs.stevetech1.input.SimpleMouseInput;
 import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
 
-public class IntroModule extends AbstractModule { // todo - create SimpleMoonbaseWall just for intro
+public class IntroModule extends AbstractModule {
 
 	private static final Vector3f vDown = new Vector3f(0, -800f, 0);
 	private static final int HANDLED = MapLoader.HANDLED;
@@ -30,10 +30,10 @@ public class IntroModule extends AbstractModule { // todo - create SimpleMoonbas
 	private int mapCode[][];
 	private int mapSize;
 	private Node introNode;
-	private List<PhysicalEntity> walls;
+	private List<Node> walls;
 	private Vector3f camPos, camStartPos, camEndPos;
 	private float pcent = 0;
-	private PhysicalEntity current = null;
+	private Node current = null;
 
 	public IntroModule(MoonbaseAssaultClient client) {
 		super(client);
@@ -70,26 +70,32 @@ public class IntroModule extends AbstractModule { // todo - create SimpleMoonbas
 
 	@Override
 	public void simpleUpdate(float tpfSecs) {
+		if (tpfSecs > 1) {
+			tpfSecs = 1;
+		}
 		if (walls.size() > 0) {
-			if (current == null) {
+			if (current == null) { //this.client.getRootNode().getChild(1).getChild(2).getWorldTranslation();
 				current = walls.remove(NumberFunctions.rnd(0, walls.size()-1));
-				current.getWorldTranslation().y = 10;
-				this.introNode.attachChild(current.getMainNode());
+				this.introNode.attachChild(current);
+				current.getLocalTranslation().y = 10;
 				if (walls.isEmpty()) {
 					camStartPos = client.getCamera().getLocation().clone();
 				}
 			}
-			current.adjustWorldTranslation(vDown.mult(tpfSecs / (walls.size()+1) ));
-			if (current.getWorldTranslation().y <= 0) {
-				current.getWorldTranslation().y = 0;
+			//current.move(vDown.mult(tpfSecs / (walls.size()+1) ));
+			float speed = (walls.size()/2)+1;
+			current.setLocalTranslation(current.getLocalTranslation().add(vDown.mult(tpfSecs / speed )));
+			//current.getLocalTranslation().y += vDown.mult(tpfSecs / (walls.size()+1) ).y;
+
+			if (current.getLocalTranslation().y <= 0) {
+				current.getLocalTranslation().y = 0;
 				current = null;
 			}
-			this.client.getCamera().getLocation().z += tpfSecs;
+			//this.client.getCamera().getLocation().z += tpfSecs;
 		} else {
 			// Start moving cam
 			this.pcent += tpfSecs;
 			if (pcent <= 1) {
-				//camOrigStartPos = this.camStartPos.clone();
 				camPos.interpolateLocal(camStartPos, camEndPos, pcent);
 				this.client.getCamera().setLocation(camPos);
 			}
@@ -107,7 +113,7 @@ public class IntroModule extends AbstractModule { // todo - create SimpleMoonbas
 		String text = Functions.readAllFileFromJar(s);
 		String[] lines = text.split("\n");
 
-		walls = new ArrayList<PhysicalEntity>();
+		walls = new ArrayList<Node>();
 
 		mapSize = Integer.parseInt(lines[0].split(",")[0]);
 		mapCode = new int[mapSize][mapSize];
@@ -188,7 +194,7 @@ public class IntroModule extends AbstractModule { // todo - create SimpleMoonbas
 		}
 		x--;
 		float width = x-sx+1;
-		MoonbaseWall wall = new MoonbaseWall(client, client.getNextEntityID(), sx, 0f, sy, width, MoonbaseAssaultServer.CEILING_HEIGHT, 1, "Textures/ufo2_03.png");
+		SimpleMoonbaseWall wall = new SimpleMoonbaseWall(client, sx, 0f, sy, width, MoonbaseAssaultServer.CEILING_HEIGHT, 1, "Textures/ufo2_03.png");
 		walls.add(wall);
 	}
 
@@ -202,7 +208,7 @@ public class IntroModule extends AbstractModule { // todo - create SimpleMoonbas
 			mapCode[sx][y] = HANDLED;
 		}
 		y--;
-		MoonbaseWall wall = new MoonbaseWall(client, client.getNextEntityID(), sx, 0f, sy, 1, MoonbaseAssaultServer.CEILING_HEIGHT, y-sy+1, "Textures/ufo2_03.png");
+		SimpleMoonbaseWall wall = new SimpleMoonbaseWall(client, sx, 0f, sy, 1, MoonbaseAssaultServer.CEILING_HEIGHT, y-sy+1, "Textures/ufo2_03.png");
 		walls.add(wall);
 	}
 
@@ -210,7 +216,6 @@ public class IntroModule extends AbstractModule { // todo - create SimpleMoonbas
 	@Override
 	public void destroy() {
 		this.introNode.removeFromParent();
-		// todo - remove entities
 	}
 
 
