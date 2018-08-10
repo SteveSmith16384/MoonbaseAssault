@@ -42,7 +42,7 @@ public class IntroModule extends AbstractModule {
 
 	@Override
 	public void simpleInit() {
-		this.client.gameData = new SimpleGameData(); // Need to create wall entities for intro
+		//this.client.gameData = new SimpleGameData(); // Need to create wall entities for intro
 
 		try {
 			loadMap("serverdata/intro_map.csv");
@@ -104,7 +104,7 @@ public class IntroModule extends AbstractModule {
 		this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
 
 		if (this.client.input.isAbilityPressed(1)) {
-			client.setMainModule();
+			client.introModuleFinished();
 		}
 	}
 

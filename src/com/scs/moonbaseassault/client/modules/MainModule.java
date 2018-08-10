@@ -22,21 +22,14 @@ public class MainModule extends AbstractModule {
 	
 	private RealtimeInterval updateHUDInterval;
 
-	private String ipAddress;
-	private int port;
-
-	public MainModule(MoonbaseAssaultClient client, String _ipAddress, int _port) {
+	public MainModule(MoonbaseAssaultClient client) {
 		super(client);
-		
-		ipAddress = _ipAddress;
-		port = _port;
 		
 	}
 	
 	
 	@Override
 	public void simpleInit() {
-		this.client.connect(ipAddress, port);
 		this.client.setupForGame();
 
 		updateHUDInterval = new RealtimeInterval(2000);
