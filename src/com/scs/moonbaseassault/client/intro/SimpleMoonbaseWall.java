@@ -17,7 +17,9 @@ import com.scs.stevetech1.shared.IEntityController;
 
 public class SimpleMoonbaseWall extends Node {
 
-	public SimpleMoonbaseWall(IEntityController game, float x, float yBottom, float z, float w, float h, float d, String tex) {	
+	public SimpleMoonbaseWall(IEntityController game, float x, float yBottom, float z, float w, float h, float d, String tex) {
+		super("SimpleMoonbaseWall");
+		
 		Box box1 = new Box(w/2, h/2, d/2);
 		//box1.scaleTextureCoordinates(new Vector2f(w, 1)); // Don't scale vertically
 		box1.setBuffer(Type.TexCoord, 2, BufferUtils.createFloatBuffer(new float[]{

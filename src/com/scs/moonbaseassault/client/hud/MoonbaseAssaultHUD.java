@@ -36,7 +36,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	private ColorRGBA dam_box_col = new ColorRGBA(1, 0, 0, 0.0f);
 	private boolean process_damage_box;
 	private AbstractGameClient game;
-	private static BitmapFont font_small;
+	//private static BitmapFont font_small;
 
 	private HUDMapImage hudMapImage;
 
@@ -54,7 +54,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		hud_height = _cam.getHeight();
 		cam = _cam;
 
-		font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+		BitmapFont font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		super.setLocalTranslation(0, 0, 0);
 

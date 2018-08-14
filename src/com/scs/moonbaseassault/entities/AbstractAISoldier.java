@@ -167,7 +167,7 @@ IDebrisTexture {
 					Globals.p(this + " killed");
 				}
 				AbstractGameServer server = (AbstractGameServer)game;
-				server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, collider, reason));
+				server.sendMessageToAcceptedClients(new EntityKilledMessage(this, collider, reason));
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 				this.sendUpdate = true; // Send new anim code
 

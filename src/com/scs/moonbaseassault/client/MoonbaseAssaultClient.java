@@ -1,10 +1,13 @@
 package com.scs.moonbaseassault.client;
 
+import java.io.IOException;
+
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
 import com.scs.moonbaseassault.client.modules.ConnectModule;
 import com.scs.moonbaseassault.client.modules.IModule;
+import com.scs.moonbaseassault.client.modules.IntroJonlan;
 import com.scs.moonbaseassault.client.modules.IntroModule;
 import com.scs.moonbaseassault.client.modules.MainModule;
 import com.scs.moonbaseassault.netmessages.HudDataMessage;
@@ -25,14 +28,7 @@ import com.scs.stevetech1.server.Globals;
 import ssmith.util.MyProperties;
 
 public class MoonbaseAssaultClient extends AbstractGameClient {
-	/*
-	// Stages
-	private static final int STAGE_INTRO = 0;
-	private static final int STAGE_CONNECTING = 1;
-	private static final int STAGE_CONNECTED = 2;
-	private static final int STAGE_IN_GAME = 3;
-*/
-	
+
 	private MoonbaseAssaultClientEntityCreator entityCreator;
 	private AbstractHUDImage currentHUDTextImage;
 	public MoonbaseAssaultHUD hud;
@@ -94,13 +90,19 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 		//getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
 
-		this.setModule(new IntroModule(this));
-		//this.mainModule = new MainModule(this);//, ipAddress, port);
+		//todo this.setModule(new IntroModule(this));
+		this.setModule(new IntroJonlan(this));
 	}
 
 
-	public void introModuleFinished() {
+	public void startConnectToServerModule() {
 		this.setModule(new ConnectModule(this, ipAddress, port));
+	}
+	
+	
+	
+	public void startJonlanModule() {
+		this.setModule(new IntroJonlan(this));
 	}
 	
 	
@@ -117,7 +119,11 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 		if (this.currentModule != null) {
 			this.currentModule.destroy();
 		}
-		m.simpleInit();
+		try {
+			m.simpleInit();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		this.currentModule = m;
 	}
 	

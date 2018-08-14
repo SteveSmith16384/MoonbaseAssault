@@ -1,27 +1,31 @@
 package com.scs.moonbaseassault.client.modules;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
 import com.jme3.light.AmbientLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.client.intro.SimpleMoonbaseWall;
 import com.scs.moonbaseassault.server.MapLoader;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
-import com.scs.stevetech1.data.SimpleGameData;
-import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.input.SimpleMouseInput;
 
 import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
 
 public class IntroModule extends AbstractModule {
+
+	private static final int STAGE_TITLE = 0;
+	private static final int STAGE_EXPLODE_TITLE = 2;
+
+	public static ColorRGBA defaultColour = ColorRGBA.Green;
 
 	private static final Vector3f vDown = new Vector3f(0, -800f, 0);
 	private static final int HANDLED = MapLoader.HANDLED;
@@ -32,27 +36,32 @@ public class IntroModule extends AbstractModule {
 	private Node introNode;
 	private List<Node> walls;
 	private Vector3f camPos, camStartPos, camEndPos;
-	private float pcent = 0;
+	private float moveFrac = 0;
 	private Node current = null;
+	private float waitFor = 0;
+	private int currentStage = STAGE_TITLE;
+	private float explodeDuration = 6;
 
 	public IntroModule(MoonbaseAssaultClient client) {
 		super(client);
+
+		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+
+		BitmapText bmpText = new BitmapText(font_small, false);
+		bmpText.setColor(defaultColour);
+		bmpText.setLocalTranslation(100, 100, 0);
+		client.getGuiNode().attachChild(bmpText);
+		bmpText.setText("Click mouse to Start");
 	}
 
 
 	@Override
-	public void simpleInit() {
-		//this.client.gameData = new SimpleGameData(); // Need to create wall entities for intro
+	public void simpleInit() throws IOException {
+		loadMap("serverdata/intro_map.csv");
 
-		try {
-			loadMap("serverdata/intro_map.csv");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		camStartPos = new Vector3f(mapSize/2, 5, -mapSize);
+		camStartPos = new Vector3f(mapSize/2, 5, mapSize/2);
 		camPos = new Vector3f();
-		camEndPos = new Vector3f(mapSize/2, mapSize, mapSize/2);
+		camEndPos = new Vector3f(mapSize/2, mapSize, (mapSize/2)+1);
 
 		this.client.getCamera().setLocation(camStartPos);
 		this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
@@ -73,43 +82,88 @@ public class IntroModule extends AbstractModule {
 		if (tpfSecs > 1) {
 			tpfSecs = 1;
 		}
-		if (walls.size() > 0) {
-			if (current == null) { //this.client.getRootNode().getChild(1).getChild(2).getWorldTranslation();
-				current = walls.remove(NumberFunctions.rnd(0, walls.size()-1));
-				this.introNode.attachChild(current);
-				current.getLocalTranslation().y = 10;
-				if (walls.isEmpty()) {
-					camStartPos = client.getCamera().getLocation().clone();
-				}
-			}
-			//current.move(vDown.mult(tpfSecs / (walls.size()+1) ));
-			float speed = (walls.size()/2)+1;
-			current.setLocalTranslation(current.getLocalTranslation().add(vDown.mult(tpfSecs / speed )));
-			//current.getLocalTranslation().y += vDown.mult(tpfSecs / (walls.size()+1) ).y;
 
-			if (current.getLocalTranslation().y <= 0) {
-				current.getLocalTranslation().y = 0;
-				current = null;
-			}
-			//this.client.getCamera().getLocation().z += tpfSecs;
-		} else {
-			// Start moving cam
-			this.pcent += tpfSecs;
-			if (pcent <= 1) {
-				camPos.interpolateLocal(camStartPos, camEndPos, pcent);
-				this.client.getCamera().setLocation(camPos);
-			}
+		if (waitFor > 0 ) {
+			waitFor -= tpfSecs;
+			return;
 		}
 
-		this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
+		switch (this.currentStage) {
+		case STAGE_TITLE:
+			if (walls.size() > 0) {
+				if (current == null) { //this.client.getRootNode().getChild(1).getChild(2).getWorldTranslation();
+					current = walls.remove(NumberFunctions.rnd(0, walls.size()-1));
+					this.introNode.attachChild(current);
+					current.getLocalTranslation().y = 10;
+					if (walls.isEmpty()) {
+						camStartPos = client.getCamera().getLocation().clone();
+					}
+				}
+				// Move current wall 
+				float speed = (walls.size()/2)+1;
+				current.setLocalTranslation(current.getLocalTranslation().add(vDown.mult(tpfSecs / speed )));
+				if (current.getLocalTranslation().y <= 0) {
+					current.getLocalTranslation().y = 0;
+					current = null;
+				}
+
+				// Move cameras back
+				this.client.getCamera().getLocation().z -= tpfSecs;
+				this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
+
+			} else {
+				// Start moving cam
+				this.moveFrac += tpfSecs;
+				if (moveFrac <= 1) {
+					camPos.interpolateLocal(camStartPos, camEndPos, moveFrac);
+					this.client.getCamera().setLocation(camPos);
+					this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
+				} else {
+					this.waitFor = 2;
+					this.currentStage = STAGE_EXPLODE_TITLE;
+					for(Spatial node : this.introNode.getChildren()) {
+						if (node instanceof SimpleMoonbaseWall) {
+							SimpleMoonbaseWall smw = (SimpleMoonbaseWall)node;
+							float x = NumberFunctions.rndFloat(-1, 1);
+							float y = NumberFunctions.rndFloat(-1, 5);
+							float z = NumberFunctions.rndFloat(-1, 1);
+							smw.setUserData("offset", new Vector3f(x, y, z).normalizeLocal());
+						}
+					}
+				}
+			}
+			break;
+
+		case STAGE_EXPLODE_TITLE:
+			explodeDuration -= tpfSecs;
+			for(Spatial node : this.introNode.getChildren()) {
+				if (node instanceof SimpleMoonbaseWall) {
+					SimpleMoonbaseWall smw = (SimpleMoonbaseWall)node;
+					Vector3f offset = smw.getUserData("offset");
+					smw.setLocalTranslation(smw.getLocalTranslation().add(offset.mult(tpfSecs*10)));
+				}
+			}
+			if (explodeDuration <= 0) {
+				client.startJonlanModule();
+			}
+			break;
+		}
 
 		if (this.client.input.isAbilityPressed(1)) {
-			client.introModuleFinished();
+			client.startConnectToServerModule();
+			return;
 		}
 	}
 
 
-	public void loadMap(String s) throws FileNotFoundException, IOException, URISyntaxException {
+	@Override
+	public void destroy() {
+		this.introNode.removeFromParent();
+		client.getGuiNode().detachAllChildren();
+	}
+
+
+	public void loadMap(String s) throws IOException {
 		String text = Functions.readAllFileFromJar(s);
 		String[] lines = text.split("\n");
 
@@ -210,12 +264,6 @@ public class IntroModule extends AbstractModule {
 		y--;
 		SimpleMoonbaseWall wall = new SimpleMoonbaseWall(client, sx, 0f, sy, 1, MoonbaseAssaultServer.CEILING_HEIGHT, y-sy+1, "Textures/ufo2_03.png");
 		walls.add(wall);
-	}
-
-
-	@Override
-	public void destroy() {
-		this.introNode.removeFromParent();
 	}
 
 
