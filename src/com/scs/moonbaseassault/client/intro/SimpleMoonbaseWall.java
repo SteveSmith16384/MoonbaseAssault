@@ -17,7 +17,7 @@ import com.scs.stevetech1.shared.IEntityController;
 
 public class SimpleMoonbaseWall extends Node {
 
-	public SimpleMoonbaseWall(IEntityController game, float x, float yBottom, float z, float w, float h, float d, String tex) {
+	public SimpleMoonbaseWall(final IEntityController game, float x, float yBottom, float z, float w, float h, float d, String tex) {
 		super("SimpleMoonbaseWall");
 		
 		Box box1 = new Box(w/2, h/2, d/2);
@@ -40,17 +40,17 @@ public class SimpleMoonbaseWall extends Node {
 		Texture tex3 = game.getAssetManager().loadTexture(key3);
 		tex3.setWrap(WrapMode.Repeat);
 
-		Material floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-		floor_mat.setTexture("DiffuseMap", tex3);
-		geometry.setMaterial(floor_mat);
+		Material floorMat = new Material(game.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+		floorMat.setTexture("DiffuseMap", tex3);
+		geometry.setMaterial(floorMat);
 
 		if (Globals.TRANSPARENT_WALLS) {
-			floor_mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+			floorMat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
 			geometry.setQueueBucket(Bucket.Transparent);
 		}
 
 		this.attachChild(geometry);
-		geometry.setLocalTranslation((w/2), h/2, (d/2)); // Never change position of mainNode (unless the whole object is moving)
+		geometry.setLocalTranslation(w/2, h/2, d/2); // Never change position of mainNode (unless the whole object is moving)
 		this.setLocalTranslation(x, yBottom, z);
 
 	}

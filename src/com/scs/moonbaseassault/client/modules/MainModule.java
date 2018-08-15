@@ -19,15 +19,15 @@ import com.scs.stevetech1.server.Globals;
 import ssmith.util.RealtimeInterval;
 
 public class MainModule extends AbstractModule {
-	
+
 	private RealtimeInterval updateHUDInterval;
 
 	public MainModule(MoonbaseAssaultClient client) {
 		super(client);
-		
+
 	}
-	
-	
+
+
 	@Override
 	public void simpleInit() {
 		this.client.setupForGame();
@@ -49,8 +49,8 @@ public class MainModule extends AbstractModule {
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
 
-}
-	
+	}
+
 
 	@Override
 	public void simpleUpdate(float tpfSecs) {
@@ -87,7 +87,7 @@ public class MainModule extends AbstractModule {
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

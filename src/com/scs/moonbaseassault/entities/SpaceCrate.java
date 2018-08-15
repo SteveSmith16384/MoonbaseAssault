@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import com.scs.moonbaseassault.MATextures;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.components.IAffectedByPhysics;
@@ -21,7 +22,7 @@ import com.scs.stevetech1.shared.IEntityController;
 
 public class SpaceCrate extends PhysicalEntity implements IAffectedByPhysics {
 
-	public SpaceCrate(IEntityController _game, int id, float x, float y, float z, float w, float h, float d, String tex, float rotDegrees) {
+	public SpaceCrate(IEntityController _game, int id, float x, float y, float z, float w, float h, float d, int tex, float rotDegrees) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.CRATE, "Space Crate", false, true, true);
 
 		if (_game.isServer()) {
@@ -37,14 +38,14 @@ public class SpaceCrate extends PhysicalEntity implements IAffectedByPhysics {
 		if (!_game.isServer()) { // Not running in server
 			geometry.setShadowMode(ShadowMode.CastAndReceive);
 
-			TextureKey key3 = new TextureKey(tex);
+			TextureKey key3 = new TextureKey(MATextures.getTex(tex));
 			key3.setGenerateMips(true);
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
 
-			Material floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-			floor_mat.setTexture("DiffuseMap", tex3);
-			geometry.setMaterial(floor_mat);
+			Material floorMat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+			floorMat.setTexture("DiffuseMap", tex3);
+			geometry.setMaterial(floorMat);
 		}
 		//geometry.setLocalTranslation(0, h/2, 0);
 		float rads = (float)Math.toRadians(rotDegrees);

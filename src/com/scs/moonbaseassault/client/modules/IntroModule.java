@@ -7,10 +7,12 @@ import java.util.List;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.client.intro.SimpleMoonbaseWall;
 import com.scs.moonbaseassault.server.MapLoader;
@@ -45,35 +47,53 @@ public class IntroModule extends AbstractModule {
 	public IntroModule(MoonbaseAssaultClient client) {
 		super(client);
 
-		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
-
-		BitmapText bmpText = new BitmapText(font_small, false);
-		bmpText.setColor(defaultColour);
-		bmpText.setLocalTranslation(100, 100, 0);
-		client.getGuiNode().attachChild(bmpText);
-		bmpText.setText("Click mouse to Start");
 	}
 
 
 	@Override
 	public void simpleInit() throws IOException {
+		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+
+		BitmapText bmpText = new BitmapText(fontSmall, false);
+		bmpText.setColor(defaultColour);
+		bmpText.setLocalTranslation(100, 100, 0);
+		client.getGuiNode().attachChild(bmpText);
+		bmpText.setText("Click mouse to Start");
+
+		introNode = new Node("IntroNode");
+		SimpleMoonbaseWall floor = new SimpleMoonbaseWall(client, -50, -1, -50, 100, 1f, 100f, "Textures/moonrock.png");
+		this.introNode.attachChild(floor);
+		
 		loadMap("serverdata/intro_map.csv");
 
-		camStartPos = new Vector3f(mapSize/2, 5, mapSize/2);
+		//camStartPos = new Vector3f(-mapSize/2, 3, mapSize/2);
+		camStartPos = new Vector3f(0, 3, mapSize/2);
 		camPos = new Vector3f();
 		camEndPos = new Vector3f(mapSize/2, mapSize, (mapSize/2)+1);
 
 		this.client.getCamera().setLocation(camStartPos);
 		this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
 
-		introNode = new Node("IntroNode");
 		this.client.getRootNode().attachChild(introNode);
 
+		client.input = new SimpleMouseInput(client.getInputManager());
+
+		// Lights
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(1f));
 		introNode.addLight(al);
 
-		client.input = new SimpleMouseInput(client.getInputManager(), 1f);
+		DirectionalLight sun = new DirectionalLight();
+		sun.setColor(ColorRGBA.White);
+		sun.setDirection(new Vector3f(.4f, -.8f, .4f).normalizeLocal());
+		introNode.addLight(sun);
+
+		// Add shadows
+		final int SHADOWMAP_SIZE = 512;
+		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(client.getAssetManager(), SHADOWMAP_SIZE, 2);
+		dlsr.setLight(sun);
+		client.getViewPort().addProcessor(dlsr);
+
 	}
 
 
@@ -141,6 +161,7 @@ public class IntroModule extends AbstractModule {
 					SimpleMoonbaseWall smw = (SimpleMoonbaseWall)node;
 					Vector3f offset = smw.getUserData("offset");
 					smw.setLocalTranslation(smw.getLocalTranslation().add(offset.mult(tpfSecs*10)));
+					//smw.rot
 				}
 			}
 			if (explodeDuration <= 0) {

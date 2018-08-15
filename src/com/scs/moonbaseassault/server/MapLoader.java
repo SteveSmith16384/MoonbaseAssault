@@ -4,11 +4,10 @@ import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import com.jme3.math.Vector3f;
+import com.scs.moonbaseassault.MATextures;
 import com.scs.moonbaseassault.entities.Computer;
 import com.scs.moonbaseassault.entities.DestroyedComputer;
 import com.scs.moonbaseassault.entities.Floor;
@@ -164,14 +163,14 @@ public class MapLoader {
 			for (int y=0 ; y<mapsize ; y++) {
 				for (int x=0 ; x<mapsize ; x++) {
 					if (mapCode[x][y] == DOOR_LR) {
-						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultServer.CEILING_HEIGHT, "Textures/door_lr.png", 0);
+						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultServer.CEILING_HEIGHT, MATextures.DOOR_LR, 0);
 						moonbaseAssaultServer.actuallyAddEntity(door);
 						mapCode[x][y] = INT_FLOOR; // So we create a floor below it
 
 						GenericFloorTex gft = new GenericFloorTex(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x-.5f, INT_FLOOR_HEIGHT + 0.01f, y+.5f, 1f, 1f, "Textures/floor4.jpg");
 						moonbaseAssaultServer.actuallyAddEntity(gft);
 					} else if (mapCode[x][y] == DOOR_UD) {
-						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultServer.CEILING_HEIGHT, "Textures/door_lr.png", 270);
+						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultServer.CEILING_HEIGHT, MATextures.DOOR_LR, 270);
 						moonbaseAssaultServer.actuallyAddEntity(door);
 						mapCode[x][y] = INT_FLOOR; // So we create a floor below it
 
@@ -195,7 +194,7 @@ public class MapLoader {
 		doInteriorFloorsAndCeilings();
 
 		// One big moon floor
-		Floor moonrock = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Big Ext Floor", 0, 0, 0, mapsize, .5f, mapsize, "Textures/moonrock.png");
+		Floor moonrock = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Big Ext Floor", 0, 0, 0, mapsize, .5f, mapsize, MATextures.MOONROCK);
 		moonbaseAssaultServer.actuallyAddEntity(moonrock);
 
 		// Border
@@ -228,7 +227,7 @@ public class MapLoader {
 			Point p = this.floorSquares.remove(NumberFunctions.rnd(0,  floorSquares.size()-1));
 			float size = .2f; //Must be thin enough for them to be able to move past each other when positioning //  NumberFunctions.rndFloat(.2f, .3f);
 			int rot = NumberFunctions.rnd(0,  90);
-			SpaceCrate spacecrate = new SpaceCrate(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), p.x+.5f, size+0.1f, p.y+.5f, size, size, size, "Textures/spacecrate1.png", rot);
+			SpaceCrate spacecrate = new SpaceCrate(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), p.x+.5f, size+0.1f, p.y+.5f, size, size, size, MATextures.SPACECRATE1, rot);
 			moonbaseAssaultServer.actuallyAddEntity(spacecrate);
 			Vector3f dir = JMEAngleFunctions.getRandomDirection_4();
 			moonbaseAssaultServer.moveEntityUntilItHitsSomething(spacecrate, dir);
@@ -251,7 +250,7 @@ public class MapLoader {
 		x--;
 		//Globals.p("Creating wall at " + sx + ", " + sy + " length: " + (x-sx));
 		float width = x-sx+1;
-		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx, 0f, sy, width, MoonbaseAssaultServer.CEILING_HEIGHT, 1, "Textures/ufo2_03.png");
+		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx, 0f, sy, width, MoonbaseAssaultServer.CEILING_HEIGHT, 1, MATextures.MOONBASE_WALL);
 		moonbaseAssaultServer.actuallyAddEntity(wall);
 		totalWalls++;
 
@@ -259,7 +258,7 @@ public class MapLoader {
 			// Create offset wall
 			float extra = 0.15f;
 			float newWidth = width/4;
-			MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+((width-newWidth)/2), 0f, sy-extra, newWidth, MoonbaseAssaultServer.CEILING_HEIGHT, 1+(extra*2), "Textures/ufo2_03.png");
+			MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+((width-newWidth)/2), 0f, sy-extra, newWidth, MoonbaseAssaultServer.CEILING_HEIGHT, 1+(extra*2), MATextures.MOONBASE_WALL);
 			moonbaseAssaultServer.actuallyAddEntity(wall2);
 			totalWalls++;
 		}
@@ -276,7 +275,7 @@ public class MapLoader {
 		}
 		y--;
 		//Globals.p("Creating wall at " + sx + ", " + sy + " length: " + (y-sy));
-		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx, 0f, sy, 1, MoonbaseAssaultServer.CEILING_HEIGHT, y-sy+1, "Textures/ufo2_03.png");
+		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx, 0f, sy, 1, MoonbaseAssaultServer.CEILING_HEIGHT, y-sy+1, MATextures.MOONBASE_WALL);
 		moonbaseAssaultServer.actuallyAddEntity(wall);
 		totalWalls++;
 	}
@@ -325,20 +324,7 @@ public class MapLoader {
 		int w = ex-sx;
 		int d = ey-sy;
 
-		String floorTex = "escape_hatch.jpg";
-		/*switch (NumberFunctions.rnd(1, 8)) {
-		case 1: floorTex = "escape_hatch.jpg"; break;
-		case 2: floorTex = "corridor.jpg"; break;
-		case 3: floorTex = "floor2.jpg"; break;
-		case 4: floorTex = "floor3.jpg"; break;
-		case 5: floorTex = "floor5.jpg"; break;
-		case 6: floorTex = "floor006.png"; break;
-		case 7: floorTex = "floor015.png"; break;
-		case 8: floorTex = "metalfloor1.jpg"; break;
-		default: throw new RuntimeException("Invalid floor tex");
-		}*/
-
-		Floor floor = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Int floor", sx, INT_FLOOR_HEIGHT, sy, w, .5f, d, "Textures/" + floorTex);//"Textures/escape_hatch.jpg");
+		Floor floor = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Int floor", sx, INT_FLOOR_HEIGHT, sy, w, .5f, d, MATextures.ESCAPE_HATCH);//"Textures/escape_hatch.jpg");
 		moonbaseAssaultServer.actuallyAddEntity(floor);
 		this.totalFloors++;
 
@@ -351,13 +337,13 @@ public class MapLoader {
 		}*/
 
 
-		Floor ceiling = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, "Textures/corridor.jpg");//ufo2_03.png");
+		Floor ceiling = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, MATextures.CORRIDOR);
 		moonbaseAssaultServer.actuallyAddEntity(ceiling);
 		this.totalCeilings++;
 
 		if (w > 4 || d > 4) {
 			// Ceiling greeble
-			Floor ceiling2 = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling", sx+.95f, MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy+1, 1, .8f, 1, "Textures/ufo2_03.png");
+			Floor ceiling2 = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling", sx+.95f, MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy+1, 1, .8f, 1, MATextures.MOONBASE_WALL);
 			moonbaseAssaultServer.actuallyAddEntity(ceiling2);
 			this.totalCeilings++;
 		}
@@ -414,7 +400,7 @@ public class MapLoader {
 				break;
 			}
 		}
-		Floor moonrock = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ext Floor", sx, 0f, sy, ex-sx, .5f, ey-sy, "Textures/moonrock.png");
+		Floor moonrock = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ext Floor", sx, 0f, sy, ex-sx, .5f, ey-sy, MATextures.MOONROCK);
 		moonbaseAssaultServer.actuallyAddEntity(moonrock);
 		this.totalFloors++;
 

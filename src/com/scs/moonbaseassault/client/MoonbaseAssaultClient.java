@@ -2,6 +2,7 @@ package com.scs.moonbaseassault.client;
 
 import java.io.IOException;
 
+import com.jme3.app.FlyCamAppState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
@@ -38,7 +39,6 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 	private int port;
 
 	private IModule currentModule;
-	private MainModule mainModule;
 
 	public static void main(String[] args) {
 		try {
@@ -90,8 +90,9 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 		//getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
 
-		//todo this.setModule(new IntroModule(this));
-		this.setModule(new IntroJonlan(this));
+		this.setModule(new IntroModule(this));
+		//this.setModule(new IntroJonlan(this));
+		//this.startConnectToServerModule();
 	}
 
 
@@ -141,9 +142,9 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	@Override
-	public void simpleUpdate(float tpf_secs) {
-		super.simpleUpdate(tpf_secs);
-		this.currentModule.simpleUpdate(tpf_secs);
+	public void simpleUpdate(float tpfSecs) {
+		super.simpleUpdate(tpfSecs);
+		this.currentModule.simpleUpdate(tpfSecs);
 	}
 
 

@@ -126,8 +126,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	@Override
-	public void simpleUpdate(float tpf_secs) {
-		super.simpleUpdate(tpf_secs); // this.maGameData
+	public void simpleUpdate(float tpfSecs) {
+		super.simpleUpdate(tpfSecs); // this.maGameData
 
 		if (!Globals.TEST_AI && !Globals.NO_AI_UNITS) {
 			if (this.gameData.isInGame()) {
@@ -343,7 +343,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	@Override
-	public void gameStatusChanged(int newStatus) {
+	public void gameStatusChanged(final int newStatus) {
 		super.gameStatusChanged(newStatus);
 		this.sendMessageToAcceptedClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed)); // If new game started, show the new map
 	}

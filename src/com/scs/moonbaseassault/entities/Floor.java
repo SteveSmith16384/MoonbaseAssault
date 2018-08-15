@@ -12,6 +12,7 @@ import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.jme3.util.BufferUtils;
+import com.scs.moonbaseassault.MATextures;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.components.IDebrisTexture;
@@ -22,16 +23,16 @@ import com.scs.stevetech1.shared.IEntityController;
 public class Floor extends PhysicalEntity implements IDebrisTexture {
 
 	private String tex;
-	
-	public Floor(IEntityController _game, int id, String name, float x, float yTop, float z, float w, float h, float d, String _tex) {
+
+	public Floor(IEntityController _game, int id, String name, float x, float yTop, float z, float w, float h, float d, int _tex) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.FLOOR, name, false, true, false);
 
-		tex = _tex;
-		
+		tex = MATextures.getTex(_tex);
+
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
 			creationData.put("size", new Vector3f(w, h, d));
-			creationData.put("tex", tex);
+			creationData.put("tex", _tex);
 			creationData.put("name", name);
 		}
 
@@ -55,13 +56,12 @@ public class Floor extends PhysicalEntity implements IDebrisTexture {
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
 
-			Material floor_mat = null;
-				floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-				floor_mat.setTexture("DiffuseMap", tex3);
-			geometry.setMaterial(floor_mat);
+			Material floorMat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+			floorMat.setTexture("DiffuseMap", tex3);
+			geometry.setMaterial(floorMat);
 		}
 		this.mainNode.attachChild(geometry);
-		geometry.setLocalTranslation((w/2), -(h/2), (d/2)); // Move it into position
+		geometry.setLocalTranslation(w/2, -h/2, d/2); // Move it into position
 		mainNode.setLocalTranslation(x, yTop, z); // Move it into position
 
 		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);
@@ -71,7 +71,7 @@ public class Floor extends PhysicalEntity implements IDebrisTexture {
 		mainNode.setUserData(Globals.ENTITY, this);
 	}
 
-	
+
 	@Override
 	public String getDebrisTexture() {
 		return tex;
@@ -89,5 +89,5 @@ public class Floor extends PhysicalEntity implements IDebrisTexture {
 		return 0.04f;
 	}
 
-	
+
 }

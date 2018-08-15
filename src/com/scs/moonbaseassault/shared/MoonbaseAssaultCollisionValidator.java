@@ -2,7 +2,6 @@ package com.scs.moonbaseassault.shared;
 
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.stevetech1.components.IDontCollideWithComrades;
-import com.scs.stevetech1.components.ILaunchable;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.AbstractCollisionValidator;

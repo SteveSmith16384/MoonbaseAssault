@@ -62,9 +62,9 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 			key3.setGenerateMips(true);
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
-			Material floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-			floor_mat.setTexture("DiffuseMap", tex3);
-			geometry.setMaterial(floor_mat);
+			Material floorMat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+			floorMat.setTexture("DiffuseMap", tex3);
+			geometry.setMaterial(floorMat);
 		}
 		this.mainNode.attachChild(geometry);
 		geometry.setLocalTranslation(w/2, h/2, d/2);
@@ -188,7 +188,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 
 	@Override
-	public void updateClientSideHealth(int amt) {
+	public void updateClientSideHealth(final int amt) {
 		hudNode.setText((int)this.health + "%");
 	}
 

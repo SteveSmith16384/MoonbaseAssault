@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.scs.moonbaseassault.server.MapLoader;
 import com.scs.stevetech1.jme.PaintableImage;
-import com.scs.stevetech1.server.Globals;
 
 public class MapImageTexture extends PaintableImage {
 

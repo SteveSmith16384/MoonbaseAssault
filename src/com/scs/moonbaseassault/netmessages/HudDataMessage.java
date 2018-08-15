@@ -14,7 +14,7 @@ public class HudDataMessage extends MyAbstractMessage {
 	}
 	
 
-	public HudDataMessage(int _scannerData[][], int _compsDestroyed) {
+	public HudDataMessage(final int _scannerData[][], final int _compsDestroyed) {
 		this();
 		
 		scannerData = _scannerData;

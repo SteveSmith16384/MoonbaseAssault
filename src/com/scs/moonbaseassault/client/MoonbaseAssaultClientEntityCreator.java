@@ -114,7 +114,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			Vector3f size = (Vector3f)msg.data.get("size");
 			String name = (String)msg.data.get("name");
-			String tex = (String)msg.data.get("tex");
+			int tex = (int)msg.data.get("tex");
 			Floor floor = new Floor(game, id, name, pos.x, pos.y, pos.z, size.x, size.y, size.z, tex);
 			return floor;
 		}
@@ -124,7 +124,7 @@ public class MoonbaseAssaultClientEntityCreator {
 			float w = (float)msg.data.get("w");
 			float h = (float)msg.data.get("h");
 			float d = (float)msg.data.get("d");
-			String tex = (String)msg.data.get("tex");
+			int tex = (int)msg.data.get("tex");
 			//float rot = (Float)msg.data.get("rot");
 			MoonbaseWall wall = new MoonbaseWall(game, id, pos.x, pos.y, pos.z, w, h, d, tex);
 			return wall;
@@ -154,7 +154,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			float w = (float)msg.data.get("w");
 			float h = (float)msg.data.get("h");
-			String tex = (String)msg.data.get("tex");
+			int tex = (int)msg.data.get("tex");
 			float rot = (Float)msg.data.get("rot");
 			SlidingDoor wall = new SlidingDoor(game, id, pos.x, pos.y, pos.z, w, h, tex, rot);
 			return wall;
@@ -224,7 +224,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		case CRATE:
 		{
 			Vector3f size = (Vector3f)msg.data.get("size");
-			String tex = (String)msg.data.get("tex");
+			int tex = (int)msg.data.get("tex");
 			float rot = (float)msg.data.get("rot");
 			SpaceCrate crate = new SpaceCrate(game, id, pos.x, pos.y, pos.z, size.x, size.y, size.z, tex, rot);
 			return crate;

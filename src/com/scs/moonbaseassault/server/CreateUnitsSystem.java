@@ -1,8 +1,5 @@
 package com.scs.moonbaseassault.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.scs.moonbaseassault.entities.AbstractAISoldier;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
@@ -19,7 +16,6 @@ import ssmith.util.RealtimeInterval;
  */
 public class CreateUnitsSystem {
 
-	private static int nextSoldierNum = 1;
 	private RealtimeInterval recalcNumUnitsInterval = new RealtimeInterval(1000 * 10);
 	private MoonbaseAssaultServer server;
 	private String[] names;

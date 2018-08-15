@@ -29,26 +29,25 @@ public class IntroJonlan extends AbstractModule {
 	public IntroJonlan(MoonbaseAssaultClient client) {
 		super(client);
 
-		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+	}
 
-		BitmapText bmpText = new BitmapText(font_small, false);
+
+	@Override
+	public void simpleInit() {
+		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+
+		BitmapText bmpText = new BitmapText(fontSmall, false);
 		bmpText.setColor(defaultColour);
 		bmpText.setLocalTranslation(10, 10, 0);
 		client.getGuiNode().attachChild(bmpText);
 		bmpText.setText("Click mouse to Start");
 
-		jonlanModel = new SoldierModel(client.getAssetManager());
-
-		text = new BitmapText(font_small, false);
+		text = new BitmapText(fontSmall, false);
 		text.setColor(defaultColour);
 		text.setLocalTranslation(client.getCamera().getWidth()/2, client.getCamera().getHeight()-100, 0);
 		client.getGuiNode().attachChild(text);
 		text.setText("Starring...");
-}
 
-
-	@Override
-	public void simpleInit() {
 		introNode = new Node("IntroNode");
 
 		AmbientLight al = new AmbientLight();
@@ -58,6 +57,7 @@ public class IntroJonlan extends AbstractModule {
 		client.getCamera().setLocation(new Vector3f(0, 0.55f, 0));
 		client.getCamera().lookAt(new Vector3f(10, 0.55f, 10), Vector3f.UNIT_Y);
 
+		jonlanModel = new SoldierModel(client.getAssetManager());
 		jonlanModel.createAndGetModel(1);
 		jonlanModel.setAnim(AbstractAvatar.ANIM_RUNNING);
 		jonlanModel.getModel().setLocalTranslation(10, 0, 5);
@@ -67,7 +67,7 @@ public class IntroJonlan extends AbstractModule {
 		lookat.y = 0f;
 		jonlanModel.getModel().lookAt(lookat, Vector3f.UNIT_Y);
 
-		client.input = new SimpleMouseInput(client.getInputManager(), 1f);
+		client.input = new SimpleMouseInput(client.getInputManager());
 
 		this.client.getRootNode().attachChild(introNode);
 	}
@@ -97,6 +97,8 @@ public class IntroJonlan extends AbstractModule {
 				this.waitFor = 2;
 				this.currentStage = STAGE_REGNIX;
 			}
+			break;
+		case STAGE_REGNIX:
 			break;
 		}
 

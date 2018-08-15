@@ -38,9 +38,9 @@ public class GenericFloorTex extends PhysicalEntity {
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
 
-			Material floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-			floor_mat.setTexture("DiffuseMap", tex3);
-			geometry.setMaterial(floor_mat);
+			Material floorMat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+			floorMat.setTexture("DiffuseMap", tex3);
+			geometry.setMaterial(floorMat);
 		}
 		this.mainNode.attachChild(geometry);
 		JMEAngleFunctions.rotateToWorldDirection(geometry, new Vector3f(0, 1, 0));

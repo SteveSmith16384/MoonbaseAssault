@@ -11,6 +11,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import com.scs.moonbaseassault.MATextures;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.simplephysics.SimpleRigidBody;
@@ -33,7 +34,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 	private boolean isOpening = false;
 	private float timeUntilClose;
 
-	public SlidingDoor(IEntityController _game, int id, float x, float yBottom, float z, float w, float h, String tex, float rotDegrees) {
+	public SlidingDoor(IEntityController _game, int id, float x, float yBottom, float z, float w, float h, int tex, float rotDegrees) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.DOOR, "SlidingDoor", true, true, true);
 
 		if (_game.isServer()) {
@@ -52,7 +53,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 		if (!_game.isServer()) { // Not running in server
 			geometry.setShadowMode(ShadowMode.CastAndReceive);
 
-			TextureKey key3 = new TextureKey(tex);
+			TextureKey key3 = new TextureKey(MATextures.getTex(tex));
 			key3.setGenerateMips(true);
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);

@@ -16,7 +16,11 @@ public class ConnectModule extends AbstractModule {
 
 		ipAddress = _ipAddress;
 		port = _port;
+	}
 
+	
+	@Override
+	public void simpleInit() {
 		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		BitmapText bmpText = new BitmapText(font_small, false);
@@ -24,15 +28,8 @@ public class ConnectModule extends AbstractModule {
 		bmpText.setLocalTranslation(100, 100, 0);
 		client.getGuiNode().attachChild(bmpText);
 		bmpText.setText("Connecting...");
-		
 
-	}
-
-	
-	@Override
-	public void simpleInit() {
-		this.client.connect(client, ipAddress, port, true);
-		
+		this.client.connect(client, ipAddress, port, true);		
 	}
 	
 

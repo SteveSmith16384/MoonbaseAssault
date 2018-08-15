@@ -13,6 +13,7 @@ import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.jme3.util.BufferUtils;
+import com.scs.moonbaseassault.MATextures;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.components.IDebrisTexture;
@@ -25,17 +26,17 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 	private static final String INVISIBLE_TEX = "Textures/fence.png";
 	private String tex;
 
-	public MoonbaseWall(IEntityController _game, int id, float x, float yBottom, float z, float w, float h, float d, String _tex) {
+	public MoonbaseWall(IEntityController _game, int id, float x, float yBottom, float z, float w, float h, float d, int _tex) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.WALL, "Wall", false, true, false);
 
-		tex = _tex;
+		tex = MATextures.getTex(_tex);
 
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
 			creationData.put("w", w);
 			creationData.put("h", h);
 			creationData.put("d", d);
-			creationData.put("tex", tex);
+			creationData.put("tex", _tex);
 			//creationData.put("rot", rotDegrees);
 		}
 

@@ -7,8 +7,6 @@ import com.scs.moonbaseassault.server.ai.ShootingSoldierAI3;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.entities.AbstractAIBullet;
 import com.scs.stevetech1.entities.PhysicalEntity;
-import com.scs.stevetech1.netmessages.PlaySoundMessage;
-import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 

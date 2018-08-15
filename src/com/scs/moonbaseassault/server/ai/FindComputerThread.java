@@ -29,16 +29,16 @@ public class FindComputerThread extends Thread {
 
 	public void run() {
 		synchronized (game) { // to ensure they are checked one by one
-			int closest_dist = 9999;
+			int closestDist = 9999;
 			AStar astar = new AStar(game);
 			List<Point> comps = game.getComputerSquares(); 
 			for (int i=0 ; i<comps.size() ; i++) { // Only try so many times
 				Point p = comps.get(NumberFunctions.rnd(0,  comps.size()-1)); // Chose random square
 				Vector3f pos = unit.getWorldTranslation();
-				astar.findPath((int)pos.x, (int)pos.z, p.x, p.y, closest_dist, false);
+				astar.findPath((int)pos.x, (int)pos.z, p.x, p.y, closestDist, false);
 				if (astar.wasSuccessful()) {
-					if (astar.getRoute().size() < closest_dist) {
-						closest_dist = astar.getRoute().size();
+					if (astar.getRoute().size() < closestDist) {
+						closestDist = astar.getRoute().size();
 						route = astar.getRoute();
 						break;
 					}
