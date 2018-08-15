@@ -15,7 +15,7 @@ import com.scs.stevetech1.shared.IAbility;
 public class SoldierServerAvatar extends AbstractServerAvatar implements IDebrisTexture {
 	
 	public SoldierServerAvatar(MoonbaseAssaultServer _module, ClientData client, IInputDevice _input, int eid) {
-		super(_module, MoonbaseAssaultClientEntityCreator.SOLDIER_AVATAR, client, _input, eid, new SoldierModel(_module.getAssetManager()), 100f, MoonbaseAssaultGlobals.PRI_PLAYER, new PersonAvatar(_module, _input, MoonbaseAssaultGlobals.MOVE_SPEED, MoonbaseAssaultGlobals.JUMP_FORCE));
+		super(_module, MoonbaseAssaultClientEntityCreator.SOLDIER_AVATAR, client, _input, eid, new SoldierModel(_module.getAssetManager(), -1), 100f, MoonbaseAssaultGlobals.PRI_PLAYER, new PersonAvatar(_module, _input, MoonbaseAssaultGlobals.MOVE_SPEED, MoonbaseAssaultGlobals.JUMP_FORCE));
 		
 		IAbility abilityGun = new LaserRifle(_module, _module.getNextEntityID(), client.getPlayerID(), this, eid, 0, client);
 		//IAbility abilityGun = new HitscanRifle(_module, _module.getNextEntityID(), MoonbaseAssaultClientEntityCreator.HITSCAN_RIFLE, client.getPlayerID(), this, eid, 0, client, MoonbaseAssaultClientEntityCreator.BULLET_TRAIL, MoonbaseAssaultClientEntityCreator.DEBUGGING_SPHERE);

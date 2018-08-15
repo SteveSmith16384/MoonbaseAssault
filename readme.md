@@ -1,5 +1,7 @@
 # Moonbase Assault
 
+By Stephen Carlyle-Smith (stephen.carlylesmith@googlemail.com)
+
 This game is designed to be a multiplayer realtime version of the Laser Squad (https://en.wikipedia.org/wiki/Laser_Squad) mission "Moonbase Assault".  One side must defend a moonbase from attack, and the other side must destroy all the computers before the time runs out.
 
 

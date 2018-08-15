@@ -29,14 +29,16 @@ public class SoldierModel implements IAvatarModel {
 	public boolean isJumping = false;
 	private int currAnimCode = -1;
 	private float jumpEndTime;
+	private int side;
 
-	public SoldierModel(AssetManager _assetManager) {
+	public SoldierModel(AssetManager _assetManager, int _side) {
 		assetManager = _assetManager;
+		side = _side;
 	}
 
 
 	@Override
-	public Spatial createAndGetModel(int side) {
+	public Spatial createAndGetModel() {
 		if (!Globals.USE_BOXES_FOR_AVATARS_SOLDIER) {
 			model = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture(side));
@@ -52,7 +54,7 @@ public class SoldierModel implements IAvatarModel {
 			model.setLocalTranslation(0, MODEL_HEIGHT/2, 0); // Move origin to floor
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Textures/greensun.jpg");
 		}
-		model.setShadowMode(ShadowMode.CastAndReceive);
+		model.setShadowMode(ShadowMode.Cast);
 		return model;
 	}
 

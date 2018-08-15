@@ -250,7 +250,10 @@ public class MapLoader {
 		x--;
 		//Globals.p("Creating wall at " + sx + ", " + sy + " length: " + (x-sx));
 		float width = x-sx+1;
-		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx, 0f, sy, width, MoonbaseAssaultServer.CEILING_HEIGHT, 1, MATextures.MOONBASE_WALL);
+		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
+				sx, 0f, sy, 
+				width, MoonbaseAssaultServer.CEILING_HEIGHT, 1, 
+				MATextures.MOONBASE_WALL);
 		moonbaseAssaultServer.actuallyAddEntity(wall);
 		totalWalls++;
 
@@ -258,7 +261,10 @@ public class MapLoader {
 			// Create offset wall
 			float extra = 0.15f;
 			float newWidth = width/4;
-			MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+((width-newWidth)/2), 0f, sy-extra, newWidth, MoonbaseAssaultServer.CEILING_HEIGHT, 1+(extra*2), MATextures.MOONBASE_WALL);
+			MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
+					sx+((width-newWidth)/2), 0.2f, sy-extra, 
+					newWidth, MoonbaseAssaultServer.CEILING_HEIGHT-.4f, 1+(extra*2), 
+					MATextures.MOONBASE_WALL);
 			moonbaseAssaultServer.actuallyAddEntity(wall2);
 			totalWalls++;
 		}
@@ -354,60 +360,6 @@ public class MapLoader {
 			for (int x=sx ; x<ex ; x++) {
 				mapCode[x][y] = HANDLED;
 				floorSquares.add(new Point(x, y));
-			}
-		}
-
-	}
-
-
-	private void doExteriorFloors() {
-		boolean found = true;
-		while (found) {
-			found = false;
-			for (int y=0 ; y<mapsize ; y++) {
-				for (int x=0 ; x<mapsize ; x++) {
-					if (mapCode[x][y] == EXT_FLOOR) {
-						found = true;
-						exteriorFloor(x, y);
-					}
-				}
-			}
-		}
-
-	}
-
-
-	private void exteriorFloor(int sx, int sy) {
-		// Go across
-		int ex;
-		for (ex=sx ; ex<mapsize ; ex++) {
-			if (mapCode[ex][sy] != EXT_FLOOR) {
-				break;
-			}
-			mapCode[ex][sy] = HANDLED;
-		}
-		// Go cover rect
-		boolean breakout = false;
-		int ey;
-		for (ey=sy+1 ; ey<mapsize ; ey++) {
-			for (int x=sx ; x<=ex ; x++) {
-				if (mapCode[x][sy] != EXT_FLOOR) {
-					breakout = true;
-					break;
-				}
-			}
-			if (breakout) {
-				break;
-			}
-		}
-		Floor moonrock = new Floor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ext Floor", sx, 0f, sy, ex-sx, .5f, ey-sy, MATextures.MOONROCK);
-		moonbaseAssaultServer.actuallyAddEntity(moonrock);
-		this.totalFloors++;
-
-		// Mark area as handled
-		for (int y=sy ; y<ey ; y++) {
-			for (int x=sx ; x<ex ; x++) {
-				mapCode[x][sy] = HANDLED;
 			}
 		}
 

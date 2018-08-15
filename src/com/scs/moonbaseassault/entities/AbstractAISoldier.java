@@ -83,7 +83,7 @@ IDebrisTexture {
 			creationData.put("side", side);
 			creationData.put("name", name);
 		} else {
-			this.soldierModel.createAndGetModel(_side);
+			this.soldierModel.createAndGetModel();
 			game.getGameNode().attachChild(this.soldierModel.getModel());
 			this.setAnimCode_ClientSide(_csInitialAnimCode);
 		}
