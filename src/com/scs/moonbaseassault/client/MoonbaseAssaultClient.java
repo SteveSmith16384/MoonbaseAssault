@@ -28,15 +28,15 @@ import com.scs.stevetech1.server.Globals;
 
 import ssmith.util.MyProperties;
 
-public class MoonbaseAssaultClient extends AbstractGameClient {
+public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 	private MoonbaseAssaultClientEntityCreator entityCreator;
 	private AbstractHUDImage currentHUDTextImage;
 	public MoonbaseAssaultHUD hud;
 	private MoonbaseAssaultCollisionValidator collisionValidator;
 	
-	private String ipAddress;
-	private int port;
+	private final String ipAddress;
+	private final int port;
 
 	private IModule currentModule;
 
@@ -49,14 +49,14 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 				props = new MyProperties();
 				Globals.p("Warning: No config file specified");
 			}
-			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
-			int gamePort = props.getPropertyAsInt("gamePort", 6145);
+			final String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
+			final int gamePort = props.getPropertyAsInt("gamePort", 6145);
 
-			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
-			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
-			int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
+			final int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
+			final int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
+			final int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
 
-			float mouseSensitivity = props.getPropertyAsFloat("mouseSensitivity", 1f);
+			final float mouseSensitivity = props.getPropertyAsFloat("mouseSensitivity", 1f);
 
 			new MoonbaseAssaultClient(gameIpAddress, gamePort,
 					tickrateMillis, clientRenderDelayMillis, timeoutMillis,
@@ -221,10 +221,10 @@ public class MoonbaseAssaultClient extends AbstractGameClient {
 
 	@Override
 	protected void gameStatusChanged(int oldStatus, int newStatus) {
-		int width = this.cam.getWidth()/5;
-		int height = this.cam.getHeight()/5;
-		int x = (this.cam.getWidth()/2)-(width/2);
-		int y = (int)(this.cam.getHeight() * 0.8f);
+		final int width = this.cam.getWidth()/5;
+		final int height = this.cam.getHeight()/5;
+		final int x = (this.cam.getWidth()/2)-(width/2);
+		final int y = (int)(this.cam.getHeight() * 0.8f);
 
 		switch (newStatus) {
 		case SimpleGameData.ST_WAITING_FOR_PLAYERS:

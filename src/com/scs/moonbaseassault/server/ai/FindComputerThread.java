@@ -15,7 +15,7 @@ public class FindComputerThread extends Thread {
 
 	private MoonbaseAssaultServer game;
 	private PhysicalEntity unit;
-	public WayPoints route = null;
+	public WayPoints route;
 
 	public FindComputerThread(MoonbaseAssaultServer _game, PhysicalEntity _unit) {
 		super("FindComputerThread")	;
@@ -31,9 +31,9 @@ public class FindComputerThread extends Thread {
 		synchronized (game) { // to ensure they are checked one by one
 			int closestDist = 9999;
 			AStar astar = new AStar(game);
-			List<Point> comps = game.getComputerSquares(); 
+			List<Point> comps = game.getComputerSquares();
 			for (int i=0 ; i<comps.size() ; i++) { // Only try so many times
-				Point p = comps.get(NumberFunctions.rnd(0,  comps.size()-1)); // Chose random square
+				Point p = comps.get(NumberFunctions.rnd(0, comps.size()-1)); // Chose random square
 				Vector3f pos = unit.getWorldTranslation();
 				astar.findPath((int)pos.x, (int)pos.z, p.x, p.y, closestDist, false);
 				if (astar.wasSuccessful()) {

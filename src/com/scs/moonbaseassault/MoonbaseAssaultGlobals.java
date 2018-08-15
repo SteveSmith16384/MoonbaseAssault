@@ -2,6 +2,7 @@ package com.scs.moonbaseassault;
 
 public class MoonbaseAssaultGlobals {
 
+	public static final float MAX_HEALTH = 100f;
 	public static final float MOVE_SPEED = 3f;
 	public static final float JUMP_FORCE = 2f;
 

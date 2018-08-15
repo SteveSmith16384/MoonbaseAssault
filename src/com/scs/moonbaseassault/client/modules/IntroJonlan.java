@@ -57,7 +57,7 @@ public class IntroJonlan extends AbstractModule {
 		client.getCamera().setLocation(new Vector3f(0, 0.55f, 0));
 		client.getCamera().lookAt(new Vector3f(10, 0.55f, 10), Vector3f.UNIT_Y);
 
-		jonlanModel = new SoldierModel(client.getAssetManager(), 1);
+		jonlanModel = new SoldierModel(client.getAssetManager(), 1, false);
 		jonlanModel.createAndGetModel();
 		jonlanModel.setAnim(AbstractAvatar.ANIM_RUNNING);
 		jonlanModel.getModel().setLocalTranslation(10, 0, 5);

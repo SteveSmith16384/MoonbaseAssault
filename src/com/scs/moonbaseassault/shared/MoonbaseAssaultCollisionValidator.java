@@ -43,21 +43,6 @@ public class MoonbaseAssaultCollisionValidator extends AbstractCollisionValidato
 				return false;
 			}
 		}
-/*		
-		// Prevent bullets getting hit by the shooter
-		if (pa instanceof ILaunchable) {
-			ILaunchable aa = (ILaunchable)pa;
-			if (aa.getLauncher() == pb) {
-				return false;
-			}
-		}
-		if (pb instanceof ILaunchable) {
-			ILaunchable ab = (ILaunchable)pb;
-			if (ab.getLauncher() == pa) {
-				return false;
-			}
-		}
-*/
 
 		return super.canCollide(pa, pb);
 

@@ -30,10 +30,12 @@ public class SoldierModel implements IAvatarModel {
 	private int currAnimCode = -1;
 	private float jumpEndTime;
 	private int side;
+	private boolean player;
 
-	public SoldierModel(AssetManager _assetManager, int _side) {
+	public SoldierModel(AssetManager _assetManager, int _side, boolean _player) {
 		assetManager = _assetManager;
 		side = _side;
+		player = _player;
 	}
 
 
@@ -41,7 +43,7 @@ public class SoldierModel implements IAvatarModel {
 	public Spatial createAndGetModel() {
 		if (!Globals.USE_BOXES_FOR_AVATARS_SOLDIER) {
 			model = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
-			JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture(side));
+			JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture(side, player));
 
 			JMEModelFunctions.scaleModelToHeight(model, MODEL_HEIGHT);
 			JMEModelFunctions.moveYOriginTo(model, 0f);

@@ -23,9 +23,9 @@ public class ConnectModule extends AbstractModule {
 	public void simpleInit() {
 		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
-		BitmapText bmpText = new BitmapText(font_small, false);
+		bmpText = new BitmapText(font_small, false);
 		bmpText.setColor(IntroModule.defaultColour);
-		bmpText.setLocalTranslation(100, 100, 0);
+		bmpText.setLocalTranslation(10, 100, 0);
 		client.getGuiNode().attachChild(bmpText);
 		bmpText.setText("Connecting...");
 
