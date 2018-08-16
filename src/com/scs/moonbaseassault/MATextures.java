@@ -9,6 +9,7 @@ public class MATextures {
 	public static final int FLOOR4 = 5;
 	public static final int DOOR_LR = 6;
 	public static final int SPACECRATE1 = 7;
+	public static final int CEILING_GREEBLE = 8;
 
 
 	public static String getTex(int code) {
@@ -27,6 +28,8 @@ public class MATextures {
 			return "Textures/door_lr.png";
 		case SPACECRATE1:
 			return "Textures/spacecrate1.png";
+		case CEILING_GREEBLE:
+			return "Textures/spaceship_wall.png";
 		default:
 			throw new IllegalArgumentException("code");
 		}

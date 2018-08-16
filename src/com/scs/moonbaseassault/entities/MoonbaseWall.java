@@ -37,7 +37,6 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 			creationData.put("h", h);
 			creationData.put("d", d);
 			creationData.put("tex", _tex);
-			//creationData.put("rot", rotDegrees);
 		}
 
 		Box box1 = new Box(w/2, h/2, d/2);
@@ -78,10 +77,6 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 		}
 		this.mainNode.attachChild(geometry);
 		geometry.setLocalTranslation((w/2), h/2, (d/2)); // Never change position of mainNode (unless the whole object is moving)
-		/*if (rotDegrees != 0) {
-			float rads = (float)Math.toRadians(rotDegrees);
-			mainNode.rotate(0, rads, 0);
-		}*/
 		mainNode.setLocalTranslation(x, yBottom, z);
 
 		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);

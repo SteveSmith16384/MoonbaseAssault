@@ -6,7 +6,7 @@ import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.entities.AILaserBullet;
 import com.scs.moonbaseassault.entities.AbstractAISoldier;
 import com.scs.moonbaseassault.entities.Computer;
-import com.scs.moonbaseassault.entities.Floor;
+import com.scs.moonbaseassault.entities.FloorOrCeiling;
 import com.scs.moonbaseassault.entities.MapBorder;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
 import com.scs.moonbaseassault.entities.SlidingDoor;
@@ -171,7 +171,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 
 	@Override
 	public void collided(PhysicalEntity pe) {
-		if (pe instanceof Floor == false) {
+		if (pe instanceof FloorOrCeiling == false) {
 			// Change direction to away from blockage, unless it's a door
 			if (pe instanceof MoonbaseWall || pe instanceof Computer || pe instanceof MapBorder) {
 				//Globals.p("AISoldier has collided with " + pe);

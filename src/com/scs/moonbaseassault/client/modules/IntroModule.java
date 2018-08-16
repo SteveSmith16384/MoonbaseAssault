@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
+import com.jme3.input.MouseInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -17,12 +20,11 @@ import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.client.intro.SimpleMoonbaseWall;
 import com.scs.moonbaseassault.server.MapLoader;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
-import com.scs.stevetech1.input.SimpleMouseInput;
 
 import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
 
-public class IntroModule extends AbstractModule {
+public class IntroModule extends AbstractModule implements ActionListener {
 
 	private static final int STAGE_TITLE = 0;
 	private static final int STAGE_EXPLODE_TITLE = 2;
@@ -63,7 +65,7 @@ public class IntroModule extends AbstractModule {
 		introNode = new Node("IntroNode");
 		SimpleMoonbaseWall floor = new SimpleMoonbaseWall(client, -50, -1, -50, 100, 1f, 100f, "Textures/moonrock.png");
 		this.introNode.attachChild(floor);
-		
+
 		loadMap("serverdata/intro_map.csv");
 
 		//camStartPos = new Vector3f(-mapSize/2, 3, mapSize/2);
@@ -75,8 +77,6 @@ public class IntroModule extends AbstractModule {
 		this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
 
 		this.client.getRootNode().attachChild(introNode);
-
-		client.input = new SimpleMouseInput(client.getInputManager());
 
 		// Lights
 		AmbientLight al = new AmbientLight();
@@ -93,6 +93,10 @@ public class IntroModule extends AbstractModule {
 		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(client.getAssetManager(), SHADOWMAP_SIZE, 2);
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
+
+		//client.input = new SimpleMouseInput(client.getInputManager());
+		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		client.getInputManager().addListener(this, "Ability1");
 
 	}
 
@@ -169,16 +173,26 @@ public class IntroModule extends AbstractModule {
 			}
 			break;
 		}
-
+		/*
 		if (this.client.input.isAbilityPressed(1)) {
 			client.startConnectToServerModule();
 			return;
-		}
+		}*/
+	}
+
+
+	@Override
+	public void onAction(String name, boolean value, float tpf) {
+		if (name.equalsIgnoreCase("Ability1")) {
+			client.startConnectToServerModule();
+		}		
 	}
 
 
 	@Override
 	public void destroy() {
+		client.getInputManager().removeListener(this);
+
 		this.introNode.removeFromParent();
 		client.getGuiNode().detachAllChildren();
 	}

@@ -5,7 +5,7 @@ import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.entities.AILaserBullet;
 import com.scs.moonbaseassault.entities.Computer;
 import com.scs.moonbaseassault.entities.DestroyedComputer;
-import com.scs.moonbaseassault.entities.Floor;
+import com.scs.moonbaseassault.entities.FloorOrCeiling;
 import com.scs.moonbaseassault.entities.FlyingSpaceship2;
 import com.scs.moonbaseassault.entities.GasCannister;
 import com.scs.moonbaseassault.entities.GenericFloorTex;
@@ -39,7 +39,7 @@ public class MoonbaseAssaultClientEntityCreator {
 
 	public static final int SOLDIER_AVATAR = 1;
 	public static final int COMPUTER = 2;
-	public static final int FLOOR = 3;
+	public static final int FLOOR_OR_CEILING = 3;
 	public static final int DOOR = 4;
 	public static final int CRATE = 5;
 	public static final int WALL = 6;
@@ -56,10 +56,11 @@ public class MoonbaseAssaultClientEntityCreator {
 	public static final int GAS_CANNISTER = 21;
 	public static final int FLOOR_TEX = 22;
 	public static final int FLYING_SPACESHIP2 = 23;
-	public static final int AI_SUPER_SOLDIER = 10;
+	public static final int AI_SUPER_SOLDIER = 24;
 
 
 	public MoonbaseAssaultClientEntityCreator() {
+		super();
 	}
 
 
@@ -67,7 +68,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		switch (type) {
 		case SOLDIER_AVATAR: return "Avatar";
 		case COMPUTER: return "COMPUTER";
-		case FLOOR: return "FLOOR";
+		case FLOOR_OR_CEILING: return "FLOOR";
 		case DOOR: return "DOOR";
 		case CRATE: return "CRATE";
 		case WALL: return "WALL";
@@ -93,8 +94,6 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			int playerID = (int)msg.data.get("playerID");
 			int side = (int)msg.data.get("side");
-			//float moveSpeed = (float)msg.data.get("moveSpeed");
-			//float jumpForce = (float)msg.data.get("jumpForce");
 			String playersName = (String)msg.data.get("playersName");
 
 			if (playerID == game.playerID) {
@@ -110,12 +109,13 @@ public class MoonbaseAssaultClientEntityCreator {
 			}
 		}
 
-		case FLOOR:
+		case FLOOR_OR_CEILING:
 		{
 			Vector3f size = (Vector3f)msg.data.get("size");
 			String name = (String)msg.data.get("name");
 			int tex = (int)msg.data.get("tex");
-			Floor floor = new Floor(game, id, name, pos.x, pos.y, pos.z, size.x, size.y, size.z, tex);
+			boolean collides = (boolean)msg.data.get("collides");
+			FloorOrCeiling floor = new FloorOrCeiling(game, id, name, pos.x, pos.y, pos.z, size.x, size.y, size.z, tex, collides);
 			return floor;
 		}
 
@@ -125,7 +125,6 @@ public class MoonbaseAssaultClientEntityCreator {
 			float h = (float)msg.data.get("h");
 			float d = (float)msg.data.get("d");
 			int tex = (int)msg.data.get("tex");
-			//float rot = (Float)msg.data.get("rot");
 			MoonbaseWall wall = new MoonbaseWall(game, id, pos.x, pos.y, pos.z, w, h, d, tex);
 			return wall;
 		}
@@ -230,12 +229,6 @@ public class MoonbaseAssaultClientEntityCreator {
 			return crate;
 		}
 
-		/*case SMALL_EXPLOSION_EFFECT:
-		{
-			SmallExplosionEntity expl = new SmallExplosionEntity(game, id, pos);
-			return expl;
-		}*/
-
 		case Globals.DEBUGGING_SPHERE:
 		{
 			DebuggingSphere hill = new DebuggingSphere(game, id, pos.x, pos.y, pos.z, true, false);
@@ -252,8 +245,6 @@ public class MoonbaseAssaultClientEntityCreator {
 			HitscanRifle gl = new HitscanRifle(game, id, HITSCAN_RIFLE, playerID, null, ownerid, num, null);
 			//owner.addAbility(gl, num);
 			return gl;
-			//}
-			//return null;
 		}
 
 		case Globals.BULLET_TRAIL:
@@ -316,7 +307,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		}
 
 		default:
-			throw new RuntimeException("Unknown entity type for creation: " + msg.type);
+			throw new IllegalArgumentException("Unknown entity type for creation: " + msg.type);
 		}
 	}
 

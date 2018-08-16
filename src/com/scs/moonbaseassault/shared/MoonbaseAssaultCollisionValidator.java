@@ -26,7 +26,7 @@ public class MoonbaseAssaultCollisionValidator extends AbstractCollisionValidato
 		}
 
 		// Sliding doors shouldn't collide with floor/ceiling
-		if ((pa.type == MoonbaseAssaultClientEntityCreator.FLOOR && pb.type == MoonbaseAssaultClientEntityCreator.DOOR) || pa.type == MoonbaseAssaultClientEntityCreator.DOOR && pb.type == MoonbaseAssaultClientEntityCreator.FLOOR) {
+		if ((pa.type == MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING && pb.type == MoonbaseAssaultClientEntityCreator.DOOR) || pa.type == MoonbaseAssaultClientEntityCreator.DOOR && pb.type == MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING) {
 			return false;
 		}
 		// Sliding doors shouldn't collide with wall

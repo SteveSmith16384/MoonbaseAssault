@@ -2,11 +2,11 @@ package com.scs.moonbaseassault.client;
 
 import java.io.IOException;
 
-import com.jme3.app.FlyCamAppState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
 import com.scs.moonbaseassault.client.modules.ConnectModule;
+import com.scs.moonbaseassault.client.modules.DisconnectedModule;
 import com.scs.moonbaseassault.client.modules.IModule;
 import com.scs.moonbaseassault.client.modules.IntroJonlan;
 import com.scs.moonbaseassault.client.modules.IntroModule;
@@ -113,6 +113,12 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		super.connected();
 		
 		this.setModule(new MainModule(this));
+	}
+
+
+	@Override
+	public void disconnected() {
+		this.setModule(new DisconnectedModule(this));
 	}
 
 

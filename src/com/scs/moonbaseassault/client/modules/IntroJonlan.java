@@ -2,6 +2,9 @@ package com.scs.moonbaseassault.client.modules;
 
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
+import com.jme3.input.MouseInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -9,9 +12,8 @@ import com.jme3.scene.Node;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.stevetech1.entities.AbstractAvatar;
-import com.scs.stevetech1.input.SimpleMouseInput;
 
-public class IntroJonlan extends AbstractModule {
+public class IntroJonlan extends AbstractModule implements ActionListener {
 
 	private static final int STAGE_JONLAN = 0;
 	private static final int STAGE_REGNIX = 1;
@@ -67,7 +69,9 @@ public class IntroJonlan extends AbstractModule {
 		lookat.y = 0f;
 		jonlanModel.getModel().lookAt(lookat, Vector3f.UNIT_Y);
 
-		client.input = new SimpleMouseInput(client.getInputManager());
+		//client.input = new SimpleMouseInput(client.getInputManager());
+		//client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		client.getInputManager().addListener(this, "Ability1");
 
 		this.client.getRootNode().attachChild(introNode);
 	}
@@ -102,20 +106,37 @@ public class IntroJonlan extends AbstractModule {
 			break;
 		}
 
-
+/*
 		if (this.client.input.isAbilityPressed(1)) {
 			client.startConnectToServerModule();
 			return;
-		}
+		}*/
 	}
 
 
 
 	@Override
+	public void onAction(String name, boolean value, float tpf) {
+		if (name.equalsIgnoreCase("Ability1")) {
+			client.startConnectToServerModule();
+		}		
+	}
+
+
+	@Override
 	public void destroy() {
+		client.getInputManager().removeListener(this);
+
 		this.introNode.removeFromParent();
 		client.getGuiNode().detachAllChildren();
 	}
 
-
+/*
+	@Override
+	public void onAction(String name, boolean value, float tpf) {
+		if (name.equalsIgnoreCase("Ability1")) {
+			client.startConnectToServerModule();
+		}		
+	}
+*/
 }

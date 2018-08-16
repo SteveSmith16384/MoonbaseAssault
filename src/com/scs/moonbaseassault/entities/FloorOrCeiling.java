@@ -20,12 +20,12 @@ import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
-public class Floor extends PhysicalEntity implements IDebrisTexture {
+public class FloorOrCeiling extends PhysicalEntity implements IDebrisTexture {
 
 	private String tex;
 
-	public Floor(IEntityController _game, int id, String name, float x, float yTop, float z, float w, float h, float d, int _tex) {
-		super(_game, id, MoonbaseAssaultClientEntityCreator.FLOOR, name, false, true, false);
+	public FloorOrCeiling(IEntityController _game, int id, String name, float x, float yTop, float z, float w, float h, float d, int _tex, boolean collides) {
+		super(_game, id, MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING, name, false, true, false);
 
 		tex = MATextures.getTex(_tex);
 
@@ -34,6 +34,7 @@ public class Floor extends PhysicalEntity implements IDebrisTexture {
 			creationData.put("size", new Vector3f(w, h, d));
 			creationData.put("tex", _tex);
 			creationData.put("name", name);
+			creationData.put("collides", collides);
 		}
 
 		Box box1 = new Box(w/2, h/2, d/2);
@@ -64,8 +65,10 @@ public class Floor extends PhysicalEntity implements IDebrisTexture {
 		geometry.setLocalTranslation(w/2, -h/2, d/2); // Move it into position
 		mainNode.setLocalTranslation(x, yTop, z); // Move it into position
 
-		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);
-		simpleRigidBody.setNeverMoves(true);
+		if (collides) {
+			this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);
+			simpleRigidBody.setNeverMoves(true);
+		}
 
 		geometry.setUserData(Globals.ENTITY, this);
 		mainNode.setUserData(Globals.ENTITY, this);
