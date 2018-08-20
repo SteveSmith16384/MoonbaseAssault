@@ -1,5 +1,7 @@
 package com.scs.moonbaseassault.client.modules;
 
+import java.io.IOException;
+
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.input.controls.ActionListener;
@@ -17,6 +19,8 @@ public class DisconnectedModule extends AbstractModule implements ActionListener
 	
 	@Override
 	public void simpleInit() {
+		super.simpleInit();
+		
 		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		bmpText = new BitmapText(font_small, false);

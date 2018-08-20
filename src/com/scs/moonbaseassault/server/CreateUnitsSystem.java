@@ -1,5 +1,6 @@
 package com.scs.moonbaseassault.server;
 
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.entities.AbstractAISoldier;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
@@ -41,18 +42,18 @@ public class CreateUnitsSystem {
 				IEntity e = server.entitiesForProcessing.get(i);
 				if (e instanceof AbstractServerAvatar) {
 					AbstractServerAvatar asa = (AbstractServerAvatar)e;
-					if (asa.side == 1) { // Attacker
+					if (asa.side == MoonbaseAssaultGlobals.SIDE_ATTACKERS) { // Attacker
 						numAttackers += 2;
-					} else if (asa.side == 2) { // Defender
+					} else if (asa.side == MoonbaseAssaultGlobals.SIDE_DEFENDERS) { // Defender
 						numDefenders += 2;
 					} else {
 						throw new RuntimeException("Invalid side: " + asa.side);
 					}
 				} else if (e instanceof AbstractAISoldier) {
 					AbstractAISoldier ai = (AbstractAISoldier)e;
-					if (ai.side == 1) { // Attacker
+					if (ai.side == MoonbaseAssaultGlobals.SIDE_ATTACKERS) { // Attacker
 						numAttackers++;
-					} else if (ai.side == 2) { // Defender
+					} else if (ai.side == MoonbaseAssaultGlobals.SIDE_DEFENDERS) { // Defender
 						numDefenders++;
 					} else {
 						throw new RuntimeException("Invalid side: " + ai.side);
@@ -62,13 +63,13 @@ public class CreateUnitsSystem {
 
 			// Create attackers
 			while (numAttackers < 5) { // 2 players, one AI?
-				server.addAISoldier(1, getName());
+				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_ATTACKERS, getName());
 				numAttackers++;
 			}
 
 			// Create defenders
 			while (numDefenders < numAttackers*2 || numDefenders < 8) {
-				server.addAISoldier(2, getName());
+				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
 				numDefenders++;
 			}
 

@@ -36,7 +36,6 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	private ColorRGBA dam_box_col = new ColorRGBA(1, 0, 0, 0.0f);
 	private boolean process_damage_box;
 	private AbstractGameClient game;
-	//private static BitmapFont font_small;
 
 	private HUDMapImage hudMapImage;
 
@@ -76,7 +75,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		textArea.setColor(defaultColour);
 		textArea.setLocalTranslation(xPos, hud_height/2, 0);
 		this.attachChild(textArea);
-		textArea.setText("Waiting for data...");
+		//textArea.setText("Waiting for data...");
 
 		float yPos = hud_height - LINE_SPACING;
 
@@ -312,9 +311,9 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	}
 
 
-	public void setOtherData(Point _player, List<Point> _units, List<Point> _computers) {
+	public void setOtherData(Point _player, List<Point> _units) {//, List<Point> _computers) {
 		if (this.hudMapImage != null) {
-			this.hudMapImage.mapImageTex.setOtherData(_player, _units, _computers);
+			this.hudMapImage.mapImageTex.setOtherData(_player, _units);//, _computers);
 		}
 
 	}
@@ -344,7 +343,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 
 
 	@Override
-	public void addItem(Node n) {
+	public void addChild(Node n) {
 		this.attachChild(n);
 	}
 

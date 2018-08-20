@@ -115,7 +115,7 @@ public class SoldierTexture {
 
 	private static Color getRandomHairColour(boolean player) {
 		if (player) {
-			return Color.black;
+			return Color.DARK_GRAY;
 		} else {
 			return Color.LIGHT_GRAY;
 		}

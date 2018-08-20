@@ -1,5 +1,6 @@
 package com.scs.moonbaseassault.entities;
 
+import com.jme3.texture.Image;
 import java.awt.Point;
 import java.util.HashMap;
 
@@ -9,7 +10,6 @@ import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.Camera.FrustumIntersect;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -27,7 +27,6 @@ import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.hud.IHUD;
-import com.scs.stevetech1.netmessages.PlaySoundMessage;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
@@ -58,12 +57,16 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 		if (!_game.isServer()) {
 			geometry.setShadowMode(ShadowMode.CastAndReceive);
 
-			TextureKey key3 = new TextureKey("Textures/computerconsole2.jpg");
-			key3.setGenerateMips(true);
-			Texture tex3 = game.getAssetManager().loadTexture(key3);
-			tex3.setWrap(WrapMode.Repeat);
+			TextureKey key = new TextureKey("Textures/computerconsole2.jpg");
+			key.setGenerateMips(true);
+			Texture tex = game.getAssetManager().loadTexture(key);
+			
+			//Image img = tex.getImage();
+			//img.addData(tex.get);
+			
+			tex.setWrap(WrapMode.Repeat);
 			Material floorMat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-			floorMat.setTexture("DiffuseMap", tex3);
+			floorMat.setTexture("DiffuseMap", tex);
 			geometry.setMaterial(floorMat);
 		}
 		this.mainNode.attachChild(geometry);

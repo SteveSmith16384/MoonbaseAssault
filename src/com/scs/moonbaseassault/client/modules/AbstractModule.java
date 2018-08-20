@@ -11,5 +11,11 @@ public abstract class AbstractModule implements IModule {
 		
 		client = _client;
 	}
+	
+	
+	@Override
+	public void simpleInit() {
+		client.addDefaultKeyboardMappings();
+	}
 
 }

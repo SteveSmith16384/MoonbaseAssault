@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.jme3.system.JmeContext;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.entities.FlyingSpaceship2;
 import com.scs.moonbaseassault.entities.MA_AISoldier;
@@ -38,10 +39,6 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	public static final String GAME_ID = "Moonbase Assault";
 
-	// Sides
-	public static final int SIDE_ATTACKER = 1;
-	public static final int SIDE_DEFENDER = 2;
-
 	public static final float CEILING_HEIGHT = 1.4f;
 	public static final float LASER_DIAM = 0.02f;
 
@@ -49,7 +46,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	private List<Point> computerSquares; // For A*
 	public ArrayList<Point>[] deploySquares;
 	private MoonbaseAssaultCollisionValidator collisionValidator = new MoonbaseAssaultCollisionValidator();
-	private int winningSide = 2; // Defenders win by default
+	private int winningSide = MoonbaseAssaultGlobals.SIDE_DEFENDERS; // Defenders win by default
 	private CreateUnitsSystem createUnitsSystem;
 	private MoonbaseAssaultGameData maGameData;
 
@@ -169,7 +166,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			System.exit(-1);
 		}
 
-		if (!PLAYERS_ARE_DEFENDERS) {
+		//if (!PLAYERS_ARE_DEFENDERS) {
 			Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
 			this.actuallyAddEntity(ss);
 
@@ -178,7 +175,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 			FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
 			this.actuallyAddEntity(fs);
-		}
+		//}
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
@@ -265,9 +262,9 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	public int getSide(ClientData client) {
 		if (PLAYERS_ARE_DEFENDERS) {
-			return SIDE_DEFENDER;
+			return MoonbaseAssaultGlobals.SIDE_DEFENDERS;
 		} else {
-			return SIDE_ATTACKER;
+			return MoonbaseAssaultGlobals.SIDE_ATTACKERS;
 		}
 	}
 
@@ -380,8 +377,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	protected String getSideName(int side) {
 		switch (side) {
-		case 1: return "The Attackers";
-		case 2: return "The Defenders";
+		case MoonbaseAssaultGlobals.SIDE_ATTACKERS: return "The Attackers";
+		case MoonbaseAssaultGlobals.SIDE_DEFENDERS: return "The Defenders";
 		default: return "Unknown";
 		}
 	}

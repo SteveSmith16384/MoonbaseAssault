@@ -11,6 +11,7 @@ import com.scs.moonbaseassault.client.modules.IModule;
 import com.scs.moonbaseassault.client.modules.IntroJonlan;
 import com.scs.moonbaseassault.client.modules.IntroModule;
 import com.scs.moonbaseassault.client.modules.MainModule;
+import com.scs.moonbaseassault.client.modules.PreGameModule;
 import com.scs.moonbaseassault.netmessages.HudDataMessage;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
@@ -91,8 +92,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		//getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
 
 		this.setModule(new IntroModule(this));
-		//this.setModule(new IntroJonlan(this));
-		//this.startConnectToServerModule();
+		//this.setModule(new PreGameModule(this));
 	}
 
 
@@ -107,14 +107,15 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	}
 	
 	
-	
-	@Override
-	public void connected() {
-		super.connected();
-		
-		this.setModule(new MainModule(this));
+	public void showPreGameModule() {
+		this.setModule(new PreGameModule(this));
 	}
 
+	
+	public void startMainModule() {
+		this.setModule(new MainModule(this));
+	}
+	
 
 	@Override
 	public void disconnected() {
@@ -192,7 +193,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		int height = this.cam.getHeight()/2;
 		int x = (this.cam.getWidth()/2)-(width/2);
 		int y = (int)(this.cam.getHeight() * 0.5f);
-		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/victory.png", x, y, width, height, 5);
+		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/victory.png", x, y, width, height, 5);
 	}
 
 
@@ -203,7 +204,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		int height = this.cam.getHeight()/2;
 		int x = (this.cam.getWidth()/2)-(width/2);
 		int y = (int)(this.cam.getHeight() * 0.5f);
-		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/defeat.png", x, y, width, height, 5);
+		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/defeat.png", x, y, width, height, 5);
 	}
 
 
@@ -214,7 +215,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		int height = this.cam.getHeight()/2;
 		int x = (this.cam.getWidth()/2)-(width/2);
 		int y = (int)(this.cam.getHeight() * 0.5f);
-		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/defeat.png", x, y, width, height, 5);
+		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/defeat.png", x, y, width, height, 5);
 	}
 
 
@@ -235,15 +236,15 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		switch (newStatus) {
 		case SimpleGameData.ST_WAITING_FOR_PLAYERS:
 			removeCurrentHUDTextImage();
-			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/waitingforplayers.png", x, y, width, height, 3);
+			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/waitingforplayers.png", x, y, width, height, 3);
 			break;
 		case SimpleGameData.ST_DEPLOYING:
 			removeCurrentHUDTextImage();
-			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/getready.png", x, y, width, height, 3);
+			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/getready.png", x, y, width, height, 3);
 			break;
 		case SimpleGameData.ST_STARTED:
 			removeCurrentHUDTextImage();
-			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/missionstarted.png", x, y, width, height, 3);
+			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/missionstarted.png", x, y, width, height, 3);
 			break;
 		case SimpleGameData.ST_FINISHED:
 			// Don't show anything, this will be handled with a win/lose message

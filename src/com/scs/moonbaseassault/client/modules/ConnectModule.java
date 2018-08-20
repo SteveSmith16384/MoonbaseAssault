@@ -2,15 +2,18 @@ package com.scs.moonbaseassault.client.modules;
 
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
+import com.jme3.input.MouseInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 
-public class ConnectModule extends AbstractModule {
-	
+public class ConnectModule extends AbstractModule implements ActionListener {
+
 	private String ipAddress;
 	private int port;
 
 	private BitmapText bmpText;
-	
+
 	public ConnectModule(MoonbaseAssaultClient client, String _ipAddress, int _port) {
 		super(client);
 
@@ -18,9 +21,14 @@ public class ConnectModule extends AbstractModule {
 		port = _port;
 	}
 
-	
+
 	@Override
 	public void simpleInit() {
+		super.simpleInit();
+
+		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		client.getInputManager().addListener(this, "Ability1");
+
 		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		bmpText = new BitmapText(font_small, false);
@@ -31,15 +39,29 @@ public class ConnectModule extends AbstractModule {
 
 		this.client.connect(client, ipAddress, port, true);		
 	}
-	
+
 
 	@Override
 	public void simpleUpdate(float tpfSecs) {
 		if (this.client.lastConnectException != null) {
-			bmpText.setText("Failed to connect to server (" + this.client.lastConnectException.getMessage() + ")");
+			bmpText.setText("Failed to connect to server (" + this.client.lastConnectException.getMessage() + ")\n\nClick to try again");
+		} else if (client.isConnected()) {
+			client.showPreGameModule();
 		}
 	}
-	
+
+
+	@Override
+	public void onAction(String name, boolean value, float tpf) {
+		if (name.equalsIgnoreCase("Ability1")) {
+			if (this.client.lastConnectException != null) {
+				this.client.lastConnectException = null;
+				bmpText.setText("Connecting...");
+				this.client.connect(client, ipAddress, port, true);		
+			}
+		}		
+	}
+
 
 	@Override
 	public void destroy() {

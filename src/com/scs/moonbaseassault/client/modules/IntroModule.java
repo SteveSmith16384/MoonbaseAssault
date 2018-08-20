@@ -24,6 +24,15 @@ import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
 
+/*
+ * 1 - Intro Module
+ * 2 - JonlanIntro
+ * 3 - ConnectModule
+ * 4 - Pre-game Module
+ * 5 - Main Module
+ * 6 - Disconnected module
+ * 
+ */
 public class IntroModule extends AbstractModule implements ActionListener {
 
 	private static final int STAGE_TITLE = 0;
@@ -53,22 +62,28 @@ public class IntroModule extends AbstractModule implements ActionListener {
 
 
 	@Override
-	public void simpleInit() throws IOException {
+	public void simpleInit() {
+		super.simpleInit();
+		
 		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		BitmapText bmpText = new BitmapText(fontSmall, false);
 		bmpText.setColor(defaultColour);
-		bmpText.setLocalTranslation(100, 100, 0);
+		bmpText.setLocalTranslation(10, 10, 0);
 		client.getGuiNode().attachChild(bmpText);
 		bmpText.setText("Click mouse to Start");
 
 		introNode = new Node("IntroNode");
+		
 		SimpleMoonbaseWall floor = new SimpleMoonbaseWall(client, -50, -1, -50, 100, 1f, 100f, "Textures/moonrock.png");
 		this.introNode.attachChild(floor);
 
-		loadMap("serverdata/intro_map.csv");
+		try {
+			loadMap("serverdata/intro_map.csv");
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to load map", e);
+		}
 
-		//camStartPos = new Vector3f(-mapSize/2, 3, mapSize/2);
 		camStartPos = new Vector3f(0, 3, mapSize/2);
 		camPos = new Vector3f();
 		camEndPos = new Vector3f(mapSize/2, mapSize, (mapSize/2)+1);
@@ -94,7 +109,6 @@ public class IntroModule extends AbstractModule implements ActionListener {
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
 
-		//client.input = new SimpleMouseInput(client.getInputManager());
 		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 		client.getInputManager().addListener(this, "Ability1");
 
@@ -173,11 +187,6 @@ public class IntroModule extends AbstractModule implements ActionListener {
 			}
 			break;
 		}
-		/*
-		if (this.client.input.isAbilityPressed(1)) {
-			client.startConnectToServerModule();
-			return;
-		}*/
 	}
 
 

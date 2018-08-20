@@ -1,6 +1,7 @@
 package com.scs.moonbaseassault.client.modules;
 
 import java.awt.Point;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class MainModule extends AbstractModule {
 
 	@Override
 	public void simpleInit() {
+		super.simpleInit();
+		
 		this.client.setupForGame();
 
 		updateHUDInterval = new RealtimeInterval(2000);
@@ -57,16 +60,16 @@ public class MainModule extends AbstractModule {
 		if (this.updateHUDInterval.hitInterval()) {
 			// Get data for HUD
 			List<Point> units = new LinkedList<Point>();
-			List<Point> computers = new LinkedList<Point>();
+			//List<Point> computers = new LinkedList<Point>();
 			for (IEntity e : client.entities.values()) {
 				if (e instanceof PhysicalEntity) {
 					PhysicalEntity pe = (PhysicalEntity)e;  //pe.getWorldRotation();
-					if (pe instanceof Computer) {
+					/*if (pe instanceof Computer) {
 						Vector3f pos = pe.getWorldTranslation();
 						computers.add(new Point((int)pos.x, (int)pos.z));
-					} else if (pe instanceof MA_AISoldier) {
+					} else */if (pe instanceof MA_AISoldier) {
 						MA_AISoldier ai = (MA_AISoldier)pe;
-						if (ai.getSide() == client.side || Globals.SHOW_ALL_UNITS_ON_HUD) { // Only show our side
+						if (ai.getSide() == client.side || Globals.SHOW_ALL_UNITS_ON_HUD) {
 							Vector3f pos = pe.getWorldTranslation();
 							units.add(new Point((int)pos.x, (int)pos.z));
 						}
@@ -78,8 +81,7 @@ public class MainModule extends AbstractModule {
 				Vector3f v = client.currentAvatar.getWorldTranslation();
 				player = new Point((int)v.x, (int)v.z);
 			}
-			//this.hud.hudMapImage.mapImageTex.setOtherData(player, units, computers);
-			client.hud.setOtherData(player, units, computers);
+			client.hud.setOtherData(player, units);//, computers);
 		}
 	}
 

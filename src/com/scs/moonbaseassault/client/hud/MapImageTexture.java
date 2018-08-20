@@ -15,7 +15,7 @@ public class MapImageTexture extends PaintableImage {
 	private int[][] data;
 	private Point player;
 	private List<Point> units;
-	private List<Point> computers;
+	//private List<Point> computers;
 	private int pixelSize; // How big each map square is on the scanner
 
 	public MapImageTexture(int sizeInPixels, int _pixelSize) {
@@ -33,10 +33,10 @@ public class MapImageTexture extends PaintableImage {
 	}
 
 
-	public void setOtherData(Point _player, List<Point> _units, List<Point> _computers) {
+	public void setOtherData(Point _player, List<Point> _units) {//, List<Point> _computers) {
 		player =_player;
 		units = _units;
-		computers = _computers;
+		//computers = _computers;
 		this.refreshImage();
 	}
 

@@ -17,7 +17,7 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 
 	private static final int STAGE_JONLAN = 0;
 	private static final int STAGE_REGNIX = 1;
-	
+
 	private static final float RUNNING_SPEED = 2;
 
 	private static ColorRGBA defaultColour = ColorRGBA.Green;
@@ -36,6 +36,8 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 
 	@Override
 	public void simpleInit() {
+		super.simpleInit();
+
 		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		BitmapText bmpText = new BitmapText(fontSmall, false);
@@ -69,11 +71,11 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 		lookat.y = 0f;
 		jonlanModel.getModel().lookAt(lookat, Vector3f.UNIT_Y);
 
-		//client.input = new SimpleMouseInput(client.getInputManager());
-		//client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		client.getInputManager().addListener(this, "Ability1");
-
 		this.client.getRootNode().attachChild(introNode);
+
+		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		client.getInputManager().addListener(this, "Ability1");
+		
 	}
 
 
@@ -103,16 +105,10 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 			}
 			break;
 		case STAGE_REGNIX:
+			// todo
 			break;
 		}
-
-/*
-		if (this.client.input.isAbilityPressed(1)) {
-			client.startConnectToServerModule();
-			return;
-		}*/
 	}
-
 
 
 	@Override
@@ -131,12 +127,5 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 		client.getGuiNode().detachAllChildren();
 	}
 
-/*
-	@Override
-	public void onAction(String name, boolean value, float tpf) {
-		if (name.equalsIgnoreCase("Ability1")) {
-			client.startConnectToServerModule();
-		}		
-	}
-*/
+
 }
