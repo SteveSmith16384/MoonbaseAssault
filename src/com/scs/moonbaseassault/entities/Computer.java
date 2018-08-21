@@ -57,12 +57,10 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 		if (!_game.isServer()) {
 			geometry.setShadowMode(ShadowMode.CastAndReceive);
 
-			TextureKey key = new TextureKey("Textures/computerconsole2.jpg");
+			//TextureKey key = new TextureKey("Textures/computerconsole2.jpg");
+			TextureKey key = new TextureKey("Textures/computer_speccy.jpg");
 			key.setGenerateMips(true);
 			Texture tex = game.getAssetManager().loadTexture(key);
-			
-			//Image img = tex.getImage();
-			//img.addData(tex.get);
 			
 			tex.setWrap(WrapMode.Repeat);
 			Material floorMat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material

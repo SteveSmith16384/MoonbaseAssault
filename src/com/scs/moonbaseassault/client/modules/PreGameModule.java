@@ -15,7 +15,7 @@ import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.stevetech1.entities.AbstractAvatar;
 
-public class PreGameModule extends AbstractModule implements ActionListener {
+public class PreGameModule extends AbstractModule {//implements ActionListener {
 
 	private static final float RUNNING_SPEED = 2;
 
@@ -34,13 +34,13 @@ public class PreGameModule extends AbstractModule implements ActionListener {
 
 	@Override
 	public void simpleInit() {
-		super.simpleInit();
+		//super.simpleInit();
 		
 		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		BitmapText bmpText = new BitmapText(fontSmall, false);
 		bmpText.setColor(defaultColour);
-		bmpText.setLocalTranslation(10, client.getCamera().getHeight()-20, 0);
+		bmpText.setLocalTranslation(10, client.getCamera().getHeight()-5, 0);
 		client.getGuiNode().attachChild(bmpText);
 		bmpText.setText("Click mouse to Start Game!");
 
@@ -95,8 +95,8 @@ public class PreGameModule extends AbstractModule implements ActionListener {
 		introNode.attachChild(playerModel.getModel());
 		playerModel.getModel().lookAt(lookat, Vector3f.UNIT_Y);
 
-		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		client.getInputManager().addListener(this, "Ability1");
+		//client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		//client.getInputManager().addListener(this, "Ability1");
 
 		this.client.getRootNode().attachChild(introNode);
 		
@@ -120,12 +120,13 @@ public class PreGameModule extends AbstractModule implements ActionListener {
 			tpfSecs = 1;
 		}
 
+		super.simpleUpdate(tpfSecs);
+		
 		if (waitFor > 0 ) {
 			waitFor -= tpfSecs;
 			return;
 		}
-		
-		
+				
 		this.moveModel(tpfSecs, this.side1Model);
 		this.moveModel(tpfSecs, this.side2Model);
 		this.moveModel(tpfSecs, this.playerModel);
@@ -147,16 +148,18 @@ public class PreGameModule extends AbstractModule implements ActionListener {
 
 	
 	@Override
-	public void onAction(String name, boolean value, float tpf) {
+	public boolean onAction(String name, boolean value, float tpf) {
 		if (name.equalsIgnoreCase("Ability1")) {
 			client.startMainModule();
-		}		
+			return true;
+		}
+		return false;
 	}
 
 
 	@Override
 	public void destroy() {
-		client.getInputManager().removeListener(this);
+		//client.getInputManager().removeListener(this);
 
 		this.introNode.removeFromParent();
 		client.getGuiNode().detachAllChildren();

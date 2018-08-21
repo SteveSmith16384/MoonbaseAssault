@@ -7,7 +7,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 
-public class ConnectModule extends AbstractModule implements ActionListener {
+public class ConnectModule extends AbstractModule { //implements ActionListener {
 
 	private String ipAddress;
 	private int port;
@@ -24,11 +24,11 @@ public class ConnectModule extends AbstractModule implements ActionListener {
 
 	@Override
 	public void simpleInit() {
-		super.simpleInit();
+		/*		super.simpleInit();
 
 		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 		client.getInputManager().addListener(this, "Ability1");
-
+		 */
 		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		bmpText = new BitmapText(font_small, false);
@@ -43,6 +43,8 @@ public class ConnectModule extends AbstractModule implements ActionListener {
 
 	@Override
 	public void simpleUpdate(float tpfSecs) {
+		super.simpleUpdate(tpfSecs);
+
 		if (this.client.lastConnectException != null) {
 			bmpText.setText("Failed to connect to server (" + this.client.lastConnectException.getMessage() + ")\n\nClick to try again");
 		} else if (client.isConnected()) {
@@ -52,14 +54,16 @@ public class ConnectModule extends AbstractModule implements ActionListener {
 
 
 	@Override
-	public void onAction(String name, boolean value, float tpf) {
+	public boolean onAction(String name, boolean value, float tpf) {
 		if (name.equalsIgnoreCase("Ability1")) {
-			if (this.client.lastConnectException != null) {
+			if (client.isConnecting() == false) {
 				this.client.lastConnectException = null;
 				bmpText.setText("Connecting...");
-				this.client.connect(client, ipAddress, port, true);		
+				this.client.connect(client, ipAddress, port, true);
+				return true;
 			}
-		}		
+		}
+		return false;
 	}
 
 

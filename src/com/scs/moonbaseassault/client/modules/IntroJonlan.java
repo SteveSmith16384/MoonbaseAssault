@@ -13,7 +13,7 @@ import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.stevetech1.entities.AbstractAvatar;
 
-public class IntroJonlan extends AbstractModule implements ActionListener {
+public class IntroJonlan extends AbstractModule {//implements ActionListener {
 
 	private static final int STAGE_JONLAN = 0;
 	private static final int STAGE_REGNIX = 1;
@@ -36,7 +36,7 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 
 	@Override
 	public void simpleInit() {
-		super.simpleInit();
+		//super.simpleInit();
 
 		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
@@ -73,8 +73,8 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 
 		this.client.getRootNode().attachChild(introNode);
 
-		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		client.getInputManager().addListener(this, "Ability1");
+		//client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		//client.getInputManager().addListener(this, "Ability1");
 		
 	}
 
@@ -85,6 +85,8 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 			tpfSecs = 1;
 		}
 
+		super.simpleUpdate(tpfSecs);
+		
 		if (waitFor > 0 ) {
 			waitFor -= tpfSecs;
 			return;
@@ -112,16 +114,18 @@ public class IntroJonlan extends AbstractModule implements ActionListener {
 
 
 	@Override
-	public void onAction(String name, boolean value, float tpf) {
+	public boolean onAction(String name, boolean value, float tpf) {
 		if (name.equalsIgnoreCase("Ability1")) {
 			client.startConnectToServerModule();
-		}		
+			return true;
+		}
+		return false;
 	}
 
 
 	@Override
 	public void destroy() {
-		client.getInputManager().removeListener(this);
+		//client.getInputManager().removeListener(this);
 
 		this.introNode.removeFromParent();
 		client.getGuiNode().detachAllChildren();

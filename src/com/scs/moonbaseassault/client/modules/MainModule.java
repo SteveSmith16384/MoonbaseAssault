@@ -31,9 +31,9 @@ public class MainModule extends AbstractModule {
 
 	@Override
 	public void simpleInit() {
-		super.simpleInit();
+		//super.simpleInit();
 		
-		this.client.setupForGame();
+		//this.client.setupForGame();
 
 		updateHUDInterval = new RealtimeInterval(2000);
 
@@ -86,6 +86,12 @@ public class MainModule extends AbstractModule {
 	}
 
 
+	@Override
+	public boolean onAction(String name, boolean value, float tpf) {
+		return false;
+	}
+	
+	
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub

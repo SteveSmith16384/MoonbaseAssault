@@ -7,7 +7,7 @@ import com.jme3.font.BitmapText;
 import com.jme3.input.controls.ActionListener;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 
-public class DisconnectedModule extends AbstractModule implements ActionListener {
+public class DisconnectedModule extends AbstractModule {//implements ActionListener {
 	
 	private BitmapText bmpText;
 	
@@ -19,7 +19,7 @@ public class DisconnectedModule extends AbstractModule implements ActionListener
 	
 	@Override
 	public void simpleInit() {
-		super.simpleInit();
+		//super.simpleInit();
 		
 		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
@@ -29,7 +29,7 @@ public class DisconnectedModule extends AbstractModule implements ActionListener
 		client.getGuiNode().attachChild(bmpText);
 		bmpText.setText("Disconnected!  Click to attempt reconnection...");
 
-		client.getInputManager().addListener(this, "Ability1");
+		//client.getInputManager().addListener(this, "Ability1");
 	}
 	
 
@@ -41,16 +41,18 @@ public class DisconnectedModule extends AbstractModule implements ActionListener
 
 
 	@Override
-	public void onAction(String name, boolean value, float tpf) {
+	public boolean onAction(String name, boolean value, float tpf) {
 		if (name.equalsIgnoreCase("Ability1")) {
 			client.startConnectToServerModule();
-		}		
+			return true;
+		}
+		return false;
 	}
 
 
 	@Override
 	public void destroy() {
-		client.getInputManager().removeListener(this);
+		//client.getInputManager().removeListener(this);
 		client.getGuiNode().detachAllChildren();
 	}
 

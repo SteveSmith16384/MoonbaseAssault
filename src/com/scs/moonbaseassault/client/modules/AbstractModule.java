@@ -12,10 +12,12 @@ public abstract class AbstractModule implements IModule {
 		client = _client;
 	}
 	
-	
+
 	@Override
-	public void simpleInit() {
-		client.addDefaultKeyboardMappings();
+	public void simpleUpdate(float tpfSecs) {
+		if (client.input.isAbilityPressed(0)) {
+			this.onAction("Ability1", true, tpfSecs);
+		}
 	}
 
 }

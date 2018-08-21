@@ -27,13 +27,13 @@ import ssmith.lang.NumberFunctions;
 /*
  * 1 - Intro Module
  * 2 - JonlanIntro
- * 3 - ConnectModule
+ * 3 - ConnectModule - connect to server
  * 4 - Pre-game Module
- * 5 - Main Module
+ * 5 - Main Module - actually join game!
  * 6 - Disconnected module
  * 
  */
-public class IntroModule extends AbstractModule implements ActionListener {
+public class IntroModule extends AbstractModule { //implements ActionListener {
 
 	private static final int STAGE_TITLE = 0;
 	private static final int STAGE_EXPLODE_TITLE = 2;
@@ -63,7 +63,7 @@ public class IntroModule extends AbstractModule implements ActionListener {
 
 	@Override
 	public void simpleInit() {
-		super.simpleInit();
+		//super.simpleInit();
 		
 		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
@@ -109,18 +109,20 @@ public class IntroModule extends AbstractModule implements ActionListener {
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
 
-		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		client.getInputManager().addListener(this, "Ability1");
+		//client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		//client.getInputManager().addListener(this, "Ability1");
 
 	}
 
 
 	@Override
 	public void simpleUpdate(float tpfSecs) {
+		super.simpleUpdate(tpfSecs);
+		
 		if (tpfSecs > 1) {
 			tpfSecs = 1;
 		}
-
+		
 		if (waitFor > 0 ) {
 			waitFor -= tpfSecs;
 			return;
@@ -191,16 +193,18 @@ public class IntroModule extends AbstractModule implements ActionListener {
 
 
 	@Override
-	public void onAction(String name, boolean value, float tpf) {
+	public boolean onAction(String name, boolean value, float tpf) {
 		if (name.equalsIgnoreCase("Ability1")) {
 			client.startConnectToServerModule();
-		}		
+			return true;
+		}
+		return false;
 	}
 
 
 	@Override
 	public void destroy() {
-		client.getInputManager().removeListener(this);
+		//client.getInputManager().removeListener(this);
 
 		this.introNode.removeFromParent();
 		client.getGuiNode().detachAllChildren();

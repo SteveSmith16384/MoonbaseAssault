@@ -2,6 +2,8 @@ package com.scs.moonbaseassault.client;
 
 import java.io.IOException;
 
+import com.jme3.audio.AudioData.DataType;
+import com.jme3.audio.AudioNode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
@@ -35,11 +37,12 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	private AbstractHUDImage currentHUDTextImage;
 	public MoonbaseAssaultHUD hud;
 	private MoonbaseAssaultCollisionValidator collisionValidator;
-	
+
 	private final String ipAddress;
 	private final int port;
 
 	private IModule currentModule;
+	private AudioNode musicNode;
 
 	public static void main(String[] args) {
 		try {
@@ -74,8 +77,10 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 			float mouseSensitivity) {
 		super(MoonbaseAssaultServer.GAME_ID, "key", "Moonbase Assault", null, 
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); 
+
 		ipAddress = gameIpAddress;
 		port = gamePort;
+
 		start();
 	}
 
@@ -89,33 +94,50 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 		this.getViewPort().setBackgroundColor(ColorRGBA.Black);
 
-		//getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
-
+		playMusic();
 		this.setModule(new IntroModule(this));
 		//this.setModule(new PreGameModule(this));
+
+	}
+
+
+	private void playMusic() {
+		try {
+			musicNode = new AudioNode(assetManager, "Sounds/n-Dimensions (Main Theme - Retro Ver.ogg", DataType.Stream);
+			musicNode.setPositional(false);
+			this.getRootNode().attachChild(musicNode);
+			musicNode.play();
+		} catch (java.lang.IllegalStateException ex) {
+			// Unable to play sounds - no audiocard/speakers?
+		}
+	}
+
+
+	public void startJonlanModule() {
+		this.setModule(new IntroJonlan(this));
 	}
 
 
 	public void startConnectToServerModule() {
 		this.setModule(new ConnectModule(this, ipAddress, port));
 	}
-	
-	
-	
-	public void startJonlanModule() {
-		this.setModule(new IntroJonlan(this));
-	}
-	
-	
+
+
 	public void showPreGameModule() {
-		this.setModule(new PreGameModule(this));
+		// todo this.setModule(new PreGameModule(this));
+		this.startMainModule();
 	}
 
-	
+
 	public void startMainModule() {
+		try {
+			this.musicNode.stop();
+		} catch (IllegalStateException ex) {
+			// Unable to play music
+		}
 		this.setModule(new MainModule(this));
 	}
-	
+
 
 	@Override
 	public void disconnected() {
@@ -134,7 +156,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		}
 		this.currentModule = m;
 	}
-	
+
 
 	@Override
 	public int getGameID() {
@@ -288,16 +310,15 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		return new Class[] {HudDataMessage.class};
 	}
 
-
+	/*
 	@Override
 	public void onAction(String name, boolean value, float tpf) {
-		if (name.equalsIgnoreCase(TEST)) {
-			if (value) {
-			}
+		if (this.currentModule.onAction(name, value, tpf)) {
+			return;
 		} else {
 			super.onAction(name, value, tpf);
 		}
 	}
-
+	 */
 
 }
