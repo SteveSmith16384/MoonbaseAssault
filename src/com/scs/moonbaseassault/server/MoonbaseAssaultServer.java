@@ -143,7 +143,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	protected void createGame() {
 		this.maGameData = new MoonbaseAssaultGameData();
-		this.sendMessageToAcceptedClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
+		this.sendMessageToInGameClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
 
 		MapLoader map = new MapLoader(this);
 		try {
@@ -317,7 +317,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			this.computerSquares.remove(p);
 			this.maGameData.computersDestroyed++;
 			this.mapData[p.x][p.y] = MapLoader.DESTROYED_COMPUTER;
-			this.sendMessageToAcceptedClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
+			this.sendMessageToInGameClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
 
 			if (this.maGameData.computersDestroyed >= COMPS_DESTROYED_TO_WIN) {
 				winningSide = 1;
@@ -342,7 +342,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	public void gameStatusChanged(final int newStatus) {
 		super.gameStatusChanged(newStatus);
-		this.sendMessageToAcceptedClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed)); // If new game started, show the new map
+		this.sendMessageToInGameClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed)); // If new game started, show the new map
 	}
 
 

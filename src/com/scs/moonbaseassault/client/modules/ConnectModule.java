@@ -24,11 +24,6 @@ public class ConnectModule extends AbstractModule { //implements ActionListener 
 
 	@Override
 	public void simpleInit() {
-		/*		super.simpleInit();
-
-		client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		client.getInputManager().addListener(this, "Ability1");
-		 */
 		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		bmpText = new BitmapText(font_small, false);

@@ -67,7 +67,7 @@ IDebrisTexture {
 	private float timeToNextShot = 0; 
 
 	// HUD
-	private BitmapText hudNode;
+	private BitmapText hudNode; // todo - rename
 	private static BitmapFont font_small;
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, int _side, 
@@ -167,7 +167,7 @@ IDebrisTexture {
 					Globals.p(this + " killed");
 				}
 				AbstractGameServer server = (AbstractGameServer)game;
-				server.sendMessageToAcceptedClients(new EntityKilledMessage(this, collider, reason));
+				server.sendMessageToInGameClients(new EntityKilledMessage(this, collider, reason));
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 				this.sendUpdate = true; // Send new anim code
 
@@ -236,7 +236,7 @@ IDebrisTexture {
 
 
 	@Override
-	public void drawOnHud(IHUD hud, Camera cam) {
+	public void drawOnHud(Node hud, Camera cam) {
 		if (hudNode != null) {
 			if (health > 0) {
 				/*if (this.getWorldTranslation().distance(cam.getLocation()) < HUD_DIST) {
@@ -257,7 +257,7 @@ IDebrisTexture {
 					this.hudNode.setText(""); // Hide it
 				}
 			}*/
-				super.checkHUDNode(hudNode, hud, cam, HUD_DIST, soldierModel.getSize().y);
+				super.checkHUDNode(hudNode, cam, HUD_DIST, soldierModel.getSize().y);
 
 			}
 		}

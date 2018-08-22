@@ -141,7 +141,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 
 	@Override
-	public void drawOnHud(IHUD hud, Camera cam) {
+	public void drawOnHud(Node hud, Camera cam) {
 		/*float dist = this.getWorldTranslation().distance(cam.getLocation());
 		if (dist < 3f) {
 			FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
@@ -159,7 +159,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 				this.hudNode.setText(""); // Hide it
 			}
 		}*/
-		super.checkHUDNode(hudNode, hud, cam, 3f, SIZE);
+		super.checkHUDNode(hudNode, cam, 3f, SIZE);
 
 	}
 

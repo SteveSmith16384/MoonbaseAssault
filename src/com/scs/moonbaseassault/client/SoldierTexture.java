@@ -128,7 +128,7 @@ public class SoldierTexture {
 		case 1:
 			return Color.pink;
 		case 2:
-			return Color.pink; // todo
+			return Color.pink;
 		default:
 			throw new IllegalArgumentException(""+i);
 		}

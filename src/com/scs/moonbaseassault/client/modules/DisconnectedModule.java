@@ -35,7 +35,7 @@ public class DisconnectedModule extends AbstractModule {//implements ActionListe
 
 	@Override
 	public void simpleUpdate(float tpfSecs) {
-		// TODO Auto-generated method stub
+		super.simpleUpdate(tpfSecs);
 		
 	}
 

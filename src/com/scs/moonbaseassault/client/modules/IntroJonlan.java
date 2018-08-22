@@ -107,7 +107,6 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 			}
 			break;
 		case STAGE_REGNIX:
-			// todo
 			break;
 		}
 	}

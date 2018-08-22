@@ -11,7 +11,6 @@ import com.scs.moonbaseassault.client.modules.ConnectModule;
 import com.scs.moonbaseassault.client.modules.DisconnectedModule;
 import com.scs.moonbaseassault.client.modules.IModule;
 import com.scs.moonbaseassault.client.modules.IntroJonlan;
-import com.scs.moonbaseassault.client.modules.IntroModule;
 import com.scs.moonbaseassault.client.modules.MainModule;
 import com.scs.moonbaseassault.client.modules.PreGameModule;
 import com.scs.moonbaseassault.netmessages.HudDataMessage;
@@ -95,8 +94,11 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		this.getViewPort().setBackgroundColor(ColorRGBA.Black);
 
 		playMusic();
-		this.setModule(new IntroModule(this));
-		//this.setModule(new PreGameModule(this));
+		
+		hud = new MoonbaseAssaultHUD(this, this.getCamera());
+
+		//this.setModule(new IntroModule(this));
+		this.startConnectToServerModule();
 
 	}
 
@@ -124,8 +126,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	public void showPreGameModule() {
-		// todo this.setModule(new PreGameModule(this));
-		this.startMainModule();
+		this.setModule(new PreGameModule(this));
 	}
 
 
@@ -191,6 +192,12 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	@Override
+	protected void receivedWelcomeMessage() {
+		// Do nothing for now
+	}
+
+
+	@Override
 	public boolean canCollide(PhysicalEntity a, PhysicalEntity b) {
 		return this.collisionValidator.canCollide(a, b);
 	}
@@ -240,13 +247,13 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/defeat.png", x, y, width, height, 5);
 	}
 
-
+/*
 	@Override
 	protected IHUD createAndGetHUD() {
 		hud = new MoonbaseAssaultHUD(this, this.getCamera());
 		return hud;
 	}
-
+*/
 
 	@Override
 	protected void gameStatusChanged(int oldStatus, int newStatus) {

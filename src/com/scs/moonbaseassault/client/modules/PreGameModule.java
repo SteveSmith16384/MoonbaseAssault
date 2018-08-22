@@ -95,9 +95,6 @@ public class PreGameModule extends AbstractModule {//implements ActionListener {
 		introNode.attachChild(playerModel.getModel());
 		playerModel.getModel().lookAt(lookat, Vector3f.UNIT_Y);
 
-		//client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		//client.getInputManager().addListener(this, "Ability1");
-
 		this.client.getRootNode().attachChild(introNode);
 		
 		Picture logo = new Picture("Logo");//this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/missionstarted.png", x, y, width, height, 3);
@@ -159,8 +156,6 @@ public class PreGameModule extends AbstractModule {//implements ActionListener {
 
 	@Override
 	public void destroy() {
-		//client.getInputManager().removeListener(this);
-
 		this.introNode.removeFromParent();
 		client.getGuiNode().detachAllChildren();
 	}

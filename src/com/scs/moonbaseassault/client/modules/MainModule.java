@@ -31,10 +31,6 @@ public class MainModule extends AbstractModule {
 
 	@Override
 	public void simpleInit() {
-		//super.simpleInit();
-		
-		//this.client.setupForGame();
-
 		updateHUDInterval = new RealtimeInterval(2000);
 
 		AmbientLight al = new AmbientLight();
@@ -47,10 +43,12 @@ public class MainModule extends AbstractModule {
 		client.getGameNode().addLight(sun);
 
 		// Add shadows
-		final int SHADOWMAP_SIZE = 512*2;
+		final int SHADOWMAP_SIZE = 512;//*2;
 		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(client.getAssetManager(), SHADOWMAP_SIZE, 2);
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
+		
+		client.joinGame();
 
 	}
 
@@ -94,7 +92,8 @@ public class MainModule extends AbstractModule {
 	
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
+		client.getGuiNode().detachAllChildren();
+		client.getRootNode().detachAllChildren();
 
 	}
 
