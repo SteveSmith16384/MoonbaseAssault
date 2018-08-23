@@ -1,6 +1,5 @@
 package com.scs.moonbaseassault.entities;
 
-import com.jme3.texture.Image;
 import java.awt.Point;
 import java.util.HashMap;
 
@@ -26,7 +25,6 @@ import com.scs.stevetech1.components.IDrawOnHUD;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.entities.PhysicalEntity;
-import com.scs.stevetech1.hud.IHUD;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
@@ -37,7 +35,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 	private Point position; // Server-side only
 
 	// HUD
-	private BitmapText hudNode;
+	private BitmapText bmpText;
 	private static BitmapFont font_small;
 
 	public Computer(IEntityController _game, int id, float x, float y, float z, int mx, int my) {
@@ -79,8 +77,8 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 		if (!_game.isServer()) {
 			font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
-			hudNode = new BitmapText(font_small);
-			hudNode.setText((int)this.health + "%");
+			bmpText = new BitmapText(font_small);
+			bmpText.setText((int)this.health + "%");
 		}
 	}
 
@@ -136,30 +134,13 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 	@Override
 	public Node getHUDItem() {
-		return this.hudNode;
+		return this.bmpText;
 	}
 
 
 	@Override
 	public void drawOnHud(Node hud, Camera cam) {
-		/*float dist = this.getWorldTranslation().distance(cam.getLocation());
-		if (dist < 3f) {
-			FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
-			if (insideoutside != FrustumIntersect.Outside) {
-				if (this.hudNode.getText().length() == 0) {
-					hudNode.setText((int)this.health + "%");
-				}
-				Vector3f pos = this.getWorldTranslation().clone();
-				pos.y += SIZE;
-				Vector3f screen_pos = cam.getScreenCoordinates(pos);
-				this.hudNode.setLocalTranslation(screen_pos.x, screen_pos.y, 0);
-			}
-		} else {
-			if (this.hudNode.getText().length() > 0) {
-				this.hudNode.setText(""); // Hide it
-			}
-		}*/
-		super.checkHUDNode(hudNode, cam, 3f, SIZE);
+		super.checkHUDNode(hud, bmpText, cam, 3f, SIZE);
 
 	}
 
@@ -190,7 +171,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 	@Override
 	public void updateClientSideHealth(final int amt) {
-		hudNode.setText((int)this.health + "%");
+		bmpText.setText((int)this.health + "%");
 	}
 
 

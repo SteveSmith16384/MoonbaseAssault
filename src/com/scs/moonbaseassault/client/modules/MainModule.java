@@ -79,7 +79,7 @@ public class MainModule extends AbstractModule {
 				Vector3f v = client.currentAvatar.getWorldTranslation();
 				player = new Point((int)v.x, (int)v.z);
 			}
-			client.hud.setOtherData(player, units);//, computers);
+			client.hud.setOtherData(player, units);
 		}
 	}
 

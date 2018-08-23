@@ -25,6 +25,7 @@ import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
 
 /*
+ * Module order:-
  * 1 - Intro Module
  * 2 - JonlanIntro
  * 3 - ConnectModule - connect to server
@@ -50,7 +51,7 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 	private List<Node> walls;
 	private Vector3f camPos, camStartPos, camEndPos;
 	private float moveFrac = 0;
-	private Node current = null;
+	private Node currentNode = null;
 	private float waitFor = 0;
 	private int currentStage = STAGE_TITLE;
 	private float explodeDuration = 6;
@@ -63,8 +64,6 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 
 	@Override
 	public void simpleInit() {
-		//super.simpleInit();
-		
 		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		BitmapText bmpText = new BitmapText(fontSmall, false);
@@ -109,9 +108,6 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
 
-		//client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		//client.getInputManager().addListener(this, "Ability1");
-
 	}
 
 
@@ -131,20 +127,20 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 		switch (this.currentStage) {
 		case STAGE_TITLE:
 			if (walls.size() > 0) {
-				if (current == null) { //this.client.getRootNode().getChild(1).getChild(2).getWorldTranslation();
-					current = walls.remove(NumberFunctions.rnd(0, walls.size()-1));
-					this.introNode.attachChild(current);
-					current.getLocalTranslation().y = 10;
+				if (currentNode == null) { //this.client.getRootNode().getChild(1).getChild(2).getWorldTranslation();
+					currentNode = walls.remove(NumberFunctions.rnd(0, walls.size()-1));
+					this.introNode.attachChild(currentNode);
+					currentNode.getLocalTranslation().y = 10;
 					if (walls.isEmpty()) {
 						camStartPos = client.getCamera().getLocation().clone();
 					}
 				}
 				// Move current wall 
 				float speed = (walls.size()/2)+1;
-				current.setLocalTranslation(current.getLocalTranslation().add(vDown.mult(tpfSecs / speed )));
-				if (current.getLocalTranslation().y <= 0) {
-					current.getLocalTranslation().y = 0;
-					current = null;
+				currentNode.setLocalTranslation(currentNode.getLocalTranslation().add(vDown.mult(tpfSecs / speed )));
+				if (currentNode.getLocalTranslation().y <= 0) {
+					currentNode.getLocalTranslation().y = 0;
+					currentNode = null;
 				}
 
 				// Move cameras back
@@ -204,8 +200,6 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 
 	@Override
 	public void destroy() {
-		//client.getInputManager().removeListener(this);
-
 		this.introNode.removeFromParent();
 		client.getGuiNode().detachAllChildren();
 	}

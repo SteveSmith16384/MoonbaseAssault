@@ -36,8 +36,6 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 
 	@Override
 	public void simpleInit() {
-		//super.simpleInit();
-
 		BitmapFont fontSmall = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		BitmapText bmpText = new BitmapText(fontSmall, false);
@@ -73,9 +71,6 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 
 		this.client.getRootNode().attachChild(introNode);
 
-		//client.getInputManager().addMapping("Ability1", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		//client.getInputManager().addListener(this, "Ability1");
-		
 	}
 
 
@@ -87,6 +82,8 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 
 		super.simpleUpdate(tpfSecs);
 		
+		client.getCamera().lookAt(new Vector3f(10, 0.55f, 10), Vector3f.UNIT_Y); // Prevent mouse movements moving camera
+
 		if (waitFor > 0 ) {
 			waitFor -= tpfSecs;
 			return;
@@ -124,8 +121,6 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 
 	@Override
 	public void destroy() {
-		//client.getInputManager().removeListener(this);
-
 		this.introNode.removeFromParent();
 		client.getGuiNode().detachAllChildren();
 	}

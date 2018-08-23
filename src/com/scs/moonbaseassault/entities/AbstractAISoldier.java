@@ -33,7 +33,6 @@ import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.AbstractAIBullet;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
-import com.scs.stevetech1.hud.IHUD;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.netmessages.EntityKilledMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
@@ -67,7 +66,7 @@ IDebrisTexture {
 	private float timeToNextShot = 0; 
 
 	// HUD
-	private BitmapText hudNode; // todo - rename
+	private BitmapText bmpText;
 	private static BitmapFont font_small;
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, int _side, 
@@ -104,9 +103,9 @@ IDebrisTexture {
 		simpleRigidBody.setBounciness(0);
 
 		if (!_game.isServer()) {
-		font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
-		hudNode = new BitmapText(font_small);
-		hudNode.setText(name);
+			font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+			bmpText = new BitmapText(font_small);
+			bmpText.setText(name);
 		}
 	}
 
@@ -237,28 +236,9 @@ IDebrisTexture {
 
 	@Override
 	public void drawOnHud(Node hud, Camera cam) {
-		if (hudNode != null) {
+		if (bmpText != null) {
 			if (health > 0) {
-				/*if (this.getWorldTranslation().distance(cam.getLocation()) < HUD_DIST) {
-					FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
-					if (insideoutside != FrustumIntersect.Outside) {
-						if (this.hudNode.getText().length() == 0) {
-							hudNode.setText(name);
-						}
-						tmpHudPos.set(this.getWorldTranslation());
-						tmpHudPos.y += soldierModel.getSize().y;
-						Vector3f screen_pos = cam.getScreenCoordinates(tmpHudPos, tmpScreenPos);
-
-						this.hudNode.setLocalTranslation(screen_pos.x, screen_pos.y, 0);
-					} else {
-						this.hudNode.setText(""); // Hide it
-					}
-				} else {
-					this.hudNode.setText(""); // Hide it
-				}
-			}*/
-				super.checkHUDNode(hudNode, cam, HUD_DIST, soldierModel.getSize().y);
-
+				super.checkHUDNode(hud, bmpText, cam, HUD_DIST, soldierModel.getSize().y);
 			}
 		}
 	}
@@ -266,7 +246,7 @@ IDebrisTexture {
 
 	@Override
 	public Node getHUDItem() {
-		return this.hudNode;
+		return this.bmpText;
 	}
 
 
@@ -285,8 +265,8 @@ IDebrisTexture {
 
 	@Override
 	public void handleKilledOnClientSide(PhysicalEntity killer) {
-		if (hudNode != null) {
-			this.hudNode.removeFromParent();
+		if (bmpText != null) {
+			this.bmpText.removeFromParent();
 		}
 	}
 

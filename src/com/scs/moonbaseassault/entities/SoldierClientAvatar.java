@@ -7,7 +7,6 @@ import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.stevetech1.avatartypes.PersonAvatar;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.entities.AbstractClientAvatar;
-import com.scs.stevetech1.hud.IHUD;
 import com.scs.stevetech1.input.IInputDevice;
 
 public class SoldierClientAvatar extends AbstractClientAvatar {

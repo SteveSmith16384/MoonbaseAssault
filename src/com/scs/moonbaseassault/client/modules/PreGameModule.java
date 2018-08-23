@@ -119,6 +119,8 @@ public class PreGameModule extends AbstractModule {//implements ActionListener {
 
 		super.simpleUpdate(tpfSecs);
 		
+		client.getCamera().lookAt(new Vector3f(10, 0.55f, 10), Vector3f.UNIT_Y); // Prevent mouse movements moving camera
+
 		if (waitFor > 0 ) {
 			waitFor -= tpfSecs;
 			return;

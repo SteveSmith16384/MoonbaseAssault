@@ -17,11 +17,10 @@ import com.jme3.ui.Picture;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.gui.TextArea;
-import com.scs.stevetech1.hud.IHUD;
 
 import ssmith.util.RealtimeInterval;
 
-public class MoonbaseAssaultHUD extends Node implements IHUD {
+public class MoonbaseAssaultHUD extends Node { //implements IHUD {
 
 	private static final int MAX_LINES = 6;
 	private static final float LINE_SPACING = 10;
@@ -152,7 +151,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	}
 
 
-	@Override
+	//@Override
 	public void processByClient(AbstractGameClient client, float tpf) {
 		if (updateHudTextInterval.hitInterval()) {
 			if (client.gameData != null) {
@@ -329,7 +328,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 		return hudMapImage;
 	}
 
-
+/*
 	@Override
 	public Node getRootNode() {
 		return this;
@@ -346,7 +345,7 @@ public class MoonbaseAssaultHUD extends Node implements IHUD {
 	public void addChild(Node n) {
 		this.attachChild(n);
 	}
-
+*/
 	/*
 	@Override
 	public void setLog(LinkedList<String> gameLog) {

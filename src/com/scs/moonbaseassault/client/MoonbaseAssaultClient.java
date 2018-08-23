@@ -1,16 +1,16 @@
 package com.scs.moonbaseassault.client;
 
-import java.io.IOException;
-
 import com.jme3.audio.AudioData.DataType;
 import com.jme3.audio.AudioNode;
 import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
 import com.scs.moonbaseassault.client.modules.ConnectModule;
 import com.scs.moonbaseassault.client.modules.DisconnectedModule;
 import com.scs.moonbaseassault.client.modules.IModule;
 import com.scs.moonbaseassault.client.modules.IntroJonlan;
+import com.scs.moonbaseassault.client.modules.IntroModule;
 import com.scs.moonbaseassault.client.modules.MainModule;
 import com.scs.moonbaseassault.client.modules.PreGameModule;
 import com.scs.moonbaseassault.netmessages.HudDataMessage;
@@ -22,7 +22,6 @@ import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.hud.AbstractHUDImage;
-import com.scs.stevetech1.hud.IHUD;
 import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.netmessages.MyAbstractMessage;
 import com.scs.stevetech1.netmessages.NewEntityData;
@@ -97,8 +96,8 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		
 		hud = new MoonbaseAssaultHUD(this, this.getCamera());
 
-		//this.setModule(new IntroModule(this));
-		this.startConnectToServerModule();
+		this.setModule(new IntroModule(this));
+		//this.startConnectToServerModule();
 
 	}
 
@@ -150,11 +149,10 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		if (this.currentModule != null) {
 			this.currentModule.destroy();
 		}
-		try {
-			m.simpleInit();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		if (this.hud.getParent() == null) {
+			this.guiNode.attachChild(hud); // Re-add since the module probably cleared out the guiNode
 		}
+		m.simpleInit();
 		this.currentModule = m;
 	}
 
@@ -193,7 +191,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 	@Override
 	protected void receivedWelcomeMessage() {
-		// Do nothing for now
+		// Do nothing for now, don't join game yet.
 	}
 
 
@@ -317,15 +315,14 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		return new Class[] {HudDataMessage.class};
 	}
 
-	/*
-	@Override
-	public void onAction(String name, boolean value, float tpf) {
-		if (this.currentModule.onAction(name, value, tpf)) {
-			return;
-		} else {
-			super.onAction(name, value, tpf);
-		}
-	}
+
+	
+	/**
+	 * Override if required
 	 */
+	public Node getHudNode() {
+		return this.hud;
+	}
+
 
 }
