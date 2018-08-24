@@ -15,4 +15,5 @@ public class SoldierClientAvatar extends AbstractClientAvatar {
 		super(_module, MoonbaseAssaultClientEntityCreator.SOLDIER_AVATAR, _playerID, _input, _cam, eid, x, y, z, side, new SoldierModel(_module.getAssetManager(), side, true), new PersonAvatar(_module, _input, MoonbaseAssaultGlobals.MOVE_SPEED, MoonbaseAssaultGlobals.JUMP_FORCE));
 	}
 
+	
 }

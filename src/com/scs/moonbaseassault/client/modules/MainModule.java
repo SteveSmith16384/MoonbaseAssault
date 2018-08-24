@@ -1,7 +1,6 @@
 package com.scs.moonbaseassault.client.modules;
 
 import java.awt.Point;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,8 +10,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
-import com.scs.moonbaseassault.entities.Computer;
 import com.scs.moonbaseassault.entities.MA_AISoldier;
+import com.scs.stevetech1.client.povweapon.DefaultPOVWeapon;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.Globals;
@@ -49,6 +48,8 @@ public class MainModule extends AbstractModule {
 		client.getViewPort().addProcessor(dlsr);
 		
 		client.joinGame();
+
+		client.setPOVWeapon(new DefaultPOVWeapon(client));
 
 	}
 

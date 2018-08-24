@@ -97,11 +97,11 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	}
 	 */
 
-	private MoonbaseAssaultServer(String gameIpAddress, int gamePort, //String lobbyIpAddress, int lobbyPort, 
+	private MoonbaseAssaultServer(String gameIpAddress, int gamePort, 
 			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
-		super(GAME_ID, "key", new GameOptions(5*1000, 10*60*1000, 10*1000, 
-				gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
-				10, 5), tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis);
+		super(GAME_ID, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis, 5*1000, 10*60*1000, 10*1000, 
+				gameIpAddress, gamePort, 
+				10, 5));
 
 		start(JmeContext.Type.Headless);
 	}
@@ -373,7 +373,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	//--------------------------------
 
-
+/*
 	@Override
 	protected String getSideName(int side) {
 		switch (side) {
@@ -382,5 +382,5 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 		default: return "Unknown";
 		}
 	}
-
+*/
 }

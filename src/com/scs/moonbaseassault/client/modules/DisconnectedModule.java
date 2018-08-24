@@ -1,13 +1,10 @@
 package com.scs.moonbaseassault.client.modules;
 
-import java.io.IOException;
-
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
-import com.jme3.input.controls.ActionListener;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 
-public class DisconnectedModule extends AbstractModule {//implements ActionListener {
+public class DisconnectedModule extends AbstractModule {
 	
 	private BitmapText bmpText;
 	

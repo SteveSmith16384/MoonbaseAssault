@@ -4,7 +4,6 @@ import com.jme3.audio.AudioData.DataType;
 import com.jme3.audio.AudioNode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
 import com.scs.moonbaseassault.client.modules.ConnectModule;
 import com.scs.moonbaseassault.client.modules.DisconnectedModule;
@@ -18,11 +17,11 @@ import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.AbstractGameClient;
+import com.scs.stevetech1.client.povweapon.DefaultPOVWeapon;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.hud.AbstractHUDImage;
-import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.netmessages.MyAbstractMessage;
 import com.scs.stevetech1.netmessages.NewEntityData;
 import com.scs.stevetech1.server.Globals;
@@ -93,11 +92,14 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		this.getViewPort().setBackgroundColor(ColorRGBA.Black);
 
 		playMusic();
-		
+
 		hud = new MoonbaseAssaultHUD(this, this.getCamera());
 
-		this.setModule(new IntroModule(this));
-		//this.startConnectToServerModule();
+		if (Globals.RELEASE_MODE) {
+			this.setModule(new IntroModule(this));
+		} else {
+			this.startConnectToServerModule();
+		}
 
 	}
 
@@ -149,11 +151,15 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		if (this.currentModule != null) {
 			this.currentModule.destroy();
 		}
-		if (this.hud.getParent() == null) {
-			this.guiNode.attachChild(hud); // Re-add since the module probably cleared out the guiNode
-		}
+		
 		m.simpleInit();
 		this.currentModule = m;
+		
+		if (currentModule instanceof MainModule) {
+			if (this.hud.getParent() == null) {
+				this.guiNode.attachChild(hud); // Re-add since the previous module probably cleared out the guiNode
+			}
+		}
 	}
 
 
@@ -245,13 +251,6 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/defeat.png", x, y, width, height, 5);
 	}
 
-/*
-	@Override
-	protected IHUD createAndGetHUD() {
-		hud = new MoonbaseAssaultHUD(this, this.getCamera());
-		return hud;
-	}
-*/
 
 	@Override
 	protected void gameStatusChanged(int oldStatus, int newStatus) {
@@ -292,10 +291,9 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		}
 	}
 
-
+	/*
 	@Override
 	protected Spatial getPlayersWeaponModel() {
-		//if (!Globals.HIDE_BELLS_WHISTLES) {
 		Spatial model = assetManager.loadModel("Models/pistol/pistol.blend");
 		JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/pistol/pistol_tex.png");
 		model.scale(0.1f);
@@ -304,11 +302,8 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		//model.setLocalTranslation(-0.15f, -.2f, 0.2f);
 		model.setLocalTranslation(-0.10f, -.15f, 0.2f);
 		return model;
-		/*} else {
-			return null;
-		}*/
 	}
-
+	 */
 
 	@Override
 	protected Class[] getListofMessageClasses() {
@@ -316,12 +311,36 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	}
 
 
-	
+
 	/**
 	 * Override if required
 	 */
 	public Node getHudNode() {
 		return this.hud;
+	}
+
+
+	/**
+	 * Override if required
+	 */
+	protected void showDamageBox() {
+		hud.showDamageBox();
+	}
+
+
+	/**
+	 * Override if required
+	 */
+	protected void showMessage(String msg) {
+		hud.appendToLog(msg);
+	}
+
+
+	/**
+	 * Override if required
+	 */
+	protected void appendToLog(String msg) {
+		hud.appendToLog(msg);
 	}
 
 
