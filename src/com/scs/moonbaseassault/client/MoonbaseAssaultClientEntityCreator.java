@@ -25,7 +25,7 @@ import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.IEntityContainer;
 import com.scs.stevetech1.entities.AbstractClientAvatar;
-import com.scs.stevetech1.entities.AbstractEnemyAvatar;
+import com.scs.stevetech1.entities.AbstractOtherPlayersAvatar;
 import com.scs.stevetech1.entities.AbstractPlayersBullet;
 import com.scs.stevetech1.entities.BulletTrail;
 import com.scs.stevetech1.entities.DebuggingSphere;
@@ -104,7 +104,7 @@ public class MoonbaseAssaultClientEntityCreator {
 				return avatar;
 			} else {
 				// Create an enemy avatar since we don't control these
-				AbstractEnemyAvatar avatar = new SoldierEnemyAvatar(game, SOLDIER_AVATAR, id, pos.x, pos.y, pos.z, side, side == game.side, playersName);
+				AbstractOtherPlayersAvatar avatar = new SoldierEnemyAvatar(game, SOLDIER_AVATAR, id, pos.x, pos.y, pos.z, side, side == game.side, playersName);
 				return avatar;
 			}
 		}
