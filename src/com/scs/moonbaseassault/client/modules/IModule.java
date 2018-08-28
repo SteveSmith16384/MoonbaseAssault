@@ -4,7 +4,7 @@ public interface IModule {
 
 	void simpleInit();
 	
-	boolean onAction(String name, boolean value, float tpf); // todo - change to mouseClicked
+	void mouseClicked();
 
 	void simpleUpdate(float tpfSecs);
 	

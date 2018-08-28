@@ -72,7 +72,7 @@ public class MoonbaseAssaultHUD extends Node { //implements IHUD {
 
 		textArea = new BitmapText(font_small, false);
 		textArea.setColor(defaultColour);
-		textArea.setLocalTranslation(xPos, hud_height/2, 0);
+		textArea.setLocalTranslation(xPos, (int)(hud_height*.6f), 0);
 		this.attachChild(textArea);
 		//textArea.setText("Waiting for data...");
 
@@ -151,7 +151,6 @@ public class MoonbaseAssaultHUD extends Node { //implements IHUD {
 	}
 
 
-	//@Override
 	public void processByClient(AbstractGameClient client, float tpf) {
 		if (updateHudTextInterval.hitInterval()) {
 			if (client.gameData != null) {

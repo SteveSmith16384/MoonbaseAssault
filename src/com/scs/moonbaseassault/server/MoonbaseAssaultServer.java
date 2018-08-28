@@ -99,7 +99,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	private MoonbaseAssaultServer(String gameIpAddress, int gamePort, 
 			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
-		super(GAME_ID, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis, 5*1000, 10*60*1000, 10*1000, 
+		super(GAME_ID, 1d, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis, 5*1000, 10*60*1000, 10*1000, 
 				gameIpAddress, gamePort, 
 				10, 5));
 
@@ -179,7 +179,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
-			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, 2, AbstractAvatar.ANIM_IDLE, "AI TEST");
+			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, 2, false, AbstractAvatar.ANIM_IDLE, "AI TEST");
 			this.actuallyAddEntity(s);
 			moveAISoldierToStartPosition(s, s.side);
 		}
@@ -189,7 +189,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	public void addAISoldier(int side, String name) {
 		//String name = (side == 1 ? "Attacker" : "Defender") + " " + num;
-		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, AbstractAvatar.ANIM_IDLE, name);
+		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, AbstractAvatar.ANIM_IDLE, name);
 		this.actuallyAddEntity(s);
 		moveAISoldierToStartPosition(s, s.side);
 		Globals.p("Created AI soldier on side " + side);

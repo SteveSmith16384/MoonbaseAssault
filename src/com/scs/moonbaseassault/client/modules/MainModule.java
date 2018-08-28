@@ -86,8 +86,8 @@ public class MainModule extends AbstractModule {
 
 
 	@Override
-	public boolean onAction(String name, boolean value, float tpf) {
-		return false;
+	public void mouseClicked() {
+
 	}
 	
 	

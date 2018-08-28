@@ -28,7 +28,8 @@ public class SoldierTexture {
 	}
 
 
-	public static Texture getTexture(int side, boolean player) {
+	public static Texture getTexture(boolean friend, boolean player) {
+		int side = friend ? 2 : 1;
 		PaintableImage pi = new PaintableImage(SIZE, SIZE) {
 
 			@Override
@@ -38,7 +39,7 @@ public class SoldierTexture {
 					case 0: // trousers
 						switch (side) {
 						case 1:
-							g.setColor(Color.yellow.darker());
+							g.setColor(Color.red.darker());
 							break;
 						case 2:
 							g.setColor(Color.green.darker());
@@ -54,7 +55,7 @@ public class SoldierTexture {
 					case 1: // Shirt
 						switch (side) {
 						case 1:
-							g.setColor(Color.yellow);
+							g.setColor(Color.red);
 							break;
 						case 2:
 							g.setColor(Color.green);

@@ -38,12 +38,8 @@ public class DisconnectedModule extends AbstractModule {
 
 
 	@Override
-	public boolean onAction(String name, boolean value, float tpf) {
-		if (name.equalsIgnoreCase("Ability1")) {
-			client.startConnectToServerModule();
-			return true;
-		}
-		return false;
+	public void mouseClicked() {
+		client.startConnectToServerModule();
 	}
 
 

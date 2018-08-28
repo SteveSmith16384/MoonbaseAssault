@@ -34,7 +34,7 @@ public class PlayersLaserBullet extends AbstractPlayersBullet implements INotifi
 	protected void createModelAndSimpleRigidBody(Vector3f dir) {
 		Spatial laserNode = null;
 		Vector3f origin = Vector3f.ZERO;
-		laserNode = BeamLaserModel.Factory(game.getAssetManager(), origin, origin.add(dir.mult(LENGTH)), ColorRGBA.Pink, !game.isServer(), "Textures/greensun.jpg", MoonbaseAssaultServer.LASER_DIAM, Globals.BULLETS_CONES);
+		laserNode = BeamLaserModel.Factory(game.getAssetManager(), origin, origin.add(dir.mult(LENGTH)), ColorRGBA.Pink, !game.isServer(), "Textures/cells3.png", MoonbaseAssaultServer.LASER_DIAM, Globals.BULLETS_CONES);
 
 		//laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);

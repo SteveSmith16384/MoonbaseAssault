@@ -17,7 +17,7 @@ import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.AbstractGameClient;
-import com.scs.stevetech1.client.povweapon.DefaultPOVWeapon;
+import com.scs.stevetech1.client.ValidClientSettings;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.PhysicalEntity;
@@ -72,7 +72,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	private MoonbaseAssaultClient(String gameIpAddress, int gamePort, 
 			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,
 			float mouseSensitivity) {
-		super(MoonbaseAssaultServer.GAME_ID, "key", "Moonbase Assault", null, 
+		super(new ValidClientSettings(MoonbaseAssaultServer.GAME_ID, "key", 1), "Moonbase Assault", null, 
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); 
 
 		ipAddress = gameIpAddress;
@@ -179,6 +179,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	public void simpleUpdate(float tpfSecs) {
 		super.simpleUpdate(tpfSecs);
 		this.currentModule.simpleUpdate(tpfSecs);
+		this.hud.processByClient(this, tpfSecs);
 	}
 
 

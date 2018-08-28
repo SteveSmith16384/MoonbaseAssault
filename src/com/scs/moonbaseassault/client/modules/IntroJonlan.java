@@ -59,7 +59,7 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 		client.getCamera().setLocation(new Vector3f(0, 0.55f, 0));
 		client.getCamera().lookAt(new Vector3f(10, 0.55f, 10), Vector3f.UNIT_Y);
 
-		jonlanModel = new SoldierModel(client.getAssetManager(), 1, false);
+		jonlanModel = new SoldierModel(client.getAssetManager(), 1, false, false);
 		jonlanModel.createAndGetModel();
 		jonlanModel.setAnim(AbstractAvatar.ANIM_RUNNING);
 		jonlanModel.getModel().setLocalTranslation(10, 0, 5);
@@ -110,12 +110,8 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 
 
 	@Override
-	public boolean onAction(String name, boolean value, float tpf) {
-		if (name.equalsIgnoreCase("Ability1")) {
-			client.startConnectToServerModule();
-			return true;
-		}
-		return false;
+	public void mouseClicked() {
+		client.startConnectToServerModule();
 	}
 
 

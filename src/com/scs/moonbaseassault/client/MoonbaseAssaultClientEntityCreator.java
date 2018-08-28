@@ -103,8 +103,8 @@ public class MoonbaseAssaultClientEntityCreator {
 				game.getCamera().lookAt(look, Vector3f.UNIT_Y); // Look somewhere
 				return avatar;
 			} else {
-				// Create an enemt avatar since we don't control these
-				AbstractEnemyAvatar avatar = new SoldierEnemyAvatar(game, SOLDIER_AVATAR, id, pos.x, pos.y, pos.z, side, playersName);
+				// Create an enemy avatar since we don't control these
+				AbstractEnemyAvatar avatar = new SoldierEnemyAvatar(game, SOLDIER_AVATAR, id, pos.x, pos.y, pos.z, side, side == game.side, playersName);
 				return avatar;
 			}
 		}
@@ -183,7 +183,7 @@ public class MoonbaseAssaultClientEntityCreator {
 			int side = (int)msg.data.get("side");
 			int animcode = (int)msg.data.get("animcode");
 			String name = (String)msg.data.get("name");
-			MA_AISoldier z = new MA_AISoldier(game, id, pos.x, pos.y, pos.z, side, animcode, name);
+			MA_AISoldier z = new MA_AISoldier(game, id, pos.x, pos.y, pos.z, side, side == game.side, animcode, name);
 			return z;
 		}
 

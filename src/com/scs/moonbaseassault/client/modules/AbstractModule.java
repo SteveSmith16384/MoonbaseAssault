@@ -16,7 +16,7 @@ public abstract class AbstractModule implements IModule {
 	@Override
 	public void simpleUpdate(float tpfSecs) {
 		if (client.input.isAbilityPressed(0)) {
-			this.onAction("Ability1", true, tpfSecs);
+			this.mouseClicked();
 		}
 	}
 

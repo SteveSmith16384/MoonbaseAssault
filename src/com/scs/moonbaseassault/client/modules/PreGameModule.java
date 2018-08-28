@@ -74,21 +74,21 @@ public class PreGameModule extends AbstractModule {//implements ActionListener {
 		Vector3f lookat = client.getCamera().getLocation().clone();
 		lookat.y = 0f;
 
-		side1Model = new SoldierModel(client.getAssetManager(), MoonbaseAssaultGlobals.SIDE_ATTACKERS, false);
+		side1Model = new SoldierModel(client.getAssetManager(), MoonbaseAssaultGlobals.SIDE_ATTACKERS, false, false);
 		side1Model.createAndGetModel();
 		side1Model.setAnim(AbstractAvatar.ANIM_RUNNING);
 		side1Model.getModel().setLocalTranslation(10, 0, 5);
 		introNode.attachChild(side1Model.getModel());
 		side1Model.getModel().lookAt(lookat, Vector3f.UNIT_Y);
 
-		side2Model = new SoldierModel(client.getAssetManager(), MoonbaseAssaultGlobals.SIDE_DEFENDERS, false);
+		side2Model = new SoldierModel(client.getAssetManager(), MoonbaseAssaultGlobals.SIDE_DEFENDERS, false, true);
 		side2Model.createAndGetModel();
 		side2Model.setAnim(AbstractAvatar.ANIM_RUNNING);
 		side2Model.getModel().setLocalTranslation(10, 0, 10);
 		introNode.attachChild(side2Model.getModel());
 		side2Model.getModel().lookAt(lookat, Vector3f.UNIT_Y);
 
-		playerModel = new SoldierModel(client.getAssetManager(), MoonbaseAssaultGlobals.SIDE_DEFENDERS, true);
+		playerModel = new SoldierModel(client.getAssetManager(), MoonbaseAssaultGlobals.SIDE_DEFENDERS, true, true);
 		playerModel.createAndGetModel();
 		playerModel.setAnim(AbstractAvatar.ANIM_RUNNING);
 		playerModel.getModel().setLocalTranslation(5, 0, 10);
@@ -147,12 +147,8 @@ public class PreGameModule extends AbstractModule {//implements ActionListener {
 
 	
 	@Override
-	public boolean onAction(String name, boolean value, float tpf) {
-		if (name.equalsIgnoreCase("Ability1")) {
-			client.startMainModule();
-			return true;
-		}
-		return false;
+	public void mouseClicked() {
+		client.startMainModule();
 	}
 
 
