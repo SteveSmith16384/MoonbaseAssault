@@ -16,17 +16,14 @@ public class DisconnectedModule extends AbstractModule {
 	
 	@Override
 	public void simpleInit() {
-		//super.simpleInit();
-		
 		BitmapFont font_small = client.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 
 		bmpText = new BitmapText(font_small, false);
 		bmpText.setColor(IntroModule.defaultColour);
 		bmpText.setLocalTranslation(10, 100, 0);
 		client.getGuiNode().attachChild(bmpText);
-		bmpText.setText("Disconnected!  Click to attempt reconnection...");
+		bmpText.setText("Disconnected!  Click to Exit");
 
-		//client.getInputManager().addListener(this, "Ability1");
 	}
 	
 
@@ -39,13 +36,12 @@ public class DisconnectedModule extends AbstractModule {
 
 	@Override
 	public void mouseClicked() {
-		client.startConnectToServerModule();
+		client.quit("Disconnected");
 	}
 
 
 	@Override
 	public void destroy() {
-		//client.getInputManager().removeListener(this);
 		client.getGuiNode().detachAllChildren();
 	}
 

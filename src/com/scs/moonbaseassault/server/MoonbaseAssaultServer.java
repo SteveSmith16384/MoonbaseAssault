@@ -113,6 +113,9 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			throw new RuntimeException("Error loading names", e);
 		}
 
+		super.physicsController.setStepForce(MoonbaseAssaultGlobals.STEP_FORCE);
+		super.physicsController.setRampForce(MoonbaseAssaultGlobals.RAMP_FORCE);
+
 		super.simpleInitApp();
 	}
 
@@ -161,16 +164,14 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			System.exit(-1);
 		}
 
-		//if (!PLAYERS_ARE_DEFENDERS) {
-			Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
-			this.actuallyAddEntity(ss);
+		Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
+		this.actuallyAddEntity(ss);
 
-			ss = new Spaceship1(this, this.getNextEntityID(), 48, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
-			this.actuallyAddEntity(ss);
+		ss = new Spaceship1(this, this.getNextEntityID(), 48, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
+		this.actuallyAddEntity(ss);
 
-			FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
-			this.actuallyAddEntity(fs);
-		//}
+		//FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
+		//this.actuallyAddEntity(fs);
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
@@ -199,7 +200,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 		for (int i=0 ; i<20 ; i++) { // only try a certain number of times
 			Point p = deploySquares.get(NumberFunctions.rnd(0, deploySquares.size()-1));
 			soldier.setWorldTranslation(p.x+0.5f, startHeight, p.y+0.5f);
-			if (soldier.simpleRigidBody.checkForCollisions().size() == 0) {
+			if (soldier.simpleRigidBody.checkForCollisions(false).size() == 0) {
 				found = true;
 				break;
 			}

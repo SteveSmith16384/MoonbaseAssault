@@ -3,6 +3,7 @@ package com.scs.moonbaseassault.entities;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.stevetech1.components.IDebrisTexture;
@@ -53,7 +54,7 @@ public class PlayersLaserBullet extends AbstractPlayersBullet implements INotifi
 				tex = dt.getDebrisTexture();
 			}
 			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .005f, .02f, tex);
-			game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
+			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEF_VOL, false);
 			
 			if (Globals.SHOW_BULLET_COLLISION_POS) {
 				// Create debugging sphere

@@ -15,6 +15,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
@@ -96,10 +97,10 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 				this.remove();
 
 				server.sendExplosion(this.getWorldTranslation(), 10, .8f, 1.2f, .06f, .12f, "Textures/computerconsole2.jpg");
-				game.playSound("Sounds/computer_destroyed.mp3", this.getWorldTranslation(), Globals.DEF_VOL, false);
 
 				Vector3f pos = this.getWorldTranslation();
 				DestroyedComputer dc = new DestroyedComputer(game, game.getNextEntityID(), pos.x, pos.y, pos.z);
+				game.playSound(MASounds.SFX_COMPUTER_DESTROYED, dc.getID(), this.getWorldTranslation(), Globals.DEF_VOL, false);
 				game.addEntity(dc);
 			} else {
 				this.sendUpdate = true; // Send new health

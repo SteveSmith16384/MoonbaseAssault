@@ -33,14 +33,14 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 			creationData = new HashMap<String, Object>();
 		}
 		
-		float w = .4f;
-		float h = .4f;
-		float d = .2f;
+		float w = .2f;
+		float h = .2f;
+		float d = .1f;
 
 		Box box1 = new Box(w/2, h/2, d/2);
 
 		geometry = new Geometry("MediPack", box1);
-		if (!_game.isServer()) { // Not running in server
+		if (!_game.isServer()) {
 			geometry.setShadowMode(ShadowMode.CastAndReceive);
 
 			TextureKey key3 = new TextureKey("Textures/redcross.png");
@@ -52,15 +52,15 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 			mat.setTexture("DiffuseMap", tex3);
 			geometry.setMaterial(mat);
 		}
-		JMEModelFunctions.moveYOriginTo(geometry, 0.1f);
+		JMEModelFunctions.moveYOriginTo(geometry, 0.05f); // Floating
 
 		this.mainNode.attachChild(geometry);
 		mainNode.setLocalTranslation(x, y, z);
 		mainNode.updateModelBound();
 
-		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), game.isServer(), this);
+		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);
 		simpleRigidBody.setNeverMoves(true);
-		simpleRigidBody.setCollidable(false);
+		simpleRigidBody.setSolid(false);
 
 		geometry.setUserData(Globals.ENTITY, this);
 		mainNode.setUserData(Globals.ENTITY, this);
@@ -73,6 +73,7 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 			AbstractServerAvatar asa = (AbstractServerAvatar)pe;
 			if (asa.getHealth() < asa.getMaxHealth()) {
 				this.remove();
+				//game.removeEntity(this.getID());
 				asa.setHealth(asa.getMaxHealth());
 			}
 		}
@@ -81,7 +82,7 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 
 	@Override
 	public void processByClient(IClientApp client, float tpfSecs) {
-		rotDegrees += (tpfSecs * 0.2f);
+		rotDegrees += (tpfSecs * 0.06f);
 		if (rotDegrees > 360) {
 			rotDegrees -= 360;
 		}

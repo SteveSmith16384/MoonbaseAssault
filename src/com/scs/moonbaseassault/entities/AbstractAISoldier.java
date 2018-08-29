@@ -178,7 +178,7 @@ IDebrisTexture {
 
 				server.appendToGameLog(entityName + " killed");
 
-				game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
+				//game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
 			}
 		}
 	}

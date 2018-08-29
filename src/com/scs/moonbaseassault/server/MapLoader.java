@@ -349,7 +349,7 @@ public class MapLoader {
 		this.totalFloors++;
 
 		// todo - check this
-		MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+0.5f, .2f, sy+0.5f); 
+		MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+0.5f, .3f, sy+0.5f); 
 		moonbaseAssaultServer.actuallyAddEntity(medi);
 
 		FloorOrCeiling ceiling = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, MATextures.CORRIDOR, false);

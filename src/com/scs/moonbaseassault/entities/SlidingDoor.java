@@ -11,6 +11,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.MATextures;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
@@ -105,15 +106,12 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 			if (timeUntilClose <= 0) {
 				if (this.getWorldTranslation().y > 0) {
 					this.adjustWorldTranslation(MOVE_UP.mult(tpf_secs).mult(-1));
-					//this.getMainNode().move(MOVE_UP.mult(tpf_secs).mult(-1));
 					// position accurately at top in case of large jump
 					if (this.getWorldTranslation().y < 0) {
 						this.getWorldTranslation().y = 0;
-						//this.getMainNode().updateGeometricState();
 					}
-					if (!this.simpleRigidBody.checkForCollisions().isEmpty()) {
+					if (!this.simpleRigidBody.checkForCollisions(true).isEmpty()) { //todo - need this?
 						// Move back up
-						//this.getMainNode().move(MOVE_UP.mult(tpf_secs));
 						this.adjustWorldTranslation(MOVE_UP.mult(tpf_secs));
 						this.startOpening();
 					} else {
@@ -139,7 +137,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 		this.isOpening = true;
 		timeUntilClose = STAY_OPEN_DURATION;
 
-		game.playSound("Sounds/slidingdoor.mp3", getWorldTranslation(), Globals.DEF_VOL, false);
+		game.playSound(MASounds.SFX_SLIDING_DOOR, this.getID(), getWorldTranslation(), Globals.DEF_VOL, false);
 	}
 
 

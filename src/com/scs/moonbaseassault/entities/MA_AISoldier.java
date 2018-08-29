@@ -1,6 +1,7 @@
 package com.scs.moonbaseassault.entities;
 
 import com.jme3.math.Vector3f;
+import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.moonbaseassault.server.ai.ShootingSoldierAI3;
@@ -25,8 +26,8 @@ public class MA_AISoldier extends AbstractAISoldier {
 	
 	@Override
 	protected AbstractAIBullet createBullet(Vector3f pos, Vector3f dir) {
-		game.playSound("Sounds/laser3.wav", pos, Globals.DEF_VOL, false);
 		AILaserBullet bullet = new AILaserBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
+		game.playSound(MASounds.SFX_AI_BULLET_FIRED, -1, pos, Globals.DEF_VOL, false);
 		return bullet;
 	}
 
@@ -34,7 +35,7 @@ public class MA_AISoldier extends AbstractAISoldier {
 	@Override
 	public void handleKilledOnClientSide(PhysicalEntity killer) {
 		AbstractGameClient client = (AbstractGameClient)game;
-		client.playSound("todo", this.getWorldTranslation(), Globals.DEF_VOL, false);
+		client.playSound(MASounds.SFX_AI_KILLED, this.getID(), this.getWorldTranslation(), Globals.DEF_VOL, false);
 		super.handleKilledOnClientSide(killer);
 	}
 

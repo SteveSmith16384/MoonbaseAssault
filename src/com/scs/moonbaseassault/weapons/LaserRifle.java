@@ -3,6 +3,7 @@ package com.scs.moonbaseassault.weapons;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.entities.PlayersLaserBullet;
 import com.scs.stevetech1.components.ICanShoot;
@@ -36,7 +37,7 @@ public class LaserRifle extends AbstractMagazineGun<PlayersLaserBullet> implemen
 			PlayersLaserBullet bullet = ammoCache.remove();
 			ICanShoot ic = (ICanShoot)owner;
 			bullet.launch(owner, ic.getBulletStartPos(), ic.getShootDir());
-			game.playSound("todo", bullet.getWorldTranslation(), Globals.DEF_VOL, false);
+			game.playSound(MASounds.SFX_AI_BULLET_FIRED, owner.getID(), bullet.getWorldTranslation(), Globals.DEF_VOL, false);
 			return true;
 		}
 		return false;

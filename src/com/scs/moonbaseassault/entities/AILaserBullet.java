@@ -6,6 +6,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Spatial;
+import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.stevetech1.components.IDebrisTexture;
@@ -71,7 +72,7 @@ public class AILaserBullet extends AbstractAIBullet {
 				maxSize = dt.getMaxDebrisSize();
 			}
 			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, minSize, maxSize, tex);
-			game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
+			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEF_VOL, false);
 		}
 		this.remove();
 	}

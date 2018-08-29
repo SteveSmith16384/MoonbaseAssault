@@ -4,6 +4,7 @@ import com.jme3.audio.AudioData.DataType;
 import com.jme3.audio.AudioNode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
+import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
 import com.scs.moonbaseassault.client.modules.ConnectModule;
@@ -87,6 +88,9 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	public void simpleInitApp() {
 		super.simpleInitApp();
 
+		super.physicsController.setStepForce(MoonbaseAssaultGlobals.STEP_FORCE);
+		super.physicsController.setRampForce(MoonbaseAssaultGlobals.RAMP_FORCE);
+
 		entityCreator = new MoonbaseAssaultClientEntityCreator();
 		collisionValidator = new MoonbaseAssaultCollisionValidator();
 
@@ -107,14 +111,14 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 	private void playMusic() {
 		if (!Globals.MUTE) {
-		try {
-			musicNode = new AudioNode(assetManager, "Sounds/n-Dimensions (Main Theme - Retro Ver.ogg", DataType.Stream);
-			musicNode.setPositional(false);
-			this.getRootNode().attachChild(musicNode);
-			musicNode.play();
-		} catch (java.lang.IllegalStateException ex) {
-			// Unable to play sounds - no audiocard/speakers?
-		}
+			try {
+				musicNode = new AudioNode(assetManager, "Sounds/n-Dimensions (Main Theme - Retro Ver.ogg", DataType.Stream);
+				musicNode.setPositional(false);
+				this.getRootNode().attachChild(musicNode);
+				musicNode.play();
+			} catch (java.lang.IllegalStateException ex) {
+				// Unable to play sounds - no audiocard/speakers?
+			}
 		}
 	}
 
@@ -137,7 +141,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	public void startMainModule() {
 		try {
 			if (musicNode != null) {
-			this.musicNode.stop();
+				this.musicNode.stop();
 			}
 		} catch (IllegalStateException ex) {
 			// Unable to play music
@@ -156,10 +160,11 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		if (this.currentModule != null) {
 			this.currentModule.destroy();
 		}
-		
+		this.getGuiNode().detachAllChildren();
+
 		m.simpleInit();
 		this.currentModule = m;
-		
+
 		if (currentModule instanceof MainModule) {
 			if (this.hud.getParent() == null) {
 				this.guiNode.attachChild(hud); // Re-add since the previous module probably cleared out the guiNode
@@ -318,35 +323,33 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 
-	/**
-	 * Override if required
-	 */
+	@Override
 	public Node getHudNode() {
 		return this.hud;
 	}
 
 
-	/**
-	 * Override if required
-	 */
+	@Override
 	protected void showDamageBox() {
 		hud.showDamageBox();
 	}
 
 
-	/**
-	 * Override if required
-	 */
+	@Override
 	protected void showMessage(String msg) {
 		hud.appendToLog(msg);
 	}
 
 
-	/**
-	 * Override if required
-	 */
+	@Override
 	protected void appendToLog(String msg) {
 		hud.appendToLog(msg);
+	}
+
+
+	@Override
+	protected String getSoundFileFromID(int id) {
+		return MASounds.getSoundFile(id);
 	}
 
 
