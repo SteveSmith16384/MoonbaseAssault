@@ -60,16 +60,12 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 				Globals.p("No config file specified.  Using defaults.");
 			}
 			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
-			int gamePort = props.getPropertyAsInt("gamePort", 6145);
-			//String lobbyIpAddress = null;//props.getPropertyAsString("lobbyIpAddress", "localhost");
-			//int lobbyPort = props.getPropertyAsInt("lobbyPort", 6146);
+			int gamePort = props.getPropertyAsInt("gamePort", MoonbaseAssaultGlobals.PORT);
 
 			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
 			int sendUpdateIntervalMillis = props.getPropertyAsInt("sendUpdateIntervalMillis", 40);
 			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
 			int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
-
-			//startLobbyServer(lobbyPort, timeoutMillis); // Start the lobby in the same process, why not?  Feel from to comment this line out and run it seperately (If you want a lobby).
 
 			new MoonbaseAssaultServer(gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
 					tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis);//, gravity, aerodynamicness);
@@ -114,7 +110,6 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			String[] lines = text.split("\n");
 			createUnitsSystem = new CreateUnitsSystem(this, lines);
 		} catch (Exception e) {
-			//e.printStackTrace();
 			throw new RuntimeException("Error loading names", e);
 		}
 
@@ -124,7 +119,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	public void simpleUpdate(float tpfSecs) {
-		super.simpleUpdate(tpfSecs); // this.maGameData
+		super.simpleUpdate(tpfSecs);
 
 		if (!Globals.TEST_AI && !Globals.NO_AI_UNITS) {
 			if (this.gameData.isInGame()) {
@@ -373,14 +368,5 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	//--------------------------------
 
-/*
-	@Override
-	protected String getSideName(int side) {
-		switch (side) {
-		case MoonbaseAssaultGlobals.SIDE_ATTACKERS: return "The Attackers";
-		case MoonbaseAssaultGlobals.SIDE_DEFENDERS: return "The Defenders";
-		default: return "Unknown";
-		}
-	}
-*/
+
 }

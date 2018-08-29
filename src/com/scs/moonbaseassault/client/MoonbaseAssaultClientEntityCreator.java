@@ -11,6 +11,7 @@ import com.scs.moonbaseassault.entities.GasCannister;
 import com.scs.moonbaseassault.entities.GenericFloorTex;
 import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.moonbaseassault.entities.MapBorder;
+import com.scs.moonbaseassault.entities.MediPack;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
 import com.scs.moonbaseassault.entities.PlayersGrenade;
 import com.scs.moonbaseassault.entities.PlayersLaserBullet;
@@ -57,6 +58,7 @@ public class MoonbaseAssaultClientEntityCreator {
 	public static final int FLOOR_TEX = 22;
 	public static final int FLYING_SPACESHIP2 = 23;
 	public static final int AI_SUPER_SOLDIER = 24;
+	public static final int MEDIPACK = 25;
 
 
 	public MoonbaseAssaultClientEntityCreator() {
@@ -303,6 +305,12 @@ public class MoonbaseAssaultClientEntityCreator {
 		case Globals.EXPLOSION_SPHERE:
 		{
 			ExplosionSphere expl = new ExplosionSphere(game, pos.x, pos.y, pos.z);
+			return expl;
+		}
+
+		case MEDIPACK:
+		{
+			MediPack expl = new MediPack(game, id, pos.x, pos.y, pos.z);
 			return expl;
 		}
 

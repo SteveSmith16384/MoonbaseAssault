@@ -20,7 +20,7 @@ import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
-public class SpaceCrate extends PhysicalEntity implements IAffectedByPhysics {
+public class SpaceCrate extends PhysicalEntity {
 
 	public SpaceCrate(IEntityController _game, int id, float x, float y, float z, float w, float h, float d, int tex, float rotDegrees) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.CRATE, "Space Crate", false, true, true);
@@ -47,7 +47,6 @@ public class SpaceCrate extends PhysicalEntity implements IAffectedByPhysics {
 			floorMat.setTexture("DiffuseMap", tex3);
 			geometry.setMaterial(floorMat);
 		}
-		//geometry.setLocalTranslation(0, h/2, 0);
 		float rads = (float)Math.toRadians(rotDegrees);
 		geometry.rotate(0, rads, 0);
 		JMEModelFunctions.moveYOriginTo(geometry, 0f);
@@ -61,12 +60,6 @@ public class SpaceCrate extends PhysicalEntity implements IAffectedByPhysics {
 
 		geometry.setUserData(Globals.ENTITY, this);
 		mainNode.setUserData(Globals.ENTITY, this);
-	}
-
-
-	@Override
-	public void processByServer(AbstractGameServer server, float tpf) {
-		super.processByServer(server, tpf);
 	}
 
 

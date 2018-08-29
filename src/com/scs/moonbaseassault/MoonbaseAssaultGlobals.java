@@ -14,4 +14,5 @@ public class MoonbaseAssaultGlobals {
 	public static final int PRI_COMPUTER = 5;
 	public static final int PRI_PLAYER = 15;
 
+	public static final int PORT = 6146;
 }

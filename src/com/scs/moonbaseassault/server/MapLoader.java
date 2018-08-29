@@ -14,6 +14,7 @@ import com.scs.moonbaseassault.entities.FloorOrCeiling;
 import com.scs.moonbaseassault.entities.GasCannister;
 import com.scs.moonbaseassault.entities.GenericFloorTex;
 import com.scs.moonbaseassault.entities.MapBorder;
+import com.scs.moonbaseassault.entities.MediPack;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
 import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.entities.SpaceCrate;
@@ -104,30 +105,10 @@ public class MapLoader {
 				scannerData[x][y] = mapCode[x][y];
 			}
 		}
-		/*
-		// print map
-		for (int y=0 ; y<mapsize ; y++) {
-			for (int x=0 ; x<mapsize ; x++) {
-				if (mapCode[x][y] == WALL) {
-					System.out.print("X");
-				} else if (mapCode[x][y] == INT_FLOOR) {
-					System.out.print(".");
-				} else if (mapCode[x][y] == EXT_FLOOR) {
-					System.out.print(":");
-				} else if (mapCode[x][y] == COMPUTER) {
-					System.out.print("C");
-				} else if (mapCode[x][y] == DOOR_LR) {
-					System.out.print("L");
-				} else if (mapCode[x][y] == DOOR_UD) {
-					System.out.print("U");
-				} else {
-					System.out.print(" ");
-				}					
-			}
-			System.out.println("");
-		}
-		 */
 
+		
+		printMap();
+		
 		// Generate map!
 		totalWalls = 0;
 		{
@@ -144,13 +125,15 @@ public class MapLoader {
 			}
 		}
 
+		printMap();
+		
 		{
 			// Vertical walls
 			int y = 0;
 			while (y < mapsize-1) {
 				int x = 0;
 				while (x < mapsize) {
-					if (mapCode[x][y] == WALL) {// && handled[x][y+1] == WALL) {
+					if (mapCode[x][y] == WALL) {
 						checkForVerticalWalls(x, y);
 					}				
 					x++;
@@ -159,6 +142,8 @@ public class MapLoader {
 			}
 		}
 
+		printMap();
+		
 		// Doors && comps
 		{
 			for (int y=0 ; y<mapsize ; y++) {
@@ -168,9 +153,10 @@ public class MapLoader {
 						moonbaseAssaultServer.actuallyAddEntity(door);
 						mapCode[x][y] = INT_FLOOR; // So we create a floor below it
 						this.totalDoors++;
-						
+
 						GenericFloorTex gft = new GenericFloorTex(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x-.5f, INT_FLOOR_HEIGHT + 0.01f, y+.5f, 1f, 1f, "Textures/floor4.jpg");
 						moonbaseAssaultServer.actuallyAddEntity(gft);
+
 					} else if (mapCode[x][y] == DOOR_UD) {
 						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultServer.CEILING_HEIGHT, MATextures.DOOR_LR, 270);
 						moonbaseAssaultServer.actuallyAddEntity(door);
@@ -179,11 +165,13 @@ public class MapLoader {
 
 						GenericFloorTex gft = new GenericFloorTex(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x-.5f, INT_FLOOR_HEIGHT + 0.01f, y+.5f, 1f, 1f, "Textures/floor4.jpg");
 						moonbaseAssaultServer.actuallyAddEntity(gft);
+
 					} else if (mapCode[x][y] == COMPUTER) {
 						Computer comp = new Computer(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, x, y);
 						moonbaseAssaultServer.actuallyAddEntity(comp);
 						mapCode[x][y] = INT_FLOOR; // So we create a floor below it
 					} else if (mapCode[x][y] == DESTROYED_COMPUTER) {
+
 						DestroyedComputer comp = new DestroyedComputer(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y);
 						moonbaseAssaultServer.actuallyAddEntity(comp);
 						mapCode[x][y] = DESTROYED_COMPUTER; // So we create a floor below it
@@ -194,7 +182,13 @@ public class MapLoader {
 
 		this.totalFloors = 0;
 		this.totalCeilings = 0;
-		doInteriorFloorsAndCeilings();
+
+		doInteriorFloorsAndCeilings(true, false);
+		this.printMap();
+		doInteriorFloorsAndCeilings(false, false);
+		this.printMap();
+		doInteriorFloorsAndCeilings(true, true);
+		this.printMap();
 
 		// One big moon floor
 		FloorOrCeiling moonrock = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Big Ext Floor", 0, 0, 0, mapsize, .5f, mapsize, MATextures.MOONROCK, true);
@@ -213,6 +207,7 @@ public class MapLoader {
 		Globals.p("Finished.  Created " + this.totalWalls + " walls, " + this.totalFloors + " floors, " + this.totalCeilings + " ceilings, " + totalDoors + " doors.");
 
 		Vector3f down = new Vector3f(0, -1, 0);
+
 		// Scenery
 		for (int i=0 ; i<Math.min(30, floorSquares.size()/4) ; i++) {
 			Point p = this.floorSquares.remove(NumberFunctions.rnd(0,  floorSquares.size()-1));
@@ -261,7 +256,7 @@ public class MapLoader {
 		totalWalls++;
 
 		if (width > 3 && NumberFunctions.rnd(1, 2) == 1) {
-			// Create offset wall
+			// Create offset wall - todo - make non collidabe?
 			float extra = 0.15f;
 			float newWidth = width/4;
 			MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
@@ -269,7 +264,7 @@ public class MapLoader {
 					newWidth, MoonbaseAssaultServer.CEILING_HEIGHT-.4f, 1+(extra*2), 
 					MATextures.MOONBASE_WALL);
 			moonbaseAssaultServer.actuallyAddEntity(wall2);
-			totalWalls++;
+			//totalWalls++;
 		}
 	}
 
@@ -290,31 +285,31 @@ public class MapLoader {
 	}
 
 
-	private void doInteriorFloorsAndCeilings() {
+	private void doInteriorFloorsAndCeilings(boolean acrossFirst, boolean do1x1) {
 		floorSquares = new ArrayList<Point>();
-		boolean found = true;
-		while (found) {
-			found = false;
-			for (int y=0 ; y<mapsize ; y++) {
-				for (int x=0 ; x<mapsize ; x++) {
-					if (mapCode[x][y] == INT_FLOOR) {
-						found = true;
-						interiorFloorAndCeiling(x, y);
-					}
+		//boolean found = true;
+		//while (found) {
+		//found = false;
+		for (int y=0 ; y<mapsize ; y++) {
+			for (int x=0 ; x<mapsize ; x++) {
+				if (mapCode[x][y] == INT_FLOOR) {
+					//found = true;
+					interiorFloorAndCeiling(x, y, acrossFirst, do1x1);
 				}
 			}
 		}
+		//}
 	}
 
 
-	private void interiorFloorAndCeiling(int sx, int sy) {
+	private void interiorFloorAndCeiling(int sx, int sy, boolean acrossFirst, boolean do1x1) {
 		// Go across
-		int ex;
+		/*int ex;
 		for (ex=sx ; ex<mapsize ; ex++) {
 			if (mapCode[ex][sy] != INT_FLOOR) {
 				break;
 			}
-			mapCode[ex][sy] = HANDLED;
+			//mapCode[ex][sy] = HANDLED;
 		}
 		// Cover rect
 		boolean breakout = false;
@@ -329,25 +324,44 @@ public class MapLoader {
 			if (breakout) {
 				break;
 			}
+		}*/
+		
+		Point p = null;
+		if (acrossFirst) {
+			p = this.acrossThenDown(sx, sy);
+		} else {
+			p = this.downThenAcross(sx, sy);
 		}
+		int ex = p.x;
+		int ey = p.y;
+		
 		int w = ex-sx;
 		int d = ey-sy;
+
+		if (!do1x1) {
+			if (w == 1 && d == 1) {
+				return;
+			}
+		}
 
 		FloorOrCeiling floor = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Int floor", sx, INT_FLOOR_HEIGHT, sy, w, .5f, d, MATextures.ESCAPE_HATCH, true);//"Textures/escape_hatch.jpg");
 		moonbaseAssaultServer.actuallyAddEntity(floor);
 		this.totalFloors++;
 
+		// todo - check this
+		MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+0.5f, .2f, sy+0.5f); 
+		moonbaseAssaultServer.actuallyAddEntity(medi);
+
 		FloorOrCeiling ceiling = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, MATextures.CORRIDOR, false);
 		moonbaseAssaultServer.actuallyAddEntity(ceiling);
 		this.totalCeilings++;
-
+/*
 		if (w > 4 || d > 4) {
 			// Ceiling greeble
 			FloorOrCeiling ceiling2 = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling", sx+.95f, MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy+1, 1, .8f, 1, MATextures.CEILING_GREEBLE, false);
 			moonbaseAssaultServer.actuallyAddEntity(ceiling2);
-			this.totalCeilings++;
 		}
-
+*/
 
 		// Mark area as handled
 		for (int y=sy ; y<ey ; y++) {
@@ -359,6 +373,89 @@ public class MapLoader {
 
 	}
 
+	
+	private Point acrossThenDown(int sx, int sy) {
+		int ex;
+		for (ex=sx ; ex<mapsize ; ex++) {
+			if (mapCode[ex][sy] != INT_FLOOR) {
+				break;
+			}
+			//mapCode[ex][sy] = HANDLED;
+		}
+		// Cover rect
+		boolean breakout = false;
+		int ey;
+		for (ey=sy+1 ; ey<mapsize ; ey++) {
+			for (int x=sx ; x<ex ; x++) {
+				if (mapCode[x][sy] != INT_FLOOR) {
+					breakout = true;
+					break;
+				}
+			}
+			if (breakout) {
+				break;
+			}
+		}
+		
+		return new Point(ex, ey);
 
+	}
+
+
+	private Point downThenAcross(int sx, int sy) {
+		int ey;
+		for (ey=sy ; ey<mapsize ; ey++) {
+			if (mapCode[sx][ey] != INT_FLOOR) {
+				break;
+			}
+		}
+		// Cover rect
+		boolean breakout = false;
+		int ex;
+		for (ex=sx+1 ; ex<mapsize ; ex++) {
+			for (int y=sy ; y<ey ; y++) {
+				if (mapCode[sx][y] != INT_FLOOR) {
+					breakout = true;
+					break;
+				}
+			}
+			if (breakout) {
+				break;
+			}
+		}
+		
+		return new Point(ex, ey);
+
+	}
+
+	
+	private void printMap() {
+		// print map
+		for (int y=0 ; y<mapsize ; y++) {
+			for (int x=0 ; x<mapsize ; x++) {
+				if (mapCode[x][y] == WALL) {
+					System.out.print("X");
+				} else if (mapCode[x][y] == INT_FLOOR) {
+					System.out.print(".");
+				} else if (mapCode[x][y] == EXT_FLOOR) {
+					System.out.print(",");
+				} else if (mapCode[x][y] == COMPUTER) {
+					System.out.print("C");
+				} else if (mapCode[x][y] == DOOR_LR) {
+					System.out.print("L");
+				} else if (mapCode[x][y] == DOOR_UD) {
+					System.out.print("U");
+				} else if (mapCode[x][y] == HANDLED) {
+					System.out.print("H");
+				} else {
+					System.out.print(" ");
+				}					
+			}
+			System.out.println("");
+		}
+
+
+
+	}
 }
 

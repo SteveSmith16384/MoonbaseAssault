@@ -4,6 +4,7 @@ import com.jme3.audio.AudioData.DataType;
 import com.jme3.audio.AudioNode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
 import com.scs.moonbaseassault.client.modules.ConnectModule;
 import com.scs.moonbaseassault.client.modules.DisconnectedModule;
@@ -51,7 +52,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 				Globals.p("Warning: No config file specified");
 			}
 			final String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
-			final int gamePort = props.getPropertyAsInt("gamePort", 6145);
+			final int gamePort = props.getPropertyAsInt("gamePort", MoonbaseAssaultGlobals.PORT);
 
 			final int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
 			final int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
