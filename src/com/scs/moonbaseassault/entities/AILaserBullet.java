@@ -74,7 +74,8 @@ public class AILaserBullet extends AbstractAIBullet {
 			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, minSize, maxSize, tex);
 			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEF_VOL, false);
 		}
-		this.remove();
+		//this.remove();
+		game.markForRemoval(this.getID());
 	}
 
 }

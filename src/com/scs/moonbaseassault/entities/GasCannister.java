@@ -74,7 +74,8 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 				server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
 				server.sendExpandingSphere(this.getWorldTranslation());
 				server.damageSurroundingEntities(this, 4f, 50);
-				this.remove(); // Copy to other gas cans
+				//this.remove();
+				game.markForRemoval(this.getID());
 			}
 		}
 	}

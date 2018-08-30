@@ -64,7 +64,8 @@ public class PlayersLaserBullet extends AbstractPlayersBullet implements INotifi
 			}
 
 		}
-		this.remove();
+		//this.remove();
+		game.markForRemoval(this.getID());
 	}
 
 }

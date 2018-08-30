@@ -107,7 +107,7 @@ public class MapLoader {
 		}
 
 		
-		printMap();
+		//printMap();
 		
 		// Generate map!
 		totalWalls = 0;
@@ -125,7 +125,7 @@ public class MapLoader {
 			}
 		}
 
-		printMap();
+		//printMap();
 		
 		{
 			// Vertical walls
@@ -142,7 +142,7 @@ public class MapLoader {
 			}
 		}
 
-		printMap();
+		//printMap();
 		
 		// Doors && comps
 		{
@@ -184,11 +184,11 @@ public class MapLoader {
 		this.totalCeilings = 0;
 
 		doInteriorFloorsAndCeilings(true, false);
-		this.printMap();
+		//this.printMap();
 		doInteriorFloorsAndCeilings(false, false);
-		this.printMap();
+		//this.printMap();
 		doInteriorFloorsAndCeilings(true, true);
-		this.printMap();
+		//this.printMap();
 
 		// One big moon floor
 		FloorOrCeiling moonrock = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Big Ext Floor", 0, 0, 0, mapsize, .5f, mapsize, MATextures.MOONROCK, true);

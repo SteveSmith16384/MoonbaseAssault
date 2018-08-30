@@ -81,7 +81,8 @@ public class PlayersGrenade extends AbstractPlayersBullet {
 		//Globals.p("Grenade Y:" + this.getWorldTranslation().y);
 		this.timeLeft -= tpf_secs;
 		if (this.timeLeft <= 0) {
-			this.remove();
+			//this.remove();
+			game.markForRemoval(this.getID());
 			return true;
 		}
 		return false;

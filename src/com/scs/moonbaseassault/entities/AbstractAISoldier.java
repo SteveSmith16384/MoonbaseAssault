@@ -132,7 +132,8 @@ IDebrisTexture {
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
 			long diff = System.currentTimeMillis() - timeKilled;
 			if (diff > 5000) {
-				this.remove();
+				//this.remove();
+				game.markForRemoval(this.getID());
 				return;
 			}
 		}
@@ -150,7 +151,8 @@ IDebrisTexture {
 
 	@Override
 	public void fallenOffEdge() {
-		this.remove();
+		//this.remove();
+		game.markForRemoval(this.getID());
 	}
 
 

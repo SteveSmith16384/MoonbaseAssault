@@ -94,7 +94,8 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 				MoonbaseAssaultServer server = (MoonbaseAssaultServer)game;
 				server.computerDestroyed(position);
 
-				this.remove();
+				//this.remove();
+				game.markForRemoval(this.getID());
 
 				server.sendExplosion(this.getWorldTranslation(), 10, .8f, 1.2f, .06f, .12f, "Textures/computerconsole2.jpg");
 

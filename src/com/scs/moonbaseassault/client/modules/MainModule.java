@@ -21,6 +21,7 @@ import ssmith.util.RealtimeInterval;
 public class MainModule extends AbstractModule {
 
 	private RealtimeInterval updateHUDInterval;
+	private boolean requestedToJoin = false;
 
 	public MainModule(MoonbaseAssaultClient client) {
 		super(client);
@@ -42,12 +43,12 @@ public class MainModule extends AbstractModule {
 		client.getGameNode().addLight(sun);
 
 		// Add shadows
-		final int SHADOWMAP_SIZE = 512;//*2;
+		final int SHADOWMAP_SIZE = 512*2;
 		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(client.getAssetManager(), SHADOWMAP_SIZE, 2);
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
-		
-		client.joinGame();
+
+		//client.joinGame(null);
 
 		client.setPOVWeapon(new DefaultPOVWeapon(client));
 
@@ -56,17 +57,21 @@ public class MainModule extends AbstractModule {
 
 	@Override
 	public void simpleUpdate(float tpfSecs) {
+		if (!requestedToJoin) {
+			if (client.rcvdHello) {
+				requestedToJoin = true;
+				client.joinGame(null);
+			}
+		}
+
+
 		if (this.updateHUDInterval.hitInterval()) {
 			// Get data for HUD
 			List<Point> units = new LinkedList<Point>();
-			//List<Point> computers = new LinkedList<Point>();
 			for (IEntity e : client.entities.values()) {
 				if (e instanceof PhysicalEntity) {
-					PhysicalEntity pe = (PhysicalEntity)e;  //pe.getWorldRotation();
-					/*if (pe instanceof Computer) {
-						Vector3f pos = pe.getWorldTranslation();
-						computers.add(new Point((int)pos.x, (int)pos.z));
-					} else */if (pe instanceof MA_AISoldier) {
+					PhysicalEntity pe = (PhysicalEntity)e;
+					if (pe instanceof MA_AISoldier) {
 						MA_AISoldier ai = (MA_AISoldier)pe;
 						if (ai.getSide() == client.side || Globals.SHOW_ALL_UNITS_ON_HUD) {
 							Vector3f pos = pe.getWorldTranslation();
@@ -89,8 +94,8 @@ public class MainModule extends AbstractModule {
 	public void mouseClicked() {
 
 	}
-	
-	
+
+
 	@Override
 	public void destroy() {
 		client.getGuiNode().detachAllChildren();
