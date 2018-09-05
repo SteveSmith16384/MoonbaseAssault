@@ -3,12 +3,12 @@ package com.scs.moonbaseassault.server.ai;
 import java.awt.Point;
 
 import com.jme3.math.Vector3f;
-import com.scs.moonbaseassault.entities.AILaserBullet;
 import com.scs.moonbaseassault.entities.AbstractAISoldier;
 import com.scs.moonbaseassault.entities.Computer;
 import com.scs.moonbaseassault.entities.FloorOrCeiling;
 import com.scs.moonbaseassault.entities.MapBorder;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
+import com.scs.moonbaseassault.entities.LaserBullet;
 import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.stevetech1.components.IEntity;
@@ -75,7 +75,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 			if (!this.currentTarget.isAlive()) {
 				this.currentTarget = null;
 			} else {
-				boolean cansee = soldierEntity.canSee((PhysicalEntity)this.currentTarget, AILaserBullet.RANGE, VIEW_ANGLE_RADS);
+				boolean cansee = soldierEntity.canSee((PhysicalEntity)this.currentTarget, LaserBullet.RANGE, VIEW_ANGLE_RADS);
 				if (!cansee) {
 					this.currentTarget = null;
 					maintainDirectionForSecs = 4f; // Walk towards them for 4 secs
@@ -89,7 +89,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 
 
 		if (this.checkForEnemyInt.hitInterval()) {
-			currentTarget = server.getTarget(this.soldierEntity, this.soldierEntity.side, AILaserBullet.RANGE, VIEW_ANGLE_RADS);
+			currentTarget = server.getTarget(this.soldierEntity, this.soldierEntity.side, LaserBullet.RANGE, VIEW_ANGLE_RADS);
 			if (Globals.DEBUG_AI_TARGETTING && currentTarget != null) {
 				Globals.p("AI can now see " + currentTarget);
 			}

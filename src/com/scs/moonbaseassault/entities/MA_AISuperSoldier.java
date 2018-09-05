@@ -4,7 +4,7 @@ import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.moonbaseassault.server.ai.ShootingSoldierAI3;
-import com.scs.stevetech1.entities.AbstractAIBullet;
+import com.scs.stevetech1.entities.AbstractBullet;
 import com.scs.stevetech1.shared.IEntityController;
 
 public class MA_AISuperSoldier extends AbstractAISoldier {
@@ -21,8 +21,8 @@ public class MA_AISuperSoldier extends AbstractAISoldier {
 
 	
 	@Override
-	protected AbstractAIBullet createBullet(Vector3f pos, Vector3f dir) {
-		AILaserBullet bullet = new AILaserBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
+	protected AbstractBullet createBullet(Vector3f pos, Vector3f dir) {
+		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
 		return bullet;
 	}
 

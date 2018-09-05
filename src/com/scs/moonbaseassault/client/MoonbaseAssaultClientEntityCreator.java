@@ -2,7 +2,6 @@ package com.scs.moonbaseassault.client;
 
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.scs.moonbaseassault.entities.AILaserBullet;
 import com.scs.moonbaseassault.entities.Computer;
 import com.scs.moonbaseassault.entities.DestroyedComputer;
 import com.scs.moonbaseassault.entities.FloorOrCeiling;
@@ -14,7 +13,7 @@ import com.scs.moonbaseassault.entities.MapBorder;
 import com.scs.moonbaseassault.entities.MediPack;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
 import com.scs.moonbaseassault.entities.PlayersGrenade;
-import com.scs.moonbaseassault.entities.PlayersLaserBullet;
+import com.scs.moonbaseassault.entities.LaserBullet;
 import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.entities.SoldierClientAvatar;
 import com.scs.moonbaseassault.entities.SoldierEnemyAvatar;
@@ -24,10 +23,8 @@ import com.scs.moonbaseassault.weapons.GrenadeLauncher;
 import com.scs.moonbaseassault.weapons.LaserRifle;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.components.IEntity;
-import com.scs.stevetech1.components.IEntityContainer;
 import com.scs.stevetech1.entities.AbstractClientAvatar;
 import com.scs.stevetech1.entities.AbstractOtherPlayersAvatar;
-import com.scs.stevetech1.entities.AbstractPlayersBullet;
 import com.scs.stevetech1.entities.BulletTrail;
 import com.scs.stevetech1.entities.DebuggingSphere;
 import com.scs.stevetech1.entities.ExplosionShard;
@@ -44,7 +41,7 @@ public class MoonbaseAssaultClientEntityCreator {
 	public static final int DOOR = 4;
 	public static final int CRATE = 5;
 	public static final int WALL = 6;
-	public static final int PLAYER_LASER_BULLET = 7;
+	public static final int LASER_BULLET = 7;
 	public static final int LASER_RIFLE = 8;
 	public static final int SPACESHIP1 = 9;
 	public static final int AI_SOLDIER = 10;
@@ -52,7 +49,6 @@ public class MoonbaseAssaultClientEntityCreator {
 	public static final int DESTROYED_COMPUTER = 12;
 	public static final int GRENADE = 13;
 	public static final int GRENADE_LAUNCHER = 14;
-	public static final int AI_LASER_BULLET = 17;
 	public static final int HITSCAN_RIFLE = 18;
 	public static final int GAS_CANNISTER = 21;
 	public static final int FLOOR_TEX = 22;
@@ -74,11 +70,10 @@ public class MoonbaseAssaultClientEntityCreator {
 		case DOOR: return "DOOR";
 		case CRATE: return "CRATE";
 		case WALL: return "WALL";
-		case PLAYER_LASER_BULLET: return "PLAYER_LASER_BULLET";
+		case LASER_BULLET: return "PLAYER_LASER_BULLET";
 		case LASER_RIFLE: return "LASER_RIFLE";
 		case SPACESHIP1: return "SPACESHIP1";
 		case MAP_BORDER: return "INVISIBLE_MAP_BORDER";
-		case AI_LASER_BULLET: return "AI_LASER_BULLET";
 		default: return "Unknown (" + type + ")";
 		}
 	}
@@ -100,7 +95,6 @@ public class MoonbaseAssaultClientEntityCreator {
 
 			if (playerID == game.playerID) {
 				AbstractClientAvatar avatar = new SoldierClientAvatar(game, id, game.input, game.getCamera(), id, pos.x, pos.y, pos.z, side);
-				//game.getCamera().lookAt(pos.add(Vector3f.UNIT_X), Vector3f.UNIT_Y); // Look somewhere
 				Vector3f look = new Vector3f(15f, 1f, 15f);
 				game.getCamera().lookAt(look, Vector3f.UNIT_Y); // Look somewhere
 				return avatar;
@@ -140,15 +134,20 @@ public class MoonbaseAssaultClientEntityCreator {
 			return gl;
 		}
 
-		case PLAYER_LASER_BULLET:
+		case LASER_BULLET:
 		{
-			int containerID = (int) msg.data.get("containerID");
 			int playerID = (int) msg.data.get("playerID");
-			int side = (int) msg.data.get("side");
-			Vector3f dir = (Vector3f) msg.data.get("dir");
-			IEntityContainer<AbstractPlayersBullet> irac = (IEntityContainer<AbstractPlayersBullet>)game.entities.get(containerID);
-			PlayersLaserBullet bullet = new PlayersLaserBullet(game, id, playerID, irac, side, null, dir);
-			return bullet;
+			if (playerID != game.getPlayerID()) {
+				int side = (int) msg.data.get("side");
+				int shooterId =  (int) msg.data.get("shooterID");
+				IEntity shooter = game.entities.get(shooterId);
+				Vector3f startPos = (Vector3f) msg.data.get("startPos");
+				Vector3f dir = (Vector3f) msg.data.get("dir");
+				LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null); // Notice we generate our own id
+				return bullet;
+			} else {
+				return null; // it's our bullet, which we've already created locally
+			}
 		}
 
 		case DOOR:
@@ -214,12 +213,18 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case GRENADE:
 		{
-			int containerID = (int) msg.data.get("containerID");
 			int playerID = (int) msg.data.get("playerID");
-			int side = (int) msg.data.get("side");
-			IEntityContainer<AbstractPlayersBullet> irac = (IEntityContainer<AbstractPlayersBullet>)game.entities.get(containerID);
-			PlayersGrenade snowball = new PlayersGrenade(game, id, playerID, irac, side, null);
-			return snowball;
+			if (playerID != game.getPlayerID()) {
+				int side = (int) msg.data.get("side");
+				int shooterId =  (int) msg.data.get("shooterID");
+				IEntity shooter = game.entities.get(shooterId);
+				Vector3f startPos = (Vector3f) msg.data.get("startPos");
+				Vector3f dir = (Vector3f) msg.data.get("dir");
+				PlayersGrenade snowball = new PlayersGrenade(game, id, playerID, shooter, startPos, dir, side, null);
+				return snowball;
+			} else {
+				return null; // it's our bullet, which we've already created locally
+			}
 		}
 
 		case CRATE:
@@ -263,15 +268,15 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		}
 
-		case AI_LASER_BULLET:
+		/*case AI_LASER_BULLET:
 		{
 			int side = (int) msg.data.get("side");
 			int shooterID = (int) msg.data.get("shooterID");
 			IEntity shooter = game.entities.get(shooterID);
-			Vector3f dir = (Vector3f) msg.data.get("dir");
-			AILaserBullet bullet = new AILaserBullet(game, id, side, pos.x, pos.y, pos.z, shooter, dir);
+			//Vector3f dir = (Vector3f) msg.data.get("dir");
+			PlayersLaserBullet bullet = new PlayersLaserBullet(game, id, side, pos.x, pos.y, pos.z, shooter);
 			return bullet;
-		}
+		}*/
 
 		case Globals.EXPLOSION_SHARD:
 		{

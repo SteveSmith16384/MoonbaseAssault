@@ -1,52 +1,33 @@
 package com.scs.moonbaseassault.weapons;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
+import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.entities.PlayersGrenade;
 import com.scs.stevetech1.components.ICanShoot;
-import com.scs.stevetech1.components.IEntityContainer;
-import com.scs.stevetech1.entities.AbstractPlayersBullet;
-import com.scs.stevetech1.server.AbstractGameServer;
+import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.shared.IAbility;
 import com.scs.stevetech1.shared.IEntityController;
 import com.scs.stevetech1.weapons.AbstractMagazineGun;
 
-public class GrenadeLauncher extends AbstractMagazineGun<PlayersGrenade> implements IAbility, IEntityContainer<PlayersGrenade> {
+public class GrenadeLauncher extends AbstractMagazineGun implements IAbility {
 
 	private static final int MAG_SIZE = 6;
 
-	private LinkedList<PlayersGrenade> ammoCache = new LinkedList<PlayersGrenade>();
+	//private LinkedList<PlayersGrenade> ammoCache = new LinkedList<PlayersGrenade>();
 
 	public GrenadeLauncher(IEntityController game, int id, int playerID, ICanShoot owner, int avatarID, int num, ClientData _client) {
 		super(game, id, MoonbaseAssaultClientEntityCreator.GRENADE_LAUNCHER, playerID, owner, avatarID, num, "GrenadeLauncher", 1, 3, MAG_SIZE, _client);
 		
 	}
 
-
-	/*
-	 * This is called when the player fires the weapon
-	 */
-	@Override
-	public boolean launchBullet() {
-		if (!ammoCache.isEmpty()) {
-			PlayersGrenade g = ammoCache.remove();
-			ICanShoot ic = (ICanShoot)owner;
-			g.launch(owner, ic.getBulletStartPos(), ic.getShootDir());
-			return true;
-		}
-		return false;
-	}
-
-
+/*
 	@Override
 	public HashMap<String, Object> getCreationData() {
 		return super.creationData;
 	}
-
-
+*/
+/*
 	@Override
 	public void remove() {
 		// Remove all owned bullets
@@ -56,23 +37,14 @@ public class GrenadeLauncher extends AbstractMagazineGun<PlayersGrenade> impleme
 		}
 		super.remove();
 	}
-
-
-	@Override
-	protected void createBullet(AbstractGameServer server, int entityid, int playerID, IEntityContainer irac, int side) {
-		PlayersGrenade pe = new PlayersGrenade(game, entityid, playerID, irac, side, client);
-		server.addEntity(pe);
-
-
-	}
-
+*/
 
 	@Override
-	public int getBulletsInMag() {
-		return this.ammoCache.size();
+	protected PlayersGrenade createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, int side) {
+		return new PlayersGrenade(game, entityid, playerID, _shooter, startPos, _dir, side, client);
 	}
 
-
+/*
 	@Override
 	public void addToCache(PlayersGrenade o) {
 		this.ammoCache.add(o);
@@ -84,7 +56,7 @@ public class GrenadeLauncher extends AbstractMagazineGun<PlayersGrenade> impleme
 		this.ammoCache.remove(o);
 	}
 
-
+/*
 	@Override
 	protected void emptyMagazine() {
 		while (!ammoCache.isEmpty()) {
@@ -93,6 +65,6 @@ public class GrenadeLauncher extends AbstractMagazineGun<PlayersGrenade> impleme
 		}
 		
 	}
-
+*/
 }
 

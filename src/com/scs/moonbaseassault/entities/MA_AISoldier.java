@@ -6,7 +6,7 @@ import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.moonbaseassault.server.ai.ShootingSoldierAI3;
 import com.scs.stevetech1.client.AbstractGameClient;
-import com.scs.stevetech1.entities.AbstractAIBullet;
+import com.scs.stevetech1.entities.AbstractBullet;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
@@ -25,8 +25,8 @@ public class MA_AISoldier extends AbstractAISoldier {
 
 	
 	@Override
-	protected AbstractAIBullet createBullet(Vector3f pos, Vector3f dir) {
-		AILaserBullet bullet = new AILaserBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
+	protected AbstractBullet createBullet(Vector3f pos, Vector3f dir) {
+		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
 		game.playSound(MASounds.SFX_AI_BULLET_FIRED, -1, pos, Globals.DEF_VOL, false);
 		return bullet;
 	}

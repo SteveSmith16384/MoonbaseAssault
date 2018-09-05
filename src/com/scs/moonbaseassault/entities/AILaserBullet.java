@@ -1,5 +1,5 @@
 package com.scs.moonbaseassault.entities;
-
+/*
 import java.util.HashMap;
 
 import com.jme3.math.ColorRGBA;
@@ -79,3 +79,4 @@ public class AILaserBullet extends AbstractAIBullet {
 	}
 
 }
+*/

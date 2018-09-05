@@ -34,16 +34,6 @@ public class MoonbaseAssaultCollisionValidator extends AbstractCollisionValidato
 			return false;
 		}
 		
-		// Anything with a side don't collide if on same side
-		if (pa instanceof IDontCollideWithComrades && pb instanceof IDontCollideWithComrades) {
-			// units on the same side don't collide
-			IDontCollideWithComrades aa = (IDontCollideWithComrades)pa;
-			IDontCollideWithComrades ab = (IDontCollideWithComrades)pb;
-			if (aa.getSide() == ab.getSide()) {
-				return false;
-			}
-		}
-
 		return super.canCollide(pa, pb);
 
 	}

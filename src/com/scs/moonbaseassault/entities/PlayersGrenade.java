@@ -12,22 +12,22 @@ import com.jme3.texture.Texture;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.IClientApp;
-import com.scs.stevetech1.components.IEntityContainer;
-import com.scs.stevetech1.entities.AbstractPlayersBullet;
+import com.scs.stevetech1.components.IEntity;
+import com.scs.stevetech1.entities.AbstractBullet;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
-public class PlayersGrenade extends AbstractPlayersBullet {
+public class PlayersGrenade extends AbstractBullet {
 
 	private static final float DURATION = 3f;
 
 	private float timeLeft = DURATION;
 
-	public PlayersGrenade(IEntityController _game, int id, int playerOwnerId, IEntityContainer<AbstractPlayersBullet> owner, int _side, ClientData _client) {
-		super(_game, id, MoonbaseAssaultClientEntityCreator.GRENADE, "Grenade", playerOwnerId, owner, _side, _client, null, false, 0, 0);
+	public PlayersGrenade(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, int _side, ClientData _client) {
+		super(_game, id, MoonbaseAssaultClientEntityCreator.GRENADE, "Grenade", playerOwnerId, _shooter, startPos, _dir, _side, _client, false, 0, 0);
 
 		Sphere sphere = new Sphere(8, 8, 0.07f, true, false);
 		sphere.setTextureMode(TextureMode.Projected);
@@ -44,7 +44,7 @@ public class PlayersGrenade extends AbstractPlayersBullet {
 
 		ball_geo.setModelBound(new BoundingBox()); // Replace the BoundingSphere
 		this.mainNode.attachChild(ball_geo);
-		
+
 		ball_geo.setUserData(Globals.ENTITY, this);
 		this.getMainNode().setUserData(Globals.ENTITY, this);
 
@@ -53,27 +53,22 @@ public class PlayersGrenade extends AbstractPlayersBullet {
 
 	@Override
 	public void processByServer(AbstractGameServer server, float tpf_secs) {
-		if (launched) {
-			super.processByServer(server, tpf_secs);
+		super.processByServer(server, tpf_secs);
 
-			if (this.checkForExploded(tpf_secs)) {
-				//SmallExplosionEntity expl = new SmallExplosionEntity(server, server.getNextEntityID(), this.getWorldTranslation());
-				//server.addEntity(expl);
+		if (this.checkForExploded(tpf_secs)) {
+			//SmallExplosionEntity expl = new SmallExplosionEntity(server, server.getNextEntityID(), this.getWorldTranslation());
+			//server.addEntity(expl);
 
-				server.sendExplosion(this.getWorldTranslation(), 10, .8f, 1.2f, .04f, .1f, "Textures/sun.jpg");
+			server.sendExplosion(this.getWorldTranslation(), 10, .8f, 1.2f, .04f, .1f, "Textures/sun.jpg");
 
-			}
 		}
 	}
 
 
 	@Override
 	public void processByClient(IClientApp client, float tpf_secs) {
-		if (launched) {
-			simpleRigidBody.process(tpf_secs);
-
-			this.checkForExploded(tpf_secs);			
-		}
+		simpleRigidBody.process(tpf_secs);
+		this.checkForExploded(tpf_secs);			
 	}
 
 

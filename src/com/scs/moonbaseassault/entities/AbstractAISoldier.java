@@ -30,8 +30,8 @@ import com.scs.stevetech1.components.IRewindable;
 import com.scs.stevetech1.components.ISetRotation;
 import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.data.SimpleGameData;
-import com.scs.stevetech1.entities.AbstractAIBullet;
 import com.scs.stevetech1.entities.AbstractAvatar;
+import com.scs.stevetech1.entities.AbstractBullet;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.netmessages.EntityKilledMessage;
@@ -287,7 +287,7 @@ IDebrisTexture {
 			Vector3f pos = this.getWorldTranslation().clone();
 			pos.y += this.soldierModel.getBulletStartHeight();
 			Vector3f dir = target.getMainNode().getWorldBound().getCenter().subtract(pos).normalizeLocal();
-			AbstractAIBullet bullet = this.createBullet(pos, dir);
+			AbstractBullet bullet = this.createBullet(pos, dir);
 			this.game.addEntity(bullet);
 
 			this.bullets--;
@@ -302,7 +302,7 @@ IDebrisTexture {
 	}
 
 
-	protected abstract AbstractAIBullet createBullet(Vector3f pos, Vector3f dir);
+	protected abstract AbstractBullet createBullet(Vector3f pos, Vector3f dir);
 
 
 	@Override
