@@ -46,7 +46,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	private List<Point> computerSquares; // For A*
 	public ArrayList<Point>[] deploySquares;
 	private MoonbaseAssaultCollisionValidator collisionValidator = new MoonbaseAssaultCollisionValidator();
-	private int winningSide = MoonbaseAssaultGlobals.SIDE_DEFENDERS; // Defenders win by default
+	private byte winningSide = MoonbaseAssaultGlobals.SIDE_DEFENDERS; // Defenders win by default
 	private CreateUnitsSystem createUnitsSystem;
 	private MoonbaseAssaultGameData maGameData;
 
@@ -175,7 +175,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
-			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, 2, false, AbstractAvatar.ANIM_IDLE, "AI TEST");
+			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, (byte)2, false, AbstractAvatar.ANIM_IDLE, "AI TEST");
 			this.actuallyAddEntity(s);
 			moveAISoldierToStartPosition(s, s.side);
 		}
@@ -183,7 +183,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	}
 
 
-	public void addAISoldier(int side, String name) {
+	public void addAISoldier(byte side, String name) {
 		//String name = (side == 1 ? "Attacker" : "Defender") + " " + num;
 		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, AbstractAvatar.ANIM_IDLE, name);
 		this.actuallyAddEntity(s);
@@ -256,7 +256,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	@Override
-	public int getSide(ClientData client) {
+	public byte getSide(ClientData client) {
 		if (PLAYERS_ARE_DEFENDERS) {
 			return MoonbaseAssaultGlobals.SIDE_DEFENDERS;
 		} else {
@@ -265,11 +265,11 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	}
 
 
-	private HashMap<Integer, Integer> getPlayersPerSide() {
-		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+	private HashMap<Byte, Integer> getPlayersPerSide() {
+		HashMap<Byte, Integer> map = new HashMap<Byte, Integer>();
 
 		// Load with empty side data
-		for (int side=1 ; side<=2 ; side++) {
+		for (byte side=1 ; side<=2 ; side++) {
 			map.put(side,  0);
 		}
 
@@ -324,7 +324,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	@Override
-	protected int getWinningSideAtEnd() {
+	protected byte getWinningSideAtEnd() {
 		return this.winningSide;
 	}
 

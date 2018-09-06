@@ -111,7 +111,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 
 	@Override
-	public int getSide() {
+	public byte getSide() {
 		return 2;
 	}
 

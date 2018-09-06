@@ -13,7 +13,7 @@ import com.scs.stevetech1.shared.IEntityController;
 
 public class MA_AISoldier extends AbstractAISoldier {
 	
-	public MA_AISoldier(IEntityController _game, int id, float x, float y, float z, int _side, boolean friend, int csInitialAnimCode, String name) {
+	public MA_AISoldier(IEntityController _game, int id, float x, float y, float z, byte _side, boolean friend, int csInitialAnimCode, String name) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.AI_SOLDIER, x, y, z, _side, 
 				new SoldierModel(_game.getAssetManager(), _side, false, friend), csInitialAnimCode, name);
 

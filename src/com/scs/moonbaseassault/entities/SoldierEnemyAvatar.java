@@ -13,7 +13,7 @@ public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements An
 	private SoldierModel soldier;
 	private int currentAnimCode = -1;
 	
-	public SoldierEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, int side, boolean friend, String playerName) {
+	public SoldierEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, byte side, boolean friend, String playerName) {
 		super(game, type, eid, x, y, z, new SoldierModel(game.getAssetManager(), side, friend, true), side, playerName);
 		
 		this.soldier = (SoldierModel)anim;

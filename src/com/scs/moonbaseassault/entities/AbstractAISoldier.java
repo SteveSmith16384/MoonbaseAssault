@@ -56,7 +56,7 @@ IDebrisTexture {
 
 	private IAvatarModel soldierModel; // Need this to animate the model
 	private float health = START_HEALTH;
-	public int side;
+	public byte side;
 	protected IArtificialIntelligence ai;
 	private int serverSideCurrentAnimCode; // Server-side
 	private long timeKilled;
@@ -69,7 +69,7 @@ IDebrisTexture {
 	private BitmapText bmpText;
 	private static BitmapFont font_small;
 
-	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, int _side, 
+	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, byte _side, 
 			IAvatarModel _model, int _csInitialAnimCode, String name) {
 		super(_game, id, type, name, true, false, true);
 
@@ -198,7 +198,7 @@ IDebrisTexture {
 
 
 	@Override
-	public int getSide() {
+	public byte getSide() {
 		return side;
 	}
 

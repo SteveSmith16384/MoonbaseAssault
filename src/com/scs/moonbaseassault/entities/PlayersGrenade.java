@@ -26,7 +26,7 @@ public class PlayersGrenade extends AbstractBullet {
 
 	private float timeLeft = DURATION;
 
-	public PlayersGrenade(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, int _side, ClientData _client) {
+	public PlayersGrenade(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.GRENADE, "Grenade", playerOwnerId, _shooter, startPos, _dir, _side, _client, false, 0, 0);
 
 		Sphere sphere = new Sphere(8, 8, 0.07f, true, false);
@@ -46,7 +46,7 @@ public class PlayersGrenade extends AbstractBullet {
 		this.mainNode.attachChild(ball_geo);
 
 		ball_geo.setUserData(Globals.ENTITY, this);
-		this.getMainNode().setUserData(Globals.ENTITY, this);
+		//this.getMainNode().setUserData(Globals.ENTITY, this);
 
 	}
 

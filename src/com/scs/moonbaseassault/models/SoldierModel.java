@@ -29,13 +29,11 @@ public class SoldierModel implements IAvatarModel {
 	public boolean isJumping = false;
 	private int currAnimCode = -1;
 	private float jumpEndTime;
-	private int side;
 	private boolean friend;
 	private boolean player;
 
-	public SoldierModel(AssetManager _assetManager, int _side, boolean _player, boolean _friend) {
+	public SoldierModel(AssetManager _assetManager, byte side, boolean _player, boolean _friend) {
 		assetManager = _assetManager;
-		side = _side;
 		friend = _friend;
 		player = _player;
 	}

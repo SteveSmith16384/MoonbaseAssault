@@ -52,7 +52,7 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 			mat.setTexture("DiffuseMap", tex3);
 			geometry.setMaterial(mat);
 		}
-		JMEModelFunctions.moveYOriginTo(geometry, 0.05f); // Floating
+		JMEModelFunctions.moveYOriginTo(geometry, 0.01f); //was 0.05 Floating
 
 		this.mainNode.attachChild(geometry);
 		mainNode.setLocalTranslation(x, y, z);

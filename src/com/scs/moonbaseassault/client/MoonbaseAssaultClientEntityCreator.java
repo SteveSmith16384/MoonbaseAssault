@@ -90,7 +90,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		case SOLDIER_AVATAR:
 		{
 			int playerID = (int)msg.data.get("playerID");
-			int side = (int)msg.data.get("side");
+			byte side = (byte)msg.data.get("side");
 			String playersName = (String)msg.data.get("playersName");
 
 			if (playerID == game.playerID) {
@@ -128,7 +128,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		case LASER_RIFLE:
 		{
 			int ownerid = (int)msg.data.get("ownerid");
-			int num = (int)msg.data.get("num");
+			byte num = (byte)msg.data.get("num");
 			int playerID = (int)msg.data.get("playerID");
 			LaserRifle gl = new LaserRifle(game, id, playerID, null, ownerid, num, null);
 			return gl;
@@ -138,7 +138,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			int playerID = (int) msg.data.get("playerID");
 			if (playerID != game.getPlayerID()) {
-				int side = (int) msg.data.get("side");
+				byte side = (byte) msg.data.get("side");
 				int shooterId =  (int) msg.data.get("shooterID");
 				IEntity shooter = game.entities.get(shooterId);
 				Vector3f startPos = (Vector3f) msg.data.get("startPos");
@@ -181,7 +181,7 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case AI_SOLDIER:
 		{
-			int side = (int)msg.data.get("side");
+			byte side = (byte)msg.data.get("side");
 			int animcode = (int)msg.data.get("animcode");
 			String name = (String)msg.data.get("name");
 			MA_AISoldier z = new MA_AISoldier(game, id, pos.x, pos.y, pos.z, side, side == game.side, animcode, name);
@@ -202,7 +202,7 @@ public class MoonbaseAssaultClientEntityCreator {
 			//if (game.currentAvatar != null) { // We might not have an avatar yet
 			//	if (ownerid == game.currentAvatar.id) { // Don't care about other's abilities?
 			//AbstractAvatar owner = (AbstractAvatar)game.entities.get(ownerid);
-			int num = (int)msg.data.get("num");
+			byte num = (byte)msg.data.get("num");
 			int playerID = (int)msg.data.get("playerID");
 			GrenadeLauncher gl = new GrenadeLauncher(game, id, playerID, null, ownerid, num, null);
 			return gl;
@@ -215,7 +215,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			int playerID = (int) msg.data.get("playerID");
 			if (playerID != game.getPlayerID()) {
-				int side = (int) msg.data.get("side");
+				byte side = (byte) msg.data.get("side");
 				int shooterId =  (int) msg.data.get("shooterID");
 				IEntity shooter = game.entities.get(shooterId);
 				Vector3f startPos = (Vector3f) msg.data.get("startPos");
@@ -245,10 +245,10 @@ public class MoonbaseAssaultClientEntityCreator {
 		case HITSCAN_RIFLE:
 		{
 			int playerID = (int) msg.data.get("playerID");
-			int ownerid = (int)msg.data.get("ownerid");
+			int ownerid = (int) msg.data.get("ownerid");
 			//if (ownerid == game.currentAvatar.id) { // Don't care about other's abilities
 			//AbstractAvatar owner = (AbstractAvatar)game.entities.get(ownerid);
-			int num = (int)msg.data.get("num");
+			byte num = (byte) msg.data.get("num");
 			HitscanRifle gl = new HitscanRifle(game, id, HITSCAN_RIFLE, playerID, null, ownerid, num, null);
 			//owner.addAbility(gl, num);
 			return gl;

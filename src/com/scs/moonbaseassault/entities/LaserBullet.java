@@ -24,22 +24,20 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 	private static final float LENGTH = .7f;
 	public static final float RANGE = 30f;
 
-	public LaserBullet(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, int _side, ClientData _client) {
+	public LaserBullet(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.LASER_BULLET, "LaserBullet", playerOwnerId, _shooter, startPos, _dir, _side, _client, true, SPEED, RANGE);
-
-		//this.getMainNode().setUserData(Globals.ENTITY, this);
 
 	}
 
 
 	@Override
 	protected void createModelAndSimpleRigidBody(Vector3f dir) {
-		Spatial laserNode = null;
 		Vector3f origin = Vector3f.ZERO;
-		laserNode = BeamLaserModel.Factory(game.getAssetManager(), origin, origin.add(dir.mult(LENGTH)), ColorRGBA.Pink, !game.isServer(), "Textures/cells3.png", MoonbaseAssaultServer.LASER_DIAM, Globals.BULLETS_CONES);
-
+		Spatial laserNode = BeamLaserModel.Factory(game.getAssetManager(), origin, origin.add(dir.mult(LENGTH)), ColorRGBA.Pink, !game.isServer(), "Textures/cells3.png", MoonbaseAssaultServer.LASER_DIAM, Globals.BULLETS_CONES);
 		//laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);
+		
+		// Note that we don't create a SRB since we use Rays
 
 	}
 	

@@ -82,7 +82,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 
 
 	@Override
-	public int getSide() {
+	public byte getSide() {
 		return -1;
 	}
 

@@ -1,13 +1,11 @@
 package com.scs.moonbaseassault;
 
-import com.scs.stevetech1.server.Globals;
-
 public class MoonbaseAssaultGlobals {
 
-	public static final int SIDE_ATTACKERS = 1;
-	public static final int SIDE_DEFENDERS = 2;
+	public static final byte SIDE_ATTACKERS = 1;
+	public static final byte SIDE_DEFENDERS = 2;
 
-	public static final float STEP_FORCE = 8f;
+	public static final float STEP_FORCE = 4f;
 	public static final float RAMP_FORCE = 3f;
 
 	public static final float MAX_HEALTH = 100f;

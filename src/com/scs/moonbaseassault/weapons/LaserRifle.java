@@ -1,7 +1,5 @@
 package com.scs.moonbaseassault.weapons;
 
-import java.util.HashMap;
-
 import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.entities.LaserBullet;
@@ -17,9 +15,7 @@ import com.scs.stevetech1.weapons.AbstractMagazineGun;
  */
 public class LaserRifle extends AbstractMagazineGun implements IAbility {
 
-	//private LinkedList<PlayersLaserBullet> ammoCache = new LinkedList<PlayersLaserBullet>(); 
-
-	public LaserRifle(IEntityController game, int id, int playerID, AbstractAvatar owner, int avatarID, int abilityNum, ClientData client) {
+	public LaserRifle(IEntityController game, int id, int playerID, AbstractAvatar owner, int avatarID, byte abilityNum, ClientData client) {
 		super(game, id, MoonbaseAssaultClientEntityCreator.LASER_RIFLE, playerID, owner, avatarID, abilityNum, "Laser Rifle", .2f, 2, 10, client);
 
 	}
@@ -53,7 +49,7 @@ public class LaserRifle extends AbstractMagazineGun implements IAbility {
 */
 
 	@Override
-	protected LaserBullet createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, int side) {
+	protected LaserBullet createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte side) {
 		return new LaserBullet(game, entityid, playerID, _shooter, startPos, _dir, side, client);
 
 	}

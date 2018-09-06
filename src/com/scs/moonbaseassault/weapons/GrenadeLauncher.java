@@ -16,7 +16,7 @@ public class GrenadeLauncher extends AbstractMagazineGun implements IAbility {
 
 	//private LinkedList<PlayersGrenade> ammoCache = new LinkedList<PlayersGrenade>();
 
-	public GrenadeLauncher(IEntityController game, int id, int playerID, ICanShoot owner, int avatarID, int num, ClientData _client) {
+	public GrenadeLauncher(IEntityController game, int id, int playerID, ICanShoot owner, int avatarID, byte num, ClientData _client) {
 		super(game, id, MoonbaseAssaultClientEntityCreator.GRENADE_LAUNCHER, playerID, owner, avatarID, num, "GrenadeLauncher", 1, 3, MAG_SIZE, _client);
 		
 	}
@@ -40,7 +40,7 @@ public class GrenadeLauncher extends AbstractMagazineGun implements IAbility {
 */
 
 	@Override
-	protected PlayersGrenade createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, int side) {
+	protected PlayersGrenade createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte side) {
 		return new PlayersGrenade(game, entityid, playerID, _shooter, startPos, _dir, side, client);
 	}
 
