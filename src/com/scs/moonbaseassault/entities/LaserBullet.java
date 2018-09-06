@@ -53,7 +53,6 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 				tex = dt.getDebrisTexture();
 			}
 			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .005f, .02f, tex);
-			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEF_VOL, false);
 			
 			if (Globals.SHOW_BULLET_COLLISION_POS) {
 				// Create debugging sphere
@@ -61,10 +60,19 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 				DebuggingSphere ds = new DebuggingSphere(game, game.getNextEntityID(), pos.x, pos.y, pos.z, true, false);
 				game.addEntity(ds);
 			}
-
+		} else {
+			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEF_VOL, false);
 		}
-		//this.remove();
 		game.markForRemoval(this.getID());
+	}
+
+
+	@Override
+	public float getDamageCaused() {
+		//return ((RANGE-this.getDistanceTravelled()) / this.getDistanceTravelled()) * 10;
+		float dam = (((RANGE-this.getDistanceTravelled()) / this.getDistanceTravelled()) * 5)+5;
+		Globals.p(this + " damage: " + dam);
+		return dam;
 	}
 
 }

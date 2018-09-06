@@ -123,8 +123,8 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetable,
 
 
 	@Override
-	public boolean isValidTargetForSide(int shootersSide) {
-		return shootersSide == 1;
+	public boolean isValidTargetForSide(byte shootersSide) {
+		return shootersSide == (byte)1;
 	}
 
 

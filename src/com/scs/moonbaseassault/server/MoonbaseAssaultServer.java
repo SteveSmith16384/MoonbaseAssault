@@ -192,7 +192,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	}
 
 
-	private void moveAISoldierToStartPosition(PhysicalEntity soldier, int side) {
+	private void moveAISoldierToStartPosition(PhysicalEntity soldier, byte side) {
 		float startHeight = .1f;
 		//if (!Globals.TEST_AI) {
 		List<Point> deploySquares = this.deploySquares[side-1];

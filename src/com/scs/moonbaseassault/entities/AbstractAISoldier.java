@@ -274,7 +274,7 @@ IDebrisTexture {
 
 
 	@Override
-	public boolean isValidTargetForSide(int shootersSide) {
+	public boolean isValidTargetForSide(byte shootersSide) {
 		return shootersSide != this.side;
 	}
 
@@ -296,7 +296,7 @@ IDebrisTexture {
 			} else {
 				this.timeToNextShot = RELOAD_INTERVAL;
 				bullets = BULLETS_IN_MAG;
-				Globals.p("AI Reloading");
+				//Globals.p("AI Reloading");
 			}
 		}
 	}
