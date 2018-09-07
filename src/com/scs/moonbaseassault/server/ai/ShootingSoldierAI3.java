@@ -12,7 +12,7 @@ import com.scs.moonbaseassault.entities.LaserBullet;
 import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.stevetech1.components.IEntity;
-import com.scs.stevetech1.components.ITargetable;
+import com.scs.stevetech1.components.ITargetableByAI;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.AbstractGameServer;
@@ -32,7 +32,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 	private AbstractAISoldier soldierEntity;
 	private Vector3f currDir;
 	private RealtimeInterval checkForEnemyInt;
-	private ITargetable currentTarget;
+	private ITargetableByAI currentTarget;
 	private int animCode = 0;
 	private float waitForSecs = 0; // e.g. wait for door to open
 	private float maintainDirectionForSecs = 0; // e.g. collided with comrade
@@ -217,7 +217,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 
 
 	@Override
-	public ITargetable getCurrentTarget() {
+	public ITargetableByAI getCurrentTarget() {
 		return this.currentTarget;
 	}
 

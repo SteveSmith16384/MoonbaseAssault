@@ -24,12 +24,12 @@ import com.scs.stevetech1.components.IDamagable;
 import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IDrawOnHUD;
 import com.scs.stevetech1.components.IEntity;
-import com.scs.stevetech1.components.ITargetable;
+import com.scs.stevetech1.components.ITargetableByAI;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
-public class Computer extends PhysicalEntity implements IDamagable, ITargetable, IDrawOnHUD, IDebrisTexture {
+public class Computer extends PhysicalEntity implements IDamagable, ITargetableByAI, IDrawOnHUD, IDebrisTexture {
 
 	private static final float SIZE = 0.9f;
 	private float health = 100;

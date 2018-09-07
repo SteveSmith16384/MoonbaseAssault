@@ -25,8 +25,8 @@ public class MA_AISoldier extends AbstractAISoldier {
 
 	
 	@Override
-	protected AbstractBullet createBullet(Vector3f pos, Vector3f dir) {
-		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
+	protected AbstractBullet createAIBullet(Vector3f pos, Vector3f dir) {
+		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null, false);
 		game.playSound(MASounds.SFX_AI_BULLET_FIRED, -1, pos, Globals.DEF_VOL, false);
 		return bullet;
 	}

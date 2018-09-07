@@ -28,7 +28,7 @@ import com.scs.stevetech1.components.INotifiedOfCollision;
 import com.scs.stevetech1.components.IProcessByClient;
 import com.scs.stevetech1.components.IRewindable;
 import com.scs.stevetech1.components.ISetRotation;
-import com.scs.stevetech1.components.ITargetable;
+import com.scs.stevetech1.components.ITargetableByAI;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractBullet;
@@ -41,7 +41,7 @@ import com.scs.stevetech1.server.IArtificialIntelligence;
 import com.scs.stevetech1.shared.IEntityController;
 
 public abstract class AbstractAISoldier extends PhysicalEntity implements IAffectedByPhysics, IDamagable, INotifiedOfCollision,
-IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByClient, IGetRotation, ISetRotation, IKillable, ITargetable, IDontCollideWithComrades,
+IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByClient, IGetRotation, ISetRotation, IKillable, ITargetableByAI, IDontCollideWithComrades,
 IDebrisTexture {
 
 	public static final int BULLETS_IN_MAG = 6;
@@ -287,7 +287,7 @@ IDebrisTexture {
 			Vector3f pos = this.getWorldTranslation().clone();
 			pos.y += this.soldierModel.getBulletStartHeight();
 			Vector3f dir = target.getMainNode().getWorldBound().getCenter().subtract(pos).normalizeLocal();
-			AbstractBullet bullet = this.createBullet(pos, dir);
+			AbstractBullet bullet = this.createAIBullet(pos, dir);
 			this.game.addEntity(bullet);
 
 			this.bullets--;
@@ -302,7 +302,7 @@ IDebrisTexture {
 	}
 
 
-	protected abstract AbstractBullet createBullet(Vector3f pos, Vector3f dir);
+	protected abstract AbstractBullet createAIBullet(Vector3f pos, Vector3f dir);
 
 
 	@Override

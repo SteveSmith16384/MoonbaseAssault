@@ -19,56 +19,12 @@ public class LaserRifle extends AbstractMagazineGun implements IAbility {
 		super(game, id, MoonbaseAssaultClientEntityCreator.LASER_RIFLE, playerID, owner, avatarID, abilityNum, "Laser Rifle", .2f, 2, 10, client);
 
 	}
-/*
 
-	@Override
-	public HashMap<String, Object> getCreationData() {
-		return super.creationData;
-	}
-
-/*
-	@Override
-	public void addToCache(PlayersLaserBullet o) {
-		this.ammoCache.add(o);
-	}
-
-
-	@Override
-	public void removeFromCache(PlayersLaserBullet o) {
-		this.ammoCache.remove(o);
-	}
-
-/*
-	public void remove() {
-		while (!ammoCache.isEmpty()) {
-			PlayersLaserBullet g = ammoCache.remove();
-			g.remove();
-		}
-		super.remove();
-	}
-*/
-
+	
 	@Override
 	protected LaserBullet createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte side) {
-		return new LaserBullet(game, entityid, playerID, _shooter, startPos, _dir, side, client);
+		return new LaserBullet(game, entityid, playerID, _shooter, startPos, _dir, side, client, true);
 
 	}
 	
-/*
-	@Override
-	public int getBulletsInMag() {
-		return this.ammoCache.size();
-	}
-
-/*
-	@Override
-	protected void emptyMagazine() {
-		while (!ammoCache.isEmpty()) {
-			PlayersLaserBullet g = ammoCache.remove();
-			g.remove();
-		}
-		
-	}
-*/
-
 }

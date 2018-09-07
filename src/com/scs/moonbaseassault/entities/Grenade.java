@@ -20,14 +20,14 @@ import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
-public class PlayersGrenade extends AbstractBullet {
+public class Grenade extends AbstractBullet {
 
 	private static final float DURATION = 3f;
 
 	private float timeLeft = DURATION;
 
-	public PlayersGrenade(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client) {
-		super(_game, id, MoonbaseAssaultClientEntityCreator.GRENADE, "Grenade", playerOwnerId, _shooter, startPos, _dir, _side, _client, false, 0, 0);
+	public Grenade(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client, boolean fromPlayer) {
+		super(_game, id, MoonbaseAssaultClientEntityCreator.GRENADE, "Grenade", playerOwnerId, _shooter, startPos, _dir, _side, _client, false, 0, 0, fromPlayer);
 
 		Sphere sphere = new Sphere(8, 8, 0.07f, true, false);
 		sphere.setTextureMode(TextureMode.Projected);

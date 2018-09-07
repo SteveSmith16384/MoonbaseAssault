@@ -12,7 +12,7 @@ import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.moonbaseassault.entities.MapBorder;
 import com.scs.moonbaseassault.entities.MediPack;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
-import com.scs.moonbaseassault.entities.PlayersGrenade;
+import com.scs.moonbaseassault.entities.Grenade;
 import com.scs.moonbaseassault.entities.LaserBullet;
 import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.entities.SoldierClientAvatar;
@@ -143,7 +143,7 @@ public class MoonbaseAssaultClientEntityCreator {
 				IEntity shooter = game.entities.get(shooterId);
 				Vector3f startPos = (Vector3f) msg.data.get("startPos");
 				Vector3f dir = (Vector3f) msg.data.get("dir");
-				LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null); // Notice we generate our own id
+				LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null, msg.clientShouldAddImmed); // Notice we generate our own id
 				return bullet;
 			} else {
 				return null; // it's our bullet, which we've already created locally
@@ -220,7 +220,7 @@ public class MoonbaseAssaultClientEntityCreator {
 				IEntity shooter = game.entities.get(shooterId);
 				Vector3f startPos = (Vector3f) msg.data.get("startPos");
 				Vector3f dir = (Vector3f) msg.data.get("dir");
-				PlayersGrenade snowball = new PlayersGrenade(game, id, playerID, shooter, startPos, dir, side, null);
+				Grenade snowball = new Grenade(game, id, playerID, shooter, startPos, dir, side, null, msg.clientShouldAddImmed);
 				return snowball;
 			} else {
 				return null; // it's our bullet, which we've already created locally
@@ -267,16 +267,6 @@ public class MoonbaseAssaultClientEntityCreator {
 			}
 
 		}
-
-		/*case AI_LASER_BULLET:
-		{
-			int side = (int) msg.data.get("side");
-			int shooterID = (int) msg.data.get("shooterID");
-			IEntity shooter = game.entities.get(shooterID);
-			//Vector3f dir = (Vector3f) msg.data.get("dir");
-			PlayersLaserBullet bullet = new PlayersLaserBullet(game, id, side, pos.x, pos.y, pos.z, shooter);
-			return bullet;
-		}*/
 
 		case Globals.EXPLOSION_SHARD:
 		{
