@@ -43,7 +43,7 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 	
 
 	@Override
-	public void collided(PhysicalEntity pe) {
+	public void notifiedOfCollision(PhysicalEntity pe) {
 		if (game.isServer()) {
 			//Globals.p("PlayerLaserBullet collided");
 			AbstractGameServer server = (AbstractGameServer)game;

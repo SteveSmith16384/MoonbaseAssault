@@ -68,11 +68,10 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 
 
 	@Override
-	public void collided(PhysicalEntity pe) {
-		if (pe instanceof AbstractServerAvatar) {
+	public void notifiedOfCollision(PhysicalEntity pe) {
+		if (pe instanceof AbstractServerAvatar) { // Prevent handling on client side as well
 			AbstractServerAvatar asa = (AbstractServerAvatar)pe;
 			if (asa.getHealth() < asa.getMaxHealth()) {
-				//this.remove();
 				game.markForRemoval(this.getID());
 				asa.setHealth(asa.getMaxHealth());
 			}

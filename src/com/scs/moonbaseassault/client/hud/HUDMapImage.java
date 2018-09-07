@@ -13,6 +13,10 @@ public class HUDMapImage extends Picture {
 	public HUDMapImage(final AssetManager assetManager, int sizeInPixels, int mapSize) {
 		super("HUDMapImage");
 		
+		if (mapSize <= 0) {
+			throw new IllegalArgumentException("mapSize=" + mapSize);
+		}
+		
 		int w = mapSize;
 		int h = mapSize;
 		

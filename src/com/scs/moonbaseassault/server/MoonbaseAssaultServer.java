@@ -141,27 +141,28 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	protected void createGame() {
 		this.maGameData = new MoonbaseAssaultGameData();
-		this.sendMessageToInGameClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
 
 		MapLoader map = new MapLoader(this);
 		try {
 			//map.loadMap("serverdata/moonbaseassault_small.csv");
 			map.loadMap("serverdata/moonbaseassault.csv");
-			mapData = map.scannerData;
-			this.deploySquares = map.deploySquares;
-
-			this.computerSquares = new ArrayList<Point>();
-			for (int y=0 ; y<mapData.length ; y++) {
-				for (int x=0 ; x<mapData.length ; x++) {
-					if (this.mapData[x][y] == MapLoader.COMPUTER) {
-						computerSquares.add(new Point(x, y));
-					}
-				}
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
+		}
+
+
+		mapData = map.scannerData;
+		this.sendMessageToInGameClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
+		this.deploySquares = map.deploySquares;
+
+		this.computerSquares = new ArrayList<Point>();
+		for (int y=0 ; y<mapData.length ; y++) {
+			for (int x=0 ; x<mapData.length ; x++) {
+				if (this.mapData[x][y] == MapLoader.COMPUTER) {
+					computerSquares.add(new Point(x, y));
+				}
+			}
 		}
 
 		Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));

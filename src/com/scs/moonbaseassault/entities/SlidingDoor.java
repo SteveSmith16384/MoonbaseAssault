@@ -128,7 +128,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 
 
 	@Override
-	public void collided(PhysicalEntity pe) {
+	public void notifiedOfCollision(PhysicalEntity pe) {
 		this.startOpening();
 	}
 

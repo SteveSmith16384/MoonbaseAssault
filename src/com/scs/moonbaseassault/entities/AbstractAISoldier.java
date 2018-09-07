@@ -204,7 +204,7 @@ IDebrisTexture {
 
 
 	@Override
-	public void collided(PhysicalEntity pe) {
+	public void notifiedOfCollision(PhysicalEntity pe) {
 		if (health > 0) {
 			if (game.isServer()) {
 				ai.collided(pe);
