@@ -126,8 +126,10 @@ IDebrisTexture {
 			timeToNextShot -= tpf_secs;
 			if (server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED) {
 				ai.process(server, tpf_secs);
+				this.serverSideCurrentAnimCode = ai.getAnimCode(); // AbstractAvatar.ANIM_WALKING;
+			} else {
+				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_IDLE; // Game ended so we're not moving.
 			}
-			this.serverSideCurrentAnimCode = ai.getAnimCode(); // AbstractAvatar.ANIM_WALKING;
 		} else {
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
 			long diff = System.currentTimeMillis() - timeKilled;

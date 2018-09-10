@@ -79,7 +79,7 @@ public class MoonbaseAssaultClientEntityCreator {
 	}
 
 
-	public IEntity createEntity(AbstractGameClient game, NewEntityData msg) {
+	public IEntity createEntity(AbstractGameClient game, NewEntityData msg) { // todo - rename msg to data
 		/*if (Globals.DEBUG_ENTITY_ADD_REMOVE) {
 			Globals.p("Creating " + TypeToString(msg.type));
 		}*/
@@ -143,7 +143,7 @@ public class MoonbaseAssaultClientEntityCreator {
 				IEntity shooter = game.entities.get(shooterId);
 				Vector3f startPos = (Vector3f) msg.data.get("startPos");
 				Vector3f dir = (Vector3f) msg.data.get("dir");
-				LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null, msg.clientShouldAddImmed); // Notice we generate our own id
+				LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null); // Notice we generate our own id
 				return bullet;
 			} else {
 				return null; // it's our bullet, which we've already created locally
@@ -220,7 +220,7 @@ public class MoonbaseAssaultClientEntityCreator {
 				IEntity shooter = game.entities.get(shooterId);
 				Vector3f startPos = (Vector3f) msg.data.get("startPos");
 				Vector3f dir = (Vector3f) msg.data.get("dir");
-				Grenade snowball = new Grenade(game, id, playerID, shooter, startPos, dir, side, null, msg.clientShouldAddImmed);
+				Grenade snowball = new Grenade(game, id, playerID, shooter, startPos, dir, side, null);
 				return snowball;
 			} else {
 				return null; // it's our bullet, which we've already created locally

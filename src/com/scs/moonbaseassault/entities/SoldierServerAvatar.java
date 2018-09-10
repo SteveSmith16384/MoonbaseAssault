@@ -10,6 +10,7 @@ import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.input.IInputDevice;
 import com.scs.stevetech1.server.ClientData;
+import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IAbility;
 
 public class SoldierServerAvatar extends AbstractServerAvatar implements IDebrisTexture {
@@ -23,6 +24,10 @@ public class SoldierServerAvatar extends AbstractServerAvatar implements IDebris
 		
 		//IAbility abilityGrenades = new GrenadeLauncher(_module, _module.getNextEntityID(), client.getPlayerID(), this, eid, 1, client);
 		//_module.actuallyAddEntity(abilityGrenades);
+		
+		if (Globals.DEBUG_UNCOLLECTED_MEDIKIT) {
+			this.setHealth(1);
+		}
 
 	}
 	

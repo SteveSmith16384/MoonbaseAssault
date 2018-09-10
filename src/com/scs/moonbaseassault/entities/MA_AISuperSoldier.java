@@ -22,7 +22,7 @@ public class MA_AISuperSoldier extends AbstractAISoldier {
 	
 	@Override
 	protected AbstractBullet createAIBullet(Vector3f pos, Vector3f dir) {
-		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null, false);
+		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
 		return bullet;
 	}
 

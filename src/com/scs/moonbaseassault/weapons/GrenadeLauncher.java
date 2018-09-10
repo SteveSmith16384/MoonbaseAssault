@@ -22,7 +22,7 @@ public class GrenadeLauncher extends AbstractMagazineGun implements IAbility {
 
 	@Override
 	protected Grenade createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte side) {
-		return new Grenade(game, entityid, playerID, _shooter, startPos, _dir, side, client, true);
+		return new Grenade(game, entityid, playerID, _shooter, startPos, _dir, side, client);
 	}
 
 }

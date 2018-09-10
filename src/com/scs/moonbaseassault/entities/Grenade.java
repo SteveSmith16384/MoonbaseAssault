@@ -26,8 +26,8 @@ public class Grenade extends AbstractBullet {
 
 	private float timeLeft = DURATION;
 
-	public Grenade(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client, boolean fromPlayer) {
-		super(_game, id, MoonbaseAssaultClientEntityCreator.GRENADE, "Grenade", playerOwnerId, _shooter, startPos, _dir, _side, _client, false, 0, 0, fromPlayer);
+	public Grenade(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client) {
+		super(_game, id, MoonbaseAssaultClientEntityCreator.GRENADE, "Grenade", playerOwnerId, _shooter, startPos, _dir, _side, _client, false, 0, 0);
 
 		Sphere sphere = new Sphere(8, 8, 0.07f, true, false);
 		sphere.setTextureMode(TextureMode.Projected);

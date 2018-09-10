@@ -24,8 +24,8 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 	private static final float LENGTH = .7f;
 	public static final float RANGE = 30f;
 
-	public LaserBullet(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client, boolean fromPlayer) {
-		super(_game, id, MoonbaseAssaultClientEntityCreator.LASER_BULLET, "LaserBullet", playerOwnerId, _shooter, startPos, _dir, _side, _client, true, SPEED, RANGE, fromPlayer);
+	public LaserBullet(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client) {
+		super(_game, id, MoonbaseAssaultClientEntityCreator.LASER_BULLET, "LaserBullet", playerOwnerId, _shooter, startPos, _dir, _side, _client, true, SPEED, RANGE);
 
 	}
 
