@@ -72,7 +72,7 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 		if (pe instanceof AbstractServerAvatar) { // Prevent handling on client side as well
 			AbstractServerAvatar asa = (AbstractServerAvatar)pe;
 			if (asa.getHealth() < asa.getMaxHealth()) {
-				game.markForRemoval(this.getID());
+				game.markForRemoval(this);
 				asa.setHealth(asa.getMaxHealth());
 			}
 		}

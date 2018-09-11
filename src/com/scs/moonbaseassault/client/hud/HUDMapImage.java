@@ -5,12 +5,13 @@ import com.jme3.texture.Image.Format;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture2D;
 import com.jme3.ui.Picture;
+import com.scs.stevetech1.client.AbstractGameClient;
 
 public class HUDMapImage extends Picture {
 
 	public MapImageTexture mapImageTex;
 	
-	public HUDMapImage(final AssetManager assetManager, int sizeInPixels, int mapSize) {
+	public HUDMapImage(final AssetManager assetManager, int sizeInPixels, int mapSize, AbstractGameClient client) {
 		super("HUDMapImage");
 		
 		if (mapSize <= 0) {
@@ -20,7 +21,7 @@ public class HUDMapImage extends Picture {
 		int w = mapSize;
 		int h = mapSize;
 		
-		mapImageTex = new MapImageTexture(sizeInPixels, sizeInPixels/mapSize);
+		mapImageTex = new MapImageTexture(sizeInPixels, sizeInPixels/mapSize, client);
 		
 		// Give this picture the texture of the map image
 		Texture2D texture = new Texture2D(w, h, Format.ABGR8);
@@ -30,4 +31,9 @@ public class HUDMapImage extends Picture {
 		this.setTexture(assetManager, texture, true);
 	}
 
+	
+	public void refreshImage() {
+		this.mapImageTex.refreshImage();
+	}
+	
 }

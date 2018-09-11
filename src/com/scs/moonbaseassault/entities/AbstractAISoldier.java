@@ -135,7 +135,7 @@ IDebrisTexture {
 			long diff = System.currentTimeMillis() - timeKilled;
 			if (diff > 5000) {
 				//this.remove();
-				game.markForRemoval(this.getID());
+				game.markForRemoval(this);
 				return;
 			}
 		}
@@ -154,7 +154,7 @@ IDebrisTexture {
 	@Override
 	public void fallenOffEdge() {
 		//this.remove();
-		game.markForRemoval(this.getID());
+		game.markForRemoval(this);
 	}
 
 

@@ -77,7 +77,7 @@ public class Grenade extends AbstractBullet {
 		this.timeLeft -= tpf_secs;
 		if (this.timeLeft <= 0) {
 			//this.remove();
-			game.markForRemoval(this.getID());
+			game.markForRemoval(this);
 			return true;
 		}
 		return false;

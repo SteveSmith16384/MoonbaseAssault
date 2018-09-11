@@ -21,7 +21,7 @@ import ssmith.util.RealtimeInterval;
 
 public class MainModule extends AbstractModule {
 
-	private RealtimeInterval updateHUDInterval;
+	//private RealtimeInterval updateHUDInterval;
 	private boolean requestedToJoin = false;
 
 	public MainModule(MoonbaseAssaultClient client) {
@@ -32,7 +32,7 @@ public class MainModule extends AbstractModule {
 
 	@Override
 	public void simpleInit() {
-		updateHUDInterval = new RealtimeInterval(2000);
+		//updateHUDInterval = new RealtimeInterval(2000);
 
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.6f));
@@ -48,9 +48,6 @@ public class MainModule extends AbstractModule {
 		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(client.getAssetManager(), SHADOWMAP_SIZE, 2);
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
-
-		//client.setPOVWeapon(new DefaultPOVWeapon(client));
-
 	}
 
 
@@ -64,11 +61,11 @@ public class MainModule extends AbstractModule {
 		}
 
 
-		if (this.updateHUDInterval.hitInterval()) {
+		//if (this.updateHUDInterval.hitInterval()) {
 			// Get data for HUD
-			List<Point> aiUnits = new LinkedList<Point>();
+			/*List<Point> aiUnits = new LinkedList<Point>();
 			List<Point> otherPlayers = new LinkedList<Point>();
-			for (IEntity e : client.entities.values()) {
+			for (IEntity e : client.entitiesForProcessing) {
 				if (e instanceof PhysicalEntity) {
 					PhysicalEntity pe = (PhysicalEntity)e;
 					if (pe instanceof MA_AISoldier) {
@@ -87,20 +84,21 @@ public class MainModule extends AbstractModule {
 						}
 					}
 				}
-			}
-			Point player = null;
+			}*/
+			/*Point player = null;
 			if (client.currentAvatar != null) {
 				Vector3f v = client.currentAvatar.getWorldTranslation();
 				player = new Point((int)v.x, (int)v.z);
 			}
-			client.hud.setOtherData(player, aiUnits, otherPlayers);
-		}
+			client.hud.setOtherData(player, client.entitiesForProcessing);//aiUnits, otherPlayers);*/
+		
+		//}
 	}
 
 
 	@Override
 	public void mouseClicked() {
-
+		// Do nothing - handled by game input
 	}
 
 

@@ -1,8 +1,6 @@
 package com.scs.moonbaseassault.client.hud;
 
-import java.awt.Point;
 import java.util.LinkedList;
-import java.util.List;
 
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -20,7 +18,7 @@ import com.scs.stevetech1.gui.TextArea;
 
 import ssmith.util.RealtimeInterval;
 
-public class MoonbaseAssaultHUD extends Node { //implements IHUD {
+public class MoonbaseAssaultHUD extends Node {
 
 	private static final int MAX_LINES = 6;
 	private static final float LINE_SPACING = 10;
@@ -163,16 +161,20 @@ public class MoonbaseAssaultHUD extends Node { //implements IHUD {
 			}
 			this.setPing(client.pingRTT);
 			this.updateTextArea();
-		}
 
-		if (client.currentAvatar != null) {
-			this.setHealthText((int)client.currentAvatar.getHealth());
-			// These must be after we might use them, so the hud is correct
-			if (client.currentAvatar.ability[0] != null) {
-				setAbilityGunText(client.currentAvatar.ability[0].getHudText());
+			if (client.currentAvatar != null) {
+				this.setHealthText((int)client.currentAvatar.getHealth());
+				// These must be after we might use them, so the hud is correct
+				if (client.currentAvatar.ability[0] != null) {
+					setAbilityGunText(client.currentAvatar.ability[0].getHudText());
+				}
+				if (client.currentAvatar.ability[1] != null) {
+					setAbilityOtherText(client.currentAvatar.ability[1].getHudText());
+				}
 			}
-			if (client.currentAvatar.ability[1] != null) {
-				setAbilityOtherText(client.currentAvatar.ability[1].getHudText());
+			
+			if (hudMapImage != null) {
+				this.hudMapImage.refreshImage();
 			}
 		}
 
@@ -308,18 +310,18 @@ public class MoonbaseAssaultHUD extends Node { //implements IHUD {
 		this.hudMapImage.mapImageTex.setMapData(scannerData);
 	}
 
-
-	public void setOtherData(Point _player, List<Point> aiUnits, List<Point> otherPlayers) {
+	/*
+	public void setOtherData_(Point _player, ArrayList<IEntity> entitiesForProcessing) {
 		if (this.hudMapImage != null) {
-			this.hudMapImage.mapImageTex.setOtherData(_player, aiUnits, otherPlayers);
+			this.hudMapImage.mapImageTex.setOtherData(_player, entitiesForProcessing);//aiUnits, otherPlayers);
 		}
 
 	}
-
+	 */
 
 	private HUDMapImage addMapImage(int mapSize) {
 		float sizeInPixels = Math.max(cam.getWidth()/3, mapSize);
-		hudMapImage = new HUDMapImage(game.getAssetManager(), (int)sizeInPixels, mapSize);
+		hudMapImage = new HUDMapImage(game.getAssetManager(), (int)sizeInPixels, mapSize, game);
 		hudMapImage.setWidth(sizeInPixels);
 		hudMapImage.setHeight(sizeInPixels);
 		hudMapImage.setLocalTranslation((cam.getWidth() - sizeInPixels)/2, 0, 0);//cam.getHeight() *.1f, 0);

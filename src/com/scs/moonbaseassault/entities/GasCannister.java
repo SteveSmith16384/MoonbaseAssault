@@ -66,7 +66,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 	@Override
 	public void damaged(float amt, IEntity collider, String reason) {
 		//Globals.p("Gas can hit!");
-		if (this.health > 0) { // Prevent re-exploding
+		if (!this.isMarkedForRemoval()) { // Prevent re-exploding
 			this.health -= amt;
 			if (this.health <= 0) {
 				AbstractGameServer server  = (AbstractGameServer)game;
@@ -74,8 +74,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 				server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
 				server.sendExpandingSphere(this.getWorldTranslation());
 				server.damageSurroundingEntities(this, 4f, 50);
-				//this.remove();
-				game.markForRemoval(this.getID());
+				game.markForRemoval(this);
 			}
 		}
 	}

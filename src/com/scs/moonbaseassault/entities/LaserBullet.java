@@ -55,7 +55,6 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 	@Override
 	public void notifiedOfCollision(PhysicalEntity pe) {
 		if (game.isServer()) {
-			//Globals.p("PlayerLaserBullet collided");
 			AbstractGameServer server = (AbstractGameServer)game;
 			String tex = "Textures/sun.jpg";
 			if (pe instanceof IDebrisTexture) {
@@ -73,7 +72,7 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 		} else {
 			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEF_VOL, false);
 		}
-		game.markForRemoval(this.getID());
+		game.markForRemoval(this);
 	}
 
 

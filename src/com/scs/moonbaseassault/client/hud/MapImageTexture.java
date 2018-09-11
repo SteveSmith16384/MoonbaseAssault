@@ -3,9 +3,15 @@ package com.scs.moonbaseassault.client.hud;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.List;
 
+import com.jme3.math.Vector3f;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
+import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.moonbaseassault.server.MapLoader;
+import com.scs.stevetech1.client.AbstractGameClient;
+import com.scs.stevetech1.components.IEntity;
+import com.scs.stevetech1.entities.AbstractServerAvatar;
+import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.PaintableImage;
 
 public class MapImageTexture extends PaintableImage {
@@ -13,15 +19,18 @@ public class MapImageTexture extends PaintableImage {
 	private static final float ALPHA = 1f; //0 = transparent
 
 	private int[][] data;
-	private Point player;
-	private List<Point> aiUnits, otherPlayers;
+	//private Point player;
+	//private List<Point> aiUnits, otherPlayers;
+	//private ArrayList<IEntity> entitiesForProcessing;
 	private int pixelSize; // How big each map square is on the scanner
+	private AbstractGameClient client;
 
-	public MapImageTexture(int sizeInPixels, int _pixelSize) {
+	public MapImageTexture(int sizeInPixels, int _pixelSize, AbstractGameClient _client) {
 		super(sizeInPixels, sizeInPixels);
 
 		pixelSize = Math.max(1, _pixelSize);
-
+		client = _client;
+		
 		refreshImage();
 	}
 
@@ -31,14 +40,21 @@ public class MapImageTexture extends PaintableImage {
 		this.refreshImage();
 	}
 
-
-	public void setOtherData(Point _player, List<Point> _aiUnits, List<Point> _otherPlayers) {//, List<Point> _computers) {
+	/*
+	public void setOtherData(Point _player, List<Point> _aiUnits, List<Point> _otherPlayers) {
 		player = _player;
 		aiUnits = _aiUnits;
 		otherPlayers = _otherPlayers;
 		this.refreshImage();
 	}
-
+	 */
+/*
+	public void setOtherData(Point _player, ArrayList<IEntity> _entitiesForProcessing) {
+		player = _player;
+		entitiesForProcessing = _entitiesForProcessing;
+		this.refreshImage();
+	}
+*/
 
 	@Override
 	public void paint(Graphics2D g) {
@@ -62,18 +78,45 @@ public class MapImageTexture extends PaintableImage {
 					}
 				}
 			}
+		}
 
-			/*if (Globals.DEBUG_HUD) {
-				g.setColor(new Color(1f, 0f, 1f, 1f));
-				//g.fillRect(0, 0, pixelSize, pixelSize);
-				paintSquare(g, 0, 0);
-				g.setColor(new Color(1f, 0f, 0f, 1f));
-				//g.fillRect((data.length-1)*pixelSize, (data[0].length-1)*pixelSize, pixelSize, pixelSize);
-				paintSquare(g, 2, 2);
-			} */
+		if (client.entitiesForProcessing != null) {
+			for (IEntity e : client.entitiesForProcessing) {
+				if (e instanceof PhysicalEntity) {
+					PhysicalEntity pe = (PhysicalEntity)e;
+					if (pe instanceof MA_AISoldier) {
+						MA_AISoldier ai = (MA_AISoldier)pe;
+						if (ai.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {
+							Vector3f pos = pe.getWorldTranslation();
+							if (ai.getSide() == client.side) {
+								g.setColor(new Color(1f, 1f, 0f, ALPHA)); // Yellow
 
-			// Units
-			if (aiUnits != null) {
+							} else {
+								g.setColor(new Color(1f, 0f, 0f, ALPHA)); // Red
+							}
+							paintSquare(g, (int)pos.x, (int)pos.z, 1);
+							//aiUnits.add(new Point((int)pos.x, (int)pos.z));
+						}
+					} else if (pe instanceof AbstractServerAvatar) {
+						if (pe != client.currentAvatar) {
+							AbstractServerAvatar ai = (AbstractServerAvatar)pe;
+							if (ai.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {
+								Vector3f pos = pe.getWorldTranslation();
+								//otherPlayers.add(new Point((int)pos.x, (int)pos.z));
+								if (pe == client.currentAvatar) {
+									g.setColor(new Color(1f, 1f, 1f, ALPHA)); // White
+								} else if (ai.getSide() == client.side) {
+									g.setColor(new Color(1f, 1f, 0f, ALPHA)); // Yellow
+								} else {
+									g.setColor(new Color(1f, 0f, 0f, ALPHA)); // Red
+								}
+								paintSquare(g, (int)pos.x, (int)pos.z, 2);
+							}
+						}
+					}
+				}
+			}
+			/*
 				g.setColor(new Color(1f, 0f, 0f, ALPHA)); // Red
 
 				for (int i=0 ; i<aiUnits.size() ; i++) {
@@ -91,12 +134,12 @@ public class MapImageTexture extends PaintableImage {
 					paintSquare(g, p.x, p.y, 2);
 				}			
 			}
-
+			 */
 			// Player
-			if (player != null) {
+			/*if (player != null) {
 				g.setColor(new Color(1f, 1f, 0f, ALPHA)); // Yellow
 				paintSquare(g, player.x, player.y, 2);
-			}				
+			}	*/			
 		}
 
 	}
