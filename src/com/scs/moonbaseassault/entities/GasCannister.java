@@ -71,7 +71,7 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 			if (this.health <= 0) {
 				AbstractGameServer server  = (AbstractGameServer)game;
 				String tex = "Textures/sun.jpg";
-				server.sendExplosion(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
+				server.sendExplosionShards(this.getWorldTranslation(), 30, 2.8f, 5.2f, .01f, .04f, tex);
 				server.sendExpandingSphere(this.getWorldTranslation());
 				server.damageSurroundingEntities(this, 4f, 50);
 				game.markForRemoval(this);

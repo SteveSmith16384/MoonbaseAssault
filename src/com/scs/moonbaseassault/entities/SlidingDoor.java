@@ -76,7 +76,6 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 		simpleRigidBody.setGravity(0f);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
 
 		origPosition = this.getWorldTranslation().clone();
 

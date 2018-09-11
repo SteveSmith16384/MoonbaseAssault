@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.jme3.asset.TextureKey;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
@@ -11,13 +12,13 @@ import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.simplephysics.SimpleRigidBody;
+import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.client.IClientApp;
 import com.scs.stevetech1.components.INotifiedOfCollision;
 import com.scs.stevetech1.components.IProcessByClient;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEModelFunctions;
-import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
@@ -63,7 +64,16 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 		simpleRigidBody.setSolid(false);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
+		
+		if (Globals.TEST_OUTLINE_SHADER) {
+			if (!_game.isServer()) {
+				AbstractGameClient client = (AbstractGameClient)game;
+				client.showOutlineEffect(this.getMainNode(), 5, ColorRGBA.Red);
+				this.getMainNode().updateGeometricState();
+				this.getMainNode().updateModelBound();
+			}
+		}
+
 	}
 
 

@@ -53,7 +53,6 @@ public class DestroyedComputer extends PhysicalEntity{
 		simpleRigidBody.setNeverMoves(true);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
 	}
 
 

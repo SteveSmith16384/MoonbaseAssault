@@ -55,13 +55,13 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 	@Override
 	public void notifiedOfCollision(PhysicalEntity pe) {
 		if (game.isServer()) {
-			AbstractGameServer server = (AbstractGameServer)game;
 			String tex = "Textures/sun.jpg";
 			if (pe instanceof IDebrisTexture) {
 				IDebrisTexture dt = (IDebrisTexture)pe;
 				tex = dt.getDebrisTexture();
 			}
-			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .005f, .02f, tex);
+			AbstractGameServer server = (AbstractGameServer)game;
+			server.sendExplosionShards(this.getWorldTranslation(), 4, .8f, 1.2f, .005f, .02f, tex);
 			
 			if (Globals.SHOW_BULLET_COLLISION_POS) {
 				// Create debugging sphere

@@ -74,7 +74,6 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetableB
 		simpleRigidBody.setNeverMoves(true);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
 
 		if (!_game.isServer()) {
 			font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
@@ -97,7 +96,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetableB
 				//this.remove();
 				game.markForRemoval(this);
 
-				server.sendExplosion(this.getWorldTranslation(), 10, .8f, 1.2f, .06f, .12f, "Textures/computerconsole2.jpg");
+				server.sendExplosionShards(this.getWorldTranslation(), 10, .8f, 1.2f, .06f, .12f, "Textures/computerconsole2.jpg");
 
 				Vector3f pos = this.getWorldTranslation();
 				DestroyedComputer dc = new DestroyedComputer(game, game.getNextEntityID(), pos.x, pos.y, pos.z);

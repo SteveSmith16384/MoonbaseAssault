@@ -71,7 +71,6 @@ public class FloorOrCeiling extends PhysicalEntity implements IDebrisTexture {
 		}
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
 	}
 
 
