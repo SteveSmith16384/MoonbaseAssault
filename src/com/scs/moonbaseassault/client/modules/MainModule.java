@@ -9,12 +9,13 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.stevetech1.client.povweapon.DefaultPOVWeapon;
 import com.scs.stevetech1.components.IEntity;
+import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
-import com.scs.stevetech1.server.Globals;
 
 import ssmith.util.RealtimeInterval;
 
@@ -48,9 +49,7 @@ public class MainModule extends AbstractModule {
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
 
-		//client.joinGame(null);
-
-		client.setPOVWeapon(new DefaultPOVWeapon(client));
+		//client.setPOVWeapon(new DefaultPOVWeapon(client));
 
 	}
 
@@ -60,22 +59,31 @@ public class MainModule extends AbstractModule {
 		if (!requestedToJoin) {
 			if (client.rcvdHello) {
 				requestedToJoin = true;
-				client.joinGame(null);
+				client.joinGame();
 			}
 		}
 
 
 		if (this.updateHUDInterval.hitInterval()) {
 			// Get data for HUD
-			List<Point> units = new LinkedList<Point>();
+			List<Point> aiUnits = new LinkedList<Point>();
+			List<Point> otherPlayers = new LinkedList<Point>();
 			for (IEntity e : client.entities.values()) {
 				if (e instanceof PhysicalEntity) {
 					PhysicalEntity pe = (PhysicalEntity)e;
 					if (pe instanceof MA_AISoldier) {
 						MA_AISoldier ai = (MA_AISoldier)pe;
-						if (ai.getSide() == client.side || Globals.SHOW_ALL_UNITS_ON_HUD) {
+						if (ai.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {
 							Vector3f pos = pe.getWorldTranslation();
-							units.add(new Point((int)pos.x, (int)pos.z));
+							aiUnits.add(new Point((int)pos.x, (int)pos.z));
+						}
+					} else if (pe instanceof AbstractServerAvatar) {
+						if (pe != client.currentAvatar) {
+							AbstractServerAvatar ai = (AbstractServerAvatar)pe;
+							if (ai.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {
+								Vector3f pos = pe.getWorldTranslation();
+								otherPlayers.add(new Point((int)pos.x, (int)pos.z));
+							}
 						}
 					}
 				}
@@ -85,7 +93,7 @@ public class MainModule extends AbstractModule {
 				Vector3f v = client.currentAvatar.getWorldTranslation();
 				player = new Point((int)v.x, (int)v.z);
 			}
-			client.hud.setOtherData(player, units);
+			client.hud.setOtherData(player, aiUnits, otherPlayers);
 		}
 	}
 

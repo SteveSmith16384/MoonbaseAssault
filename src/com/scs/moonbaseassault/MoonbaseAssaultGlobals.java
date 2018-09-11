@@ -2,6 +2,8 @@ package com.scs.moonbaseassault;
 
 public class MoonbaseAssaultGlobals {
 
+	public static final boolean SHOW_ALL_UNITS_ON_HUD = true;
+
 	public static final byte SIDE_ATTACKERS = 1;
 	public static final byte SIDE_DEFENDERS = 2;
 

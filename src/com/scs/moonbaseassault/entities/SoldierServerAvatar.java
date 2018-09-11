@@ -25,10 +25,6 @@ public class SoldierServerAvatar extends AbstractServerAvatar implements IDebris
 		//IAbility abilityGrenades = new GrenadeLauncher(_module, _module.getNextEntityID(), client.getPlayerID(), this, eid, 1, client);
 		//_module.actuallyAddEntity(abilityGrenades);
 		
-		if (Globals.DEBUG_UNCOLLECTED_MEDIKIT) {
-			this.setHealth(1);
-		}
-
 	}
 	
 

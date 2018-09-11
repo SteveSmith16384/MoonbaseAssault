@@ -37,15 +37,21 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 		//laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);
 		
+		if (!game.isServer()) {
+			game.playSound(MASounds.SFX_LASER_BULLET_FIRED, this.getID(), this.origin, Globals.DEF_VOL, false);
+		}
+
 		// Note that we don't create a SRB since we use Rays
 
 	}
+	
 	
 	@Override
 	public void remove() {
 		super.remove();
 	}
 
+	
 	@Override
 	public void notifiedOfCollision(PhysicalEntity pe) {
 		if (game.isServer()) {

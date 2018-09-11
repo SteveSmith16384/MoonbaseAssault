@@ -20,6 +20,7 @@ import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.client.ValidateClientSettings;
+import com.scs.stevetech1.client.povweapon.DefaultPOVWeapon;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.PhysicalEntity;
@@ -49,20 +50,20 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 			if (args.length > 0) {
 				props = new MyProperties(args[0]);
 			} else {
-				props = new MyProperties();
+				props = new MyProperties("playerConfig.txt");
 				Globals.p("Warning: No config file specified");
 			}
 			final String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
 			final int gamePort = props.getPropertyAsInt("gamePort", MoonbaseAssaultGlobals.PORT);
 
-			final int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
-			final int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
-			final int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
+			//final int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
+			//final int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
+			//final int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
 
 			final float mouseSensitivity = props.getPropertyAsFloat("mouseSensitivity", 1f);
 
 			new MoonbaseAssaultClient(gameIpAddress, gamePort,
-					tickrateMillis, clientRenderDelayMillis, timeoutMillis,
+					Globals.DEFAULT_TICKRATE, Globals.DEFAULT_RENDER_DELAY, Globals.DEFAULT_NETWORK_TIMEOUT,
 					mouseSensitivity);
 		} catch (Exception e) {
 			Globals.p("Error: " + e);
@@ -353,4 +354,10 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	}
 
 
+	@Override
+	protected void setAvatar(IEntity e) {
+		super.setAvatar(e);
+		setPOVWeapon(new DefaultPOVWeapon(this));
+	}
+	
 }

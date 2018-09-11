@@ -309,9 +309,9 @@ public class MoonbaseAssaultHUD extends Node { //implements IHUD {
 	}
 
 
-	public void setOtherData(Point _player, List<Point> _units) {//, List<Point> _computers) {
+	public void setOtherData(Point _player, List<Point> aiUnits, List<Point> otherPlayers) {
 		if (this.hudMapImage != null) {
-			this.hudMapImage.mapImageTex.setOtherData(_player, _units);//, _computers);
+			this.hudMapImage.mapImageTex.setOtherData(_player, aiUnits, otherPlayers);
 		}
 
 	}
@@ -327,34 +327,5 @@ public class MoonbaseAssaultHUD extends Node { //implements IHUD {
 		return hudMapImage;
 	}
 
-/*
-	@Override
-	public Node getRootNode() {
-		return this;
-	}
-
-
-	@Override
-	public void showMessage(String s) {
-		this.appendToLog(s);
-	}
-
-
-	@Override
-	public void addChild(Node n) {
-		this.attachChild(n);
-	}
-*/
-	/*
-	@Override
-	public void setLog(LinkedList<String> gameLog) {
-		StringBuilder str = new StringBuilder();
-		for(String line : gameLog) {
-			str.append(line + "\n");
-		}
-		this.log_ta.setText(str.toString());
-
-	}
-	 */
 
 }
