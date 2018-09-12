@@ -48,7 +48,6 @@ public class GenericFloorTex extends PhysicalEntity {
 		mainNode.setLocalTranslation(x, y, z);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
 	}
 
 }

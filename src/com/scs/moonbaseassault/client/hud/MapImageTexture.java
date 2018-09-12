@@ -30,7 +30,7 @@ public class MapImageTexture extends PaintableImage {
 
 		pixelSize = Math.max(1, _pixelSize);
 		client = _client;
-		
+
 		refreshImage();
 	}
 
@@ -48,13 +48,13 @@ public class MapImageTexture extends PaintableImage {
 		this.refreshImage();
 	}
 	 */
-/*
+	/*
 	public void setOtherData(Point _player, ArrayList<IEntity> _entitiesForProcessing) {
 		player = _player;
 		entitiesForProcessing = _entitiesForProcessing;
 		this.refreshImage();
 	}
-*/
+	 */
 
 	@Override
 	public void paint(Graphics2D g) {
@@ -80,43 +80,41 @@ public class MapImageTexture extends PaintableImage {
 			}
 		}
 
-		if (client.entitiesForProcessing != null) {
-			for (IEntity e : client.entitiesForProcessing) {
-				if (e instanceof PhysicalEntity) {
-					PhysicalEntity pe = (PhysicalEntity)e;
-					if (pe instanceof MA_AISoldier) {
-						MA_AISoldier ai = (MA_AISoldier)pe;
-						if (ai.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {
-							Vector3f pos = pe.getWorldTranslation();
-							if (ai.getSide() == client.side) {
-								g.setColor(new Color(1f, 1f, 0f, ALPHA)); // Yellow
+		//if (client.entitiesForProcessing != null) {
+		for (IEntity e : client.entitiesForProcessing) {
+			if (e instanceof PhysicalEntity) {
+				PhysicalEntity pe = (PhysicalEntity)e;
+				if (pe instanceof MA_AISoldier) {
+					MA_AISoldier ai = (MA_AISoldier)pe;
+					if (ai.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {
+						Vector3f pos = pe.getWorldTranslation();
+						if (ai.getSide() == client.side) {
+							g.setColor(new Color(1f, 1f, 0f, ALPHA)); // Yellow
 
-							} else {
-								g.setColor(new Color(1f, 0f, 0f, ALPHA)); // Red
-							}
-							paintSquare(g, (int)pos.x, (int)pos.z, 1);
-							//aiUnits.add(new Point((int)pos.x, (int)pos.z));
+						} else {
+							g.setColor(new Color(1f, 0f, 0f, ALPHA)); // Red
 						}
-					} else if (pe instanceof AbstractServerAvatar) {
-						if (pe != client.currentAvatar) {
-							AbstractServerAvatar ai = (AbstractServerAvatar)pe;
-							if (ai.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {
-								Vector3f pos = pe.getWorldTranslation();
-								//otherPlayers.add(new Point((int)pos.x, (int)pos.z));
-								if (pe == client.currentAvatar) {
-									g.setColor(new Color(1f, 1f, 1f, ALPHA)); // White
-								} else if (ai.getSide() == client.side) {
-									g.setColor(new Color(1f, 1f, 0f, ALPHA)); // Yellow
-								} else {
-									g.setColor(new Color(1f, 0f, 0f, ALPHA)); // Red
-								}
-								paintSquare(g, (int)pos.x, (int)pos.z, 2);
-							}
+						paintSquare(g, (int)pos.x, (int)pos.z, 1);
+						//aiUnits.add(new Point((int)pos.x, (int)pos.z));
+					}
+				} else if (pe instanceof AbstractServerAvatar) {
+					AbstractServerAvatar ai = (AbstractServerAvatar)pe;
+					if (ai.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {
+						Vector3f pos = pe.getWorldTranslation();
+						//otherPlayers.add(new Point((int)pos.x, (int)pos.z));
+						if (pe == client.currentAvatar) {
+							g.setColor(new Color(1f, 1f, 1f, ALPHA)); // White
+						} else if (ai.getSide() == client.side) {
+							g.setColor(new Color(1f, 1f, 0f, ALPHA)); // Yellow
+						} else {
+							g.setColor(new Color(1f, 0f, 0f, ALPHA)); // Red
 						}
+						paintSquare(g, (int)pos.x, (int)pos.z, 2);
 					}
 				}
 			}
-			/*
+		}
+		/*
 				g.setColor(new Color(1f, 0f, 0f, ALPHA)); // Red
 
 				for (int i=0 ; i<aiUnits.size() ; i++) {
@@ -134,13 +132,13 @@ public class MapImageTexture extends PaintableImage {
 					paintSquare(g, p.x, p.y, 2);
 				}			
 			}
-			 */
-			// Player
-			/*if (player != null) {
+		 */
+		// Player
+		/*if (player != null) {
 				g.setColor(new Color(1f, 1f, 0f, ALPHA)); // Yellow
 				paintSquare(g, player.x, player.y, 2);
 			}	*/			
-		}
+		//}
 
 	}
 

@@ -43,8 +43,6 @@ public class FlyingSpaceship2 extends PhysicalEntity implements ISetRotation, IG
 		mainNode.setLocalTranslation(x, y, z);
 
 		model.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
-
 	}
 
 	

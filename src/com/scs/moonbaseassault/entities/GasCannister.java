@@ -59,7 +59,6 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 		simpleRigidBody.setNeverMoves(true);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
 	}
 
 

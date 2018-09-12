@@ -40,8 +40,6 @@ public class Spaceship1 extends PhysicalEntity {
 		simpleRigidBody.setModelComplexity(3);
 
 		model.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
-
 	}
 
 

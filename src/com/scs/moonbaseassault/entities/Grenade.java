@@ -46,8 +46,6 @@ public class Grenade extends AbstractBullet {
 		this.mainNode.attachChild(ball_geo);
 
 		ball_geo.setUserData(Globals.ENTITY, this);
-		//this.getMainNode().setUserData(Globals.ENTITY, this);
-
 	}
 
 

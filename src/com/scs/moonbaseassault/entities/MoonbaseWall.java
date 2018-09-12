@@ -83,8 +83,6 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 		simpleRigidBody.setNeverMoves(true);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
-
 	}
 
 
