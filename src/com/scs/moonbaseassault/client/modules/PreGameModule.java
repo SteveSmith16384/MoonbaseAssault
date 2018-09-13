@@ -69,7 +69,7 @@ public class PreGameModule extends AbstractModule {//implements ActionListener {
 		introNode.addLight(al);
 
 		client.getCamera().setLocation(new Vector3f(0, 0.55f, 0));
-		client.getCamera().lookAt(new Vector3f(10, 0.55f, 10), Vector3f.UNIT_Y);
+		client.getCamera().lookAt(new Vector3f(10, client.getCamera().getLocation().y, 10), Vector3f.UNIT_Y);
 
 		Vector3f lookat = client.getCamera().getLocation().clone();
 		lookat.y = 0f;

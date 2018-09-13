@@ -57,7 +57,7 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 		introNode.addLight(al);
 
 		client.getCamera().setLocation(new Vector3f(0, 0.55f, 0));
-		client.getCamera().lookAt(new Vector3f(10, 0.55f, 10), Vector3f.UNIT_Y);
+		client.getCamera().lookAt(new Vector3f(10, client.getCamera().getLocation().y, 10), Vector3f.UNIT_Y);
 
 		jonlanModel = new SoldierModel(client.getAssetManager(), (byte)1, false, false);
 		jonlanModel.createAndGetModel();
@@ -82,7 +82,7 @@ public class IntroJonlan extends AbstractModule {//implements ActionListener {
 
 		super.simpleUpdate(tpfSecs);
 		
-		client.getCamera().lookAt(new Vector3f(10, 0.55f, 10), Vector3f.UNIT_Y); // Prevent mouse movements moving camera
+		client.getCamera().lookAt(new Vector3f(10, client.getCamera().getLocation().y, 10), Vector3f.UNIT_Y); // Prevent mouse movements moving camera
 
 		if (waitFor > 0 ) {
 			waitFor -= tpfSecs;

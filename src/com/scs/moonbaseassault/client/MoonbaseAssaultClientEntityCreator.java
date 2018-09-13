@@ -79,23 +79,23 @@ public class MoonbaseAssaultClientEntityCreator {
 	}
 
 
-	public IEntity createEntity(AbstractGameClient game, NewEntityData msg) { // todo - rename msg to data
+	public IEntity createEntity(AbstractGameClient game, NewEntityData data) {
 		/*if (Globals.DEBUG_ENTITY_ADD_REMOVE) {
 			Globals.p("Creating " + TypeToString(msg.type));
 		}*/
-		int id = msg.entityID;
-		Vector3f pos = (Vector3f)msg.data.get("pos");
+		int id = data.entityID;
+		Vector3f pos = (Vector3f)data.data.get("pos");
 
-		switch (msg.type) {
+		switch (data.type) {
 		case SOLDIER_AVATAR:
 		{
-			int playerID = (int)msg.data.get("playerID");
-			byte side = (byte)msg.data.get("side");
-			String playersName = (String)msg.data.get("playersName");
+			int playerID = (int)data.data.get("playerID");
+			byte side = (byte)data.data.get("side");
+			String playersName = (String)data.data.get("playersName");
 
 			if (playerID == game.playerID) {
 				AbstractClientAvatar avatar = new SoldierClientAvatar(game, id, game.input, game.getCamera(), id, pos.x, pos.y, pos.z, side);
-				Vector3f look = new Vector3f(15f, 1f, 15f);
+				Vector3f look = new Vector3f(15f, game.getCamera().getLocation().y, 15f);
 				game.getCamera().lookAt(look, Vector3f.UNIT_Y); // Look somewhere
 				return avatar;
 			} else {
@@ -107,42 +107,42 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case FLOOR_OR_CEILING:
 		{
-			Vector3f size = (Vector3f)msg.data.get("size");
-			String name = (String)msg.data.get("name");
-			int tex = (int)msg.data.get("tex");
-			boolean collides = (boolean)msg.data.get("collides");
+			Vector3f size = (Vector3f)data.data.get("size");
+			String name = (String)data.data.get("name");
+			int tex = (int)data.data.get("tex");
+			boolean collides = (boolean)data.data.get("collides");
 			FloorOrCeiling floor = new FloorOrCeiling(game, id, name, pos.x, pos.y, pos.z, size.x, size.y, size.z, tex, collides);
 			return floor;
 		}
 
 		case WALL:
 		{
-			float w = (float)msg.data.get("w");
-			float h = (float)msg.data.get("h");
-			float d = (float)msg.data.get("d");
-			int tex = (int)msg.data.get("tex");
+			float w = (float)data.data.get("w");
+			float h = (float)data.data.get("h");
+			float d = (float)data.data.get("d");
+			int tex = (int)data.data.get("tex");
 			MoonbaseWall wall = new MoonbaseWall(game, id, pos.x, pos.y, pos.z, w, h, d, tex);
 			return wall;
 		}
 
 		case LASER_RIFLE:
 		{
-			int ownerid = (int)msg.data.get("ownerid");
-			byte num = (byte)msg.data.get("num");
-			int playerID = (int)msg.data.get("playerID");
+			int ownerid = (int)data.data.get("ownerid");
+			byte num = (byte)data.data.get("num");
+			int playerID = (int)data.data.get("playerID");
 			LaserRifle gl = new LaserRifle(game, id, playerID, null, ownerid, num, null);
 			return gl;
 		}
 
 		case LASER_BULLET:
 		{
-			int playerID = (int) msg.data.get("playerID");
+			int playerID = (int) data.data.get("playerID");
 			if (playerID != game.getPlayerID()) {
-				byte side = (byte) msg.data.get("side");
-				int shooterId =  (int) msg.data.get("shooterID");
+				byte side = (byte) data.data.get("side");
+				int shooterId =  (int) data.data.get("shooterID");
 				IEntity shooter = game.entities.get(shooterId);
-				Vector3f startPos = (Vector3f) msg.data.get("startPos");
-				Vector3f dir = (Vector3f) msg.data.get("dir");
+				Vector3f startPos = (Vector3f) data.data.get("startPos");
+				Vector3f dir = (Vector3f) data.data.get("dir");
 				LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null); // Notice we generate our own id
 				return bullet;
 			} else {
@@ -152,10 +152,10 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case DOOR:
 		{
-			float w = (float)msg.data.get("w");
-			float h = (float)msg.data.get("h");
-			int tex = (int)msg.data.get("tex");
-			float rot = (Float)msg.data.get("rot");
+			float w = (float)data.data.get("w");
+			float h = (float)data.data.get("h");
+			int tex = (int)data.data.get("tex");
+			float rot = (Float)data.data.get("rot");
 			SlidingDoor wall = new SlidingDoor(game, id, pos.x, pos.y, pos.z, w, h, tex, rot);
 			return wall;
 		}
@@ -174,36 +174,36 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case SPACESHIP1:
 		{
-			Quaternion q = (Quaternion)msg.data.get("quat");
+			Quaternion q = (Quaternion)data.data.get("quat");
 			Spaceship1 spaceship1 = new Spaceship1(game, id, pos.x, pos.y, pos.z, q);
 			return spaceship1;
 		}
 
 		case AI_SOLDIER:
 		{
-			byte side = (byte)msg.data.get("side");
-			int animcode = (int)msg.data.get("animcode");
-			String name = (String)msg.data.get("name");
+			byte side = (byte)data.data.get("side");
+			int animcode = (int)data.data.get("animcode");
+			String name = (String)data.data.get("name");
 			MA_AISoldier z = new MA_AISoldier(game, id, pos.x, pos.y, pos.z, side, side == game.side, animcode, name);
 			return z;
 		}
 
 		case MAP_BORDER:
 		{
-			Vector3f dir = (Vector3f)msg.data.get("dir");
-			float size = (float)msg.data.get("size");
+			Vector3f dir = (Vector3f)data.data.get("dir");
+			float size = (float)data.data.get("size");
 			MapBorder hill = new MapBorder(game, id, pos.x, pos.y, pos.z, size, dir);
 			return hill;
 		}
 
 		case GRENADE_LAUNCHER: 
 		{
-			int ownerid = (int)msg.data.get("ownerid");
+			int ownerid = (int)data.data.get("ownerid");
 			//if (game.currentAvatar != null) { // We might not have an avatar yet
 			//	if (ownerid == game.currentAvatar.id) { // Don't care about other's abilities?
 			//AbstractAvatar owner = (AbstractAvatar)game.entities.get(ownerid);
-			byte num = (byte)msg.data.get("num");
-			int playerID = (int)msg.data.get("playerID");
+			byte num = (byte)data.data.get("num");
+			int playerID = (int)data.data.get("playerID");
 			GrenadeLauncher gl = new GrenadeLauncher(game, id, playerID, null, ownerid, num, null);
 			return gl;
 			//	}
@@ -213,13 +213,13 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case GRENADE:
 		{
-			int playerID = (int) msg.data.get("playerID");
+			int playerID = (int) data.data.get("playerID");
 			if (playerID != game.getPlayerID()) {
-				byte side = (byte) msg.data.get("side");
-				int shooterId =  (int) msg.data.get("shooterID");
+				byte side = (byte) data.data.get("side");
+				int shooterId =  (int) data.data.get("shooterID");
 				IEntity shooter = game.entities.get(shooterId);
-				Vector3f startPos = (Vector3f) msg.data.get("startPos");
-				Vector3f dir = (Vector3f) msg.data.get("dir");
+				Vector3f startPos = (Vector3f) data.data.get("startPos");
+				Vector3f dir = (Vector3f) data.data.get("dir");
 				Grenade snowball = new Grenade(game, id, playerID, shooter, startPos, dir, side, null);
 				return snowball;
 			} else {
@@ -229,9 +229,9 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case CRATE:
 		{
-			Vector3f size = (Vector3f)msg.data.get("size");
-			int tex = (int)msg.data.get("tex");
-			float rot = (float)msg.data.get("rot");
+			Vector3f size = (Vector3f)data.data.get("size");
+			int tex = (int)data.data.get("tex");
+			float rot = (float)data.data.get("rot");
 			SpaceCrate crate = new SpaceCrate(game, id, pos.x, pos.y, pos.z, size.x, size.y, size.z, tex, rot);
 			return crate;
 		}
@@ -244,11 +244,11 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case HITSCAN_RIFLE:
 		{
-			int playerID = (int) msg.data.get("playerID");
-			int ownerid = (int) msg.data.get("ownerid");
+			int playerID = (int) data.data.get("playerID");
+			int ownerid = (int) data.data.get("ownerid");
 			//if (ownerid == game.currentAvatar.id) { // Don't care about other's abilities
 			//AbstractAvatar owner = (AbstractAvatar)game.entities.get(ownerid);
-			byte num = (byte) msg.data.get("num");
+			byte num = (byte) data.data.get("num");
 			HitscanRifle gl = new HitscanRifle(game, id, HITSCAN_RIFLE, playerID, null, ownerid, num, null);
 			//owner.addAbility(gl, num);
 			return gl;
@@ -256,10 +256,10 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case Globals.BULLET_TRAIL:
 		{
-			int playerID = (int) msg.data.get("playerID");
+			int playerID = (int) data.data.get("playerID");
 			if (playerID != game.getPlayerID()) {
-				Vector3f start = (Vector3f) msg.data.get("start");
-				Vector3f end = (Vector3f) msg.data.get("end");
+				Vector3f start = (Vector3f) data.data.get("start");
+				Vector3f end = (Vector3f) data.data.get("end");
 				BulletTrail bullet = new BulletTrail(game, playerID, start, end);
 				return bullet;
 			} else {
@@ -270,9 +270,9 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case Globals.EXPLOSION_SHARD:
 		{
-			Vector3f forceDirection = (Vector3f) msg.data.get("forceDirection");
-			float size = (float) msg.data.get("size");
-			String tex = (String) msg.data.get("tex");
+			Vector3f forceDirection = (Vector3f) data.data.get("forceDirection");
+			float size = (float) data.data.get("size");
+			String tex = (String) data.data.get("tex");
 			ExplosionShard expl = new ExplosionShard(game, pos.x, pos.y, pos.z, size, forceDirection, tex);
 			return expl;
 		}
@@ -285,8 +285,8 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case FLOOR_TEX:
 		{
-			Vector3f size = (Vector3f)msg.data.get("size");
-			String tex = (String)msg.data.get("tex");
+			Vector3f size = (Vector3f)data.data.get("size");
+			String tex = (String)data.data.get("tex");
 			GenericFloorTex gas = new GenericFloorTex(game, id, pos.x, pos.y, pos.z, size.x, size.z, tex);
 			return gas;
 		}
@@ -310,7 +310,7 @@ public class MoonbaseAssaultClientEntityCreator {
 		}
 
 		default:
-			throw new IllegalArgumentException("Unknown entity type for creation: " + msg.type);
+			throw new IllegalArgumentException("Unknown entity type for creation: " + data.type);
 		}
 	}
 

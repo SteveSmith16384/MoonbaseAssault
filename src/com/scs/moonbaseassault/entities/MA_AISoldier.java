@@ -27,7 +27,7 @@ public class MA_AISoldier extends AbstractAISoldier {
 	@Override
 	protected AbstractBullet createAIBullet(Vector3f pos, Vector3f dir) {
 		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
-		game.playSound(MASounds.SFX_LASER_BULLET_FIRED, -1, pos, Globals.DEF_VOL, false);
+		game.playSound(MASounds.SFX_LASER_BULLET_FIRED, -1, pos, Globals.DEFAULT_VOLUME, false);
 		return bullet;
 	}
 
@@ -35,7 +35,7 @@ public class MA_AISoldier extends AbstractAISoldier {
 	@Override
 	public void handleKilledOnClientSide(PhysicalEntity killer) {
 		AbstractGameClient client = (AbstractGameClient)game;
-		client.playSound(MASounds.SFX_AI_KILLED, this.getID(), this.getWorldTranslation(), Globals.DEF_VOL, false);
+		client.playSound(MASounds.SFX_AI_KILLED, this.getID(), this.getWorldTranslation(), Globals.DEFAULT_VOLUME, false);
 		super.handleKilledOnClientSide(killer);
 	}
 

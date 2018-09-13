@@ -38,19 +38,13 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 		this.mainNode.attachChild(laserNode);
 		
 		if (!game.isServer()) {
-			game.playSound(MASounds.SFX_LASER_BULLET_FIRED, this.getID(), this.origin, Globals.DEF_VOL, false);
+			game.playSound(MASounds.SFX_LASER_BULLET_FIRED, this.getID(), this.origin, Globals.DEFAULT_VOLUME, false);
 		}
 
 		// Note that we don't create a SRB since we use Rays
 
 	}
 	
-	
-	@Override
-	public void remove() {
-		super.remove();
-	}
-
 	
 	@Override
 	public void notifiedOfCollision(PhysicalEntity pe) {
@@ -70,7 +64,7 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 				game.addEntity(ds);
 			}
 		} else {
-			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEF_VOL, false);
+			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEFAULT_VOLUME, false);
 		}
 		game.markForRemoval(this);
 	}
