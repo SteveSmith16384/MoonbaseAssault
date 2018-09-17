@@ -180,8 +180,6 @@ IDebrisTexture {
 				this.timeKilled = System.currentTimeMillis();
 
 				server.appendToGameLog(entityName + " killed");
-
-				//game.playSound("todo", getWorldTranslation(), Globals.DEF_VOL, false);
 			}
 		}
 	}

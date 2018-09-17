@@ -60,7 +60,6 @@ public class MA_AISoldier extends AbstractAISoldier {
 	
 	@Override
 	public void updateClientSideHealth(int amt) {
-		// todo - show health
 	}
 	
 

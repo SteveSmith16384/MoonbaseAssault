@@ -348,7 +348,6 @@ public class MapLoader {
 		moonbaseAssaultServer.actuallyAddEntity(floor);
 		this.totalFloors++;
 
-		// todo - check this
 		MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+0.5f, .3f, sy+0.5f); 
 		moonbaseAssaultServer.actuallyAddEntity(medi);
 

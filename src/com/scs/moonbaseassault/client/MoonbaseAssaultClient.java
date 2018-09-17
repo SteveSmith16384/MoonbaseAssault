@@ -111,7 +111,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	private void playMusic() {
-		if (!Globals.MUTE) {
+		//if (!Globals.MUTE) {
 			try {
 				musicNode = new AudioNode(assetManager, "Sounds/n-Dimensions (Main Theme - Retro Ver.ogg", DataType.Stream);
 				musicNode.setPositional(false);
@@ -120,7 +120,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 			} catch (java.lang.IllegalStateException ex) {
 				// Unable to play sounds - no audiocard/speakers?
 			}
-		}
+		//}
 	}
 
 
