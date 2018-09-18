@@ -15,6 +15,7 @@ import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.client.IClientApp;
 import com.scs.stevetech1.components.INotifiedOfCollision;
+import com.scs.stevetech1.components.IPlayerCollectable;
 import com.scs.stevetech1.components.IProcessByClient;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
@@ -22,7 +23,7 @@ import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
-public class MediPack extends PhysicalEntity implements IProcessByClient, INotifiedOfCollision {
+public class MediPack extends PhysicalEntity implements IProcessByClient, IPlayerCollectable {
 
 	private float rotDegrees = 0;
 	private Geometry geometry;
@@ -75,7 +76,7 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 
 	}
 
-
+/*
 	@Override
 	public void notifiedOfCollision(PhysicalEntity pe) {
 		if (pe instanceof AbstractServerAvatar) { // Prevent handling on client side as well
@@ -86,7 +87,7 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 			}
 		}
 	}
-
+*/
 
 	@Override
 	public void processByClient(IClientApp client, float tpfSecs) {
@@ -97,6 +98,15 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 		float rads = (float)Math.toRadians(rotDegrees);
 		geometry.rotate(0, rads, 0);
 
+	}
+
+
+	@Override
+	public void collected(AbstractServerAvatar avatar) {
+		if (avatar.getHealth() < avatar.getMaxHealth()) {
+			game.markForRemoval(this);
+			avatar.setHealth(avatar.getMaxHealth());
+		}
 	}
 
 }

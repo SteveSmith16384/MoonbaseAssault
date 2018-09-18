@@ -1,7 +1,6 @@
 package com.scs.moonbaseassault.shared;
 
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
-import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.AbstractCollisionValidator;
@@ -36,14 +35,7 @@ public class MoonbaseAssaultCollisionValidator extends AbstractCollisionValidato
 		// Sliding doors shouldn't collide with wall
 		if ((pa.type == MoonbaseAssaultClientEntityCreator.WALL && pb.type == MoonbaseAssaultClientEntityCreator.DOOR) || pa.type == MoonbaseAssaultClientEntityCreator.DOOR && pb.type == MoonbaseAssaultClientEntityCreator.WALL) {
 			return false;
-		}
-		
-		// medipacks only collide with players
-		if ((pa.type == MoonbaseAssaultClientEntityCreator.MEDIPACK && pb instanceof AbstractAvatar) || pa instanceof AbstractAvatar && pb.type == MoonbaseAssaultClientEntityCreator.MEDIPACK) {
-			return false;
-		}
-		
-		
+		}		
 
 		return true;
 	}
