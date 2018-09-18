@@ -90,7 +90,7 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, INotif
 
 	@Override
 	public void processByClient(IClientApp client, float tpfSecs) {
-		rotDegrees += (tpfSecs * 0.1f);
+		rotDegrees += (tpfSecs * 0.05f);
 		if (rotDegrees > 360) {
 			rotDegrees -= 360;
 		}

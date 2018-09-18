@@ -305,8 +305,8 @@ public class MoonbaseAssaultClientEntityCreator {
 
 		case MEDIPACK:
 		{
-			MediPack expl = new MediPack(game, id, pos.x, pos.y, pos.z);
-			return expl;
+			MediPack mediPack = new MediPack(game, id, pos.x, pos.y, pos.z);
+			return mediPack;
 		}
 
 		default:

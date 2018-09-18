@@ -74,7 +74,7 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 	public float getDamageCaused() {
 		//return ((RANGE-this.getDistanceTravelled()) / this.getDistanceTravelled()) * 10;
 		float dam = (((RANGE-this.getDistanceTravelled()) / this.getDistanceTravelled()) * 5)+5;
-		Globals.p(this + " damage: " + dam);
+		//Globals.p(this + " damage: " + dam);
 		return dam;
 	}
 

@@ -96,6 +96,12 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 		// Do nothing
 		
 	}
+
+
+	@Override
+	public boolean canBeDamaged() {
+		return true;
+	}
 	
 
 }

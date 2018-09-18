@@ -327,4 +327,10 @@ IDebrisTexture {
 	}
 
 
+	@Override
+	public boolean canBeDamaged() {
+		return this.health > 0;
+	}
+
+
 }

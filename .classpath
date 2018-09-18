@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="/SteTech1/libs/jme-3.2-stable/jme3-effects.jar"/>
 	<classpathentry kind="lib" path="/SteTech1/libs/jme-3.2-stable/jme3-jogg.jar"/>
 	<classpathentry kind="lib" path="/SteTech1/libs/jme-3.2-stable/j-ogg-all.jar"/>
+	<classpathentry kind="lib" path="/SteTech1/libs/jttf/jME-TTF-v2.12.jar"/>
+	<classpathentry kind="lib" path="/SteTech1/libs/jttf/sfntly.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

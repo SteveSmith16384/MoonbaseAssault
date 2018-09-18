@@ -207,7 +207,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			}
 		}
 		if (found) {
-			Globals.p(soldier + " starting at " + soldier.getWorldTranslation());
+			//Globals.p(soldier + " starting at " + soldier.getWorldTranslation());
 		} else {
 			throw new RuntimeException("No space to start!");
 		}

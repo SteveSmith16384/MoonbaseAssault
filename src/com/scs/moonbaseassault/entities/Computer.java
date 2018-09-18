@@ -176,4 +176,10 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetableB
 	}
 
 
+	@Override
+	public boolean canBeDamaged() {
+		return true;
+	}
+
+
 }

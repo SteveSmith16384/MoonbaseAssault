@@ -2,8 +2,13 @@ package com.scs.moonbaseassault.client.hud;
 
 import java.util.LinkedList;
 
-import com.jme3.font.BitmapFont;
-import com.jme3.font.BitmapText;
+import com.atr.jme.font.TrueTypeFont;
+import com.atr.jme.font.TrueTypeMesh;
+import com.atr.jme.font.asset.TrueTypeKeyMesh;
+import com.atr.jme.font.asset.TrueTypeLoader;
+import com.atr.jme.font.shape.TrueTypeContainer;
+import com.atr.jme.font.util.StringContainer;
+import com.atr.jme.font.util.Style;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
@@ -14,20 +19,15 @@ import com.jme3.scene.shape.Quad;
 import com.jme3.ui.Picture;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.data.SimpleGameData;
-import com.scs.stevetech1.gui.TextArea;
 
 import ssmith.util.RealtimeInterval;
 
 public class MoonbaseAssaultHUD extends Node {
 
 	private static final int MAX_LINES = 6;
-	private static final float LINE_SPACING = 10;
 
 	private RealtimeInterval updateHudTextInterval = new RealtimeInterval(1000);
 
-	private static ColorRGBA defaultColour = ColorRGBA.Green;
-
-	private float hud_width, hud_height;
 	private Camera cam;
 	private Geometry damage_box;
 	private ColorRGBA dam_box_col = new ColorRGBA(1, 0, 0, 0.0f);
@@ -36,109 +36,68 @@ public class MoonbaseAssaultHUD extends Node {
 
 	private HUDMapImage hudMapImage;
 
-	private BitmapText abilityGun, abilityOther, healthText; // Update instantly 
+	private TrueTypeContainer abilityGun, abilityOther, healthText; // Update instantly 
 	private String debugText, gameStatus, gameTime, pingText, compsDestroyedText, numPlayers, gameID;
-	private BitmapText textArea; // For showing all other stats 
-	private TextArea log_ta;
+	private TrueTypeContainer textArea; // For showing all other stats 
+	private TrueTypeContainer log;
 	private LinkedList<String> logLines = new LinkedList<>();
 
 	public MoonbaseAssaultHUD(AbstractGameClient _game, Camera _cam) { 
 		super("HUD");
 
 		game = _game;
-		hud_width = _cam.getWidth();
-		hud_height = _cam.getHeight();
 		cam = _cam;
 
-		BitmapFont font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+		_game.getAssetManager().registerLoader(TrueTypeLoader.class, "ttf");
+		float fontSize = cam.getWidth() / 40; 
+		TrueTypeKeyMesh ttkSmall = new TrueTypeKeyMesh("Fonts/Xenotron.ttf", Style.Plain, (int)fontSize);
+		TrueTypeFont ttfSmall = (TrueTypeMesh)_game.getAssetManager().loadAsset(ttkSmall);
+		TrueTypeKeyMesh ttkLarge = new TrueTypeKeyMesh("Fonts/Xenotron.ttf", Style.Plain, (int)fontSize*2);
+		TrueTypeFont ttfLarge = (TrueTypeMesh)_game.getAssetManager().loadAsset(ttkLarge);
+		float lineSpacing = cam.getHeight() / 30;
 
 		super.setLocalTranslation(0, 0, 0);
 
 		this.addTargetter();
 
-		/*if (Globals.DEBUG_HUD) {
-			for (int i=0; i<100 ; i+=10) {
-				BitmapText deleteme = new BitmapText(font_small, false);
-				deleteme.setColor(ColorRGBA.White);
-				deleteme.setLocalTranslation(i, i, 0);
-				this.attachChild(deleteme);
-				deleteme.setText("x" + i);
-			}
-		}*/
+		float xPos = cam.getWidth() - 150f;
 
-		float xPos = hud_width - 150f;
-
-		textArea = new BitmapText(font_small, false);
-		textArea.setColor(defaultColour);
-		textArea.setLocalTranslation(xPos, (int)(hud_height*.6f), 0);
+		textArea = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
+		textArea.setLocalTranslation(xPos, (int)(cam.getHeight()*.6f), 0);
 		this.attachChild(textArea);
 		//textArea.setText("Waiting for data...");
 
-		float yPos = hud_height - LINE_SPACING;
+		float yPos = cam.getHeight() - lineSpacing;
 
-		yPos -= LINE_SPACING;
-		abilityGun = new BitmapText(font_small, false);
-		abilityGun.setColor(defaultColour);
+		yPos -= lineSpacing;
+		abilityGun = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
 		abilityGun.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(abilityGun);
-
-		yPos -= LINE_SPACING;
-		abilityOther = new BitmapText(font_small, false);
-		abilityOther.setColor(defaultColour);
+/*
+		yPos -= lineSpacing;
+		abilityOther = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
 		abilityOther.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(abilityOther);
-
-		yPos -= LINE_SPACING;
-		healthText = new BitmapText(font_small, false);
-		healthText.setColor(defaultColour);
+*/
+		yPos -= lineSpacing;
+		healthText = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
 		healthText.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(healthText);
 
-		log_ta = new TextArea("log", font_small, 6, "");
-		log_ta.setColor(defaultColour);
-		//log_ta.setLocalTranslation(hud_width/2, hud_height/2, 0);
-		log_ta.setLocalTranslation(20, hud_height-20, 0);
-		this.attachChild(log_ta);
+		log = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
+		log.setLocalTranslation(20, cam.getHeight()-20, 0);
+		this.attachChild(log);
 
 		// Damage box
 		{
 			Material mat = new Material(game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 			mat.setColor("Color", this.dam_box_col);
 			mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-			damage_box = new Geometry("damagebox", new Quad(hud_width, hud_height));
+			damage_box = new Geometry("damagebox", new Quad(cam.getWidth(), cam.getHeight()));
 			damage_box.move(0, 0, 0);
 			damage_box.setMaterial(mat);
 			this.attachChild(damage_box);
 		}
-
-		/*if (Settings.DEBUG_HUD) {
-			Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-			mat.setColor("Color", new ColorRGBA(1, 1, 0, 0.5f));
-			mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-			Geometry testBox = new Geometry("testBox", new Quad(w/2, h/2));
-			testBox.move(10, 10, 0);
-			testBox.setMaterial(mat);
-			this.attachChild(testBox);
-
-			/*Material mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-			//mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-			Texture t = game.getAssetManager().loadTexture("Textures/text/hit.png");
-			//t.setWrap(WrapMode.Repeat);
-			mat.setTexture("DiffuseMap", t);
-			Geometry geom = new Geometry("Billboard", new Quad(w, h));
-			geom.setMaterial(mat);
-			geom.move(0, 0, 0);
-			//geom.setQueueBucket(Bucket.Transparent);
-			//geom.setLocalTranslation(-w/2, -h/2, 0);
-			this.attachChild(geom);*/
-		/*
-			Picture pic = new Picture("HUD Picture");
-			pic.setImage(game.getAssetManager(), "Textures/text/hit.png", true);
-			pic.setWidth(w);
-			pic.setHeight(h);
-			//pic.setPosition(settings.getWidth()/4, settings.getHeight()/4);
-			this.attachChild(pic);
-		}*/
 
 		this.setDebugText("");
 
@@ -198,7 +157,8 @@ public class MoonbaseAssaultHUD extends Node {
 		for(String line : this.logLines) {
 			str.append(line + "\n");
 		}
-		this.log_ta.setText(str.toString());
+		this.log.setText(str.toString());
+		this.log.updateGeometry();
 	}
 
 
@@ -212,49 +172,40 @@ public class MoonbaseAssaultHUD extends Node {
 		str.append(this.compsDestroyedText + "\n");
 		str.append(this.numPlayers + "\n");
 		this.textArea.setText(str.toString());
-
+		this.textArea.updateGeometry();
 	}
 
 
 	public void setDebugText(String s) {
-		//this.debugText.setText(s);
 		this.debugText = s;
-		//this.updateTextArea();
 	}
 
 
 	private void setGameStatus(String s) {
-		//this.gameStatus.setText("Game Status: " + s);
 		this.gameStatus = "Game Status: " + s;
-		//this.updateTextArea();
-
 	}
 
 
 	private void setGameTime(String s) {
-		//this.gameTime.setText(s);
 		this.gameTime = s;
-		//this.updateTextArea();
-
 	}
 
 
 	public void setAbilityGunText(String s) {
 		this.abilityGun.setText(s);
-		//this.updateTextArea();
+		this.abilityGun.updateGeometry();
 	}
 
 
 	public void setAbilityOtherText(String s) {
 		this.abilityOther.setText(s);
-		//this.updateTextArea();
-
+		this.abilityOther.updateGeometry();
 	}
 
 
 	public void setHealthText(int s) {
 		this.healthText.setText("Health: " + s);
-		//this.updateTextArea();
+		this.healthText.updateGeometry();
 	}
 
 
@@ -310,14 +261,6 @@ public class MoonbaseAssaultHUD extends Node {
 		this.hudMapImage.mapImageTex.setMapData(scannerData);
 	}
 
-	/*
-	public void setOtherData_(Point _player, ArrayList<IEntity> entitiesForProcessing) {
-		if (this.hudMapImage != null) {
-			this.hudMapImage.mapImageTex.setOtherData(_player, entitiesForProcessing);//aiUnits, otherPlayers);
-		}
-
-	}
-	 */
 
 	private HUDMapImage addMapImage(int mapSize) {
 		float sizeInPixels = Math.max(cam.getWidth()/3, mapSize);
