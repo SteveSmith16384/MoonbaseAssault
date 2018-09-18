@@ -49,7 +49,7 @@ IDebrisTexture {
 	public static final float RELOAD_INTERVAL = 4f;
 
 	public static final float START_HEALTH = 5f;
-	public static final float WALKING_SPEED = .53f;
+	public static final float WALKING_SPEED = .55f; // was .53
 	public static final float RUNNING_SPEED = 1.3f;//1.21f;//1.19f; //1.13f; //0.93
 
 	private static final float HUD_DIST = 1.3f;

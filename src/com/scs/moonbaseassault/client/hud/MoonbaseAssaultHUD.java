@@ -50,9 +50,9 @@ public class MoonbaseAssaultHUD extends Node {
 
 		_game.getAssetManager().registerLoader(TrueTypeLoader.class, "ttf");
 		float fontSize = cam.getWidth() / 40; 
-		TrueTypeKeyMesh ttkSmall = new TrueTypeKeyMesh("Fonts/Xenotron.ttf", Style.Plain, (int)fontSize);
+		TrueTypeKeyMesh ttkSmall = new TrueTypeKeyMesh("Fonts/SF Distant Galaxy.ttf", Style.Plain, (int)fontSize);
 		TrueTypeFont ttfSmall = (TrueTypeMesh)_game.getAssetManager().loadAsset(ttkSmall);
-		TrueTypeKeyMesh ttkLarge = new TrueTypeKeyMesh("Fonts/Xenotron.ttf", Style.Plain, (int)fontSize*2);
+		TrueTypeKeyMesh ttkLarge = new TrueTypeKeyMesh("Fonts/SF Distant Galaxy.ttf", Style.Plain, (int)fontSize*2);
 		TrueTypeFont ttfLarge = (TrueTypeMesh)_game.getAssetManager().loadAsset(ttkLarge);
 		float lineSpacing = cam.getHeight() / 30;
 
@@ -60,7 +60,7 @@ public class MoonbaseAssaultHUD extends Node {
 
 		this.addTargetter();
 
-		float xPos = cam.getWidth() - 150f;
+		float xPos = cam.getWidth() * .7f;
 
 		textArea = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
 		textArea.setLocalTranslation(xPos, (int)(cam.getHeight()*.6f), 0);
@@ -267,7 +267,7 @@ public class MoonbaseAssaultHUD extends Node {
 		hudMapImage = new HUDMapImage(game.getAssetManager(), (int)sizeInPixels, mapSize, game);
 		hudMapImage.setWidth(sizeInPixels);
 		hudMapImage.setHeight(sizeInPixels);
-		hudMapImage.setLocalTranslation((cam.getWidth() - sizeInPixels)/2, 0, 0);//cam.getHeight() *.1f, 0);
+		hudMapImage.setLocalTranslation((cam.getWidth() - sizeInPixels)/2, 0, 0);
 		this.attachChild(hudMapImage);
 		return hudMapImage;
 	}

@@ -309,7 +309,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	public void computerDestroyed(Point p) {
 		if (this.computerSquares.contains(p)) {
-			super.appendToGameLog("Computer destroyed!  At " + p.x + "," + p.y);
+			super.appendToGameLog("Computer destroyed! (" + p.x + "," + p.y + ")");
 
 			this.computerSquares.remove(p);
 			this.maGameData.computersDestroyed++;
