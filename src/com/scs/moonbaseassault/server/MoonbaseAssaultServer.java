@@ -35,12 +35,14 @@ import ssmith.util.MyProperties;
 public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarMapInterface {
 
 	private static final int COMPS_DESTROYED_TO_WIN = 10;
-	public static final boolean PLAYERS_ARE_DEFENDERS = true;
+	public static final boolean PLAYERS_ARE_ALWAYS_DEFENDERS = false;
 
 	public static final String GAME_ID = "Moonbase Assault";
 
 	public static final float CEILING_HEIGHT = 1.4f;
 	public static final float LASER_DIAM = 0.02f;
+
+	private static long deployDurationSecs, gameDurationSecs, restartDurationSecs;
 
 	private int mapData[][]; // Also used to tell the client what the scanner should show
 	private List<Point> computerSquares; // For A*
@@ -49,6 +51,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	private byte winningSide = MoonbaseAssaultGlobals.SIDE_DEFENDERS; // Defenders win by default
 	private CreateUnitsSystem createUnitsSystem;
 	private MoonbaseAssaultGameData maGameData;
+	private boolean nextPlayerIsDefender = true;
 
 	public static void main(String[] args) {
 		try {
@@ -61,41 +64,21 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			}
 			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
 			int gamePort = props.getPropertyAsInt("gamePort", MoonbaseAssaultGlobals.PORT);
+			
+			deployDurationSecs = props.getPropertyAsInt("deployDurationSecs", 10);
+			gameDurationSecs = props.getPropertyAsInt("gameDurationSecs", 240);
+			restartDurationSecs = props.getPropertyAsInt("restartDurationSecs", 10);
 
-			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
-			int sendUpdateIntervalMillis = props.getPropertyAsInt("sendUpdateIntervalMillis", 40);
-			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
-			int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
-
-			new MoonbaseAssaultServer(gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
-					tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis);//, gravity, aerodynamicness);
+			new MoonbaseAssaultServer(gameIpAddress, gamePort);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	/*
-	private static void startLobbyServer(int lobbyPort, int timeout) {
-		Thread r = new Thread("LobbyServer") {
 
-			@Override
-			public void run() {
-				try {
-					new MoonbaseAssaultLobbyServer(lobbyPort, timeout);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		r.start();
-
-
-	}
-	 */
-
-	private MoonbaseAssaultServer(String gameIpAddress, int gamePort, 
-			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
-		super(GAME_ID, 1d, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis, 5*1000, 10*60*1000, 10*1000, 
+	private MoonbaseAssaultServer(String gameIpAddress, int gamePort) throws IOException {
+		super(GAME_ID, 1d, "key", new GameOptions(Globals.DEFAULT_TICKRATE, Globals.DEFAULT_SEND_UPDATES_INTERVAL, Globals.DEFAULT_RENDER_DELAY, Globals.DEFAULT_NETWORK_TIMEOUT, 
+				deployDurationSecs*1000, gameDurationSecs*1000, restartDurationSecs*1000, 
 				gameIpAddress, gamePort, 
 				10, 5));
 
@@ -185,7 +168,6 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	public void addAISoldier(byte side, String name) {
-		//String name = (side == 1 ? "Attacker" : "Defender") + " " + num;
 		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, AbstractAvatar.ANIM_IDLE, name);
 		this.actuallyAddEntity(s);
 		moveAISoldierToStartPosition(s, s.side);
@@ -195,7 +177,6 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	private void moveAISoldierToStartPosition(PhysicalEntity soldier, byte side) {
 		float startHeight = .1f;
-		//if (!Globals.TEST_AI) {
 		List<Point> deploySquares = this.deploySquares[side-1];
 		boolean found = false;
 		for (int i=0 ; i<20 ; i++) { // only try a certain number of times
@@ -211,9 +192,6 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 		} else {
 			throw new RuntimeException("No space to start!");
 		}
-		/*} else {
-			soldier.setWorldTranslation(1.5f, startHeight, 1.5f);
-		}*/
 	}
 
 
@@ -228,11 +206,11 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	public void collisionOccurred(SimpleRigidBody<PhysicalEntity> a, SimpleRigidBody<PhysicalEntity> b) {
 		PhysicalEntity pa = a.userObject; //pa.getMainNode().getWorldBound();
 		PhysicalEntity pb = b.userObject; //pb.getMainNode().getWorldBound();
-
+/*
 		if (pa.type != MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING && pb.type != MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING) {
 			//Globals.p("Collision between " + pa + " and " + pb);
 		}
-
+*/
 		super.collisionOccurred(a, b);
 
 	}
@@ -257,11 +235,13 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	@Override
-	public byte getSide(ClientData client) {
-		if (PLAYERS_ARE_DEFENDERS) {
+	public byte getSideForPlayer(ClientData client) {
+		if (PLAYERS_ARE_ALWAYS_DEFENDERS) {
 			return MoonbaseAssaultGlobals.SIDE_DEFENDERS;
 		} else {
-			return MoonbaseAssaultGlobals.SIDE_ATTACKERS;
+			byte side = nextPlayerIsDefender ? MoonbaseAssaultGlobals.SIDE_DEFENDERS : MoonbaseAssaultGlobals.SIDE_ATTACKERS;
+			nextPlayerIsDefender = !nextPlayerIsDefender;
+			return side;
 		}
 	}
 
