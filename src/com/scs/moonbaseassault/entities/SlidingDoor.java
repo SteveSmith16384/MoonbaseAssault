@@ -128,13 +128,21 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 
 	@Override
 	public void notifiedOfCollision(PhysicalEntity pe) {
-		this.startOpening();
+		if (game.isServer()) {
+			this.startOpening();
+		}
 	}
 
 
 	private void startOpening() {
+		if (Globals.STRICT) {
+			if (!game.isServer()) {
+				throw new RuntimeException("Only server should open doors");
+			}
+		}
 		if (!this.isOpening) {
-			game.playSound(MASounds.SFX_SLIDING_DOOR, this.getID(), getWorldTranslation(), Globals.DEFAULT_VOLUME, false);
+			AbstractGameServer server = (AbstractGameServer)game;
+			server.playSound(-1, MASounds.SFX_SLIDING_DOOR, this.getID(), getWorldTranslation(), Globals.DEFAULT_VOLUME, false);
 			this.isOpening = true;
 		}
 		timeUntilClose = STAY_OPEN_DURATION;

@@ -113,7 +113,11 @@ public class MoonbaseAssaultHUD extends Node {
 			if (client.gameData != null) {
 				this.gameID = "Game ID: " + client.gameData.gameID;
 				this.setGameStatus(SimpleGameData.getStatusDesc(client.gameData.getGameStatus()));
-				this.setGameTime(client.gameData.getTime(client.serverTime));
+				if (client.gameData.isInGame()) {
+					this.setGameTime(client.gameData.getTime(client.serverTime));
+				} else {
+					this.setGameTime("");
+				}
 				if (client.playersList != null) {
 					this.setNumPlayers(client.playersList.size());
 				}

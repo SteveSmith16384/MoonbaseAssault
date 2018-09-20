@@ -6,6 +6,7 @@ import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
+import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.INotifiedOfCollision;
@@ -38,7 +39,8 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 		this.mainNode.attachChild(laserNode);
 		
 		if (!game.isServer()) {
-			game.playSound(MASounds.SFX_LASER_BULLET_FIRED, this.getID(), this.origin, Globals.DEFAULT_VOLUME, false);
+			AbstractGameClient client = (AbstractGameClient)game;
+			client.playSound(MASounds.SFX_LASER_BULLET_FIRED, this.getID(), null, Globals.DEFAULT_VOLUME, false);
 		}
 
 		// Note that we don't create a SRB since we use Rays
@@ -64,7 +66,8 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 				game.addEntity(ds);
 			}
 		} else {
-			game.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEFAULT_VOLUME, false);
+			AbstractGameClient client = (AbstractGameClient)game;
+			client.playSound(MASounds.SFX_EXPLOSION, -1, getWorldTranslation(), Globals.DEFAULT_VOLUME, false);
 		}
 		game.markForRemoval(this);
 	}

@@ -100,7 +100,7 @@ public class Computer extends PhysicalEntity implements IDamagable, ITargetableB
 
 				Vector3f pos = this.getWorldTranslation();
 				DestroyedComputer dc = new DestroyedComputer(game, game.getNextEntityID(), pos.x, pos.y, pos.z);
-				game.playSound(MASounds.SFX_COMPUTER_DESTROYED, dc.getID(), this.getWorldTranslation(), Globals.DEFAULT_VOLUME, false);
+				server.playSound(-1, MASounds.SFX_COMPUTER_DESTROYED, dc.getID(), this.getWorldTranslation(), Globals.DEFAULT_VOLUME, false);
 				game.addEntity(dc);
 			} else {
 				this.sendUpdate = true; // Send new health
