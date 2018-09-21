@@ -367,4 +367,12 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 			throw new RuntimeException("Invalid side:" + side);
 		}
 	}
+
+
+	@Override
+	protected void showCollectedPickup() {
+		this.hud.showCollectBox();
+	}
+
+
 }

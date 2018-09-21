@@ -76,18 +76,6 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, IPlaye
 
 	}
 
-/*
-	@Override
-	public void notifiedOfCollision(PhysicalEntity pe) {
-		if (pe instanceof AbstractServerAvatar) { // Prevent handling on client side as well
-			AbstractServerAvatar asa = (AbstractServerAvatar)pe;
-			if (asa.getHealth() < asa.getMaxHealth()) {
-				game.markForRemoval(this);
-				asa.setHealth(asa.getMaxHealth());
-			}
-		}
-	}
-*/
 
 	@Override
 	public void processByClient(IClientApp client, float tpfSecs) {
@@ -106,6 +94,8 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, IPlaye
 		if (avatar.getHealth() < avatar.getMaxHealth()) {
 			game.markForRemoval(this);
 			avatar.setHealth(avatar.getMaxHealth());
+			avatar.sendAvatarStatusUpdateMessage(false, true);
+
 		}
 	}
 
