@@ -171,7 +171,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, AbstractAvatar.ANIM_IDLE, name);
 		this.actuallyAddEntity(s);
 		moveAISoldierToStartPosition(s, s.side);
-		Globals.p("Created AI soldier on side " + side);
+		//Globals.p("Created AI soldier on side " + side);
 	}
 
 

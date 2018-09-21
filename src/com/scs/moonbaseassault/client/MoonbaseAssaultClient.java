@@ -56,10 +56,6 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 			final String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost"); //"www.stellarforces.com");
 			final int gamePort = props.getPropertyAsInt("gamePort", MoonbaseAssaultGlobals.PORT);
 
-			//final int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
-			//final int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
-			//final int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 100000);
-
 			final float mouseSensitivity = props.getPropertyAsFloat("mouseSensitivity", 1f);
 
 			new MoonbaseAssaultClient(gameIpAddress, gamePort,

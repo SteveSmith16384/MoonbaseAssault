@@ -43,8 +43,7 @@ public class MapLoader {
 	private MoonbaseAssaultServer moonbaseAssaultServer;
 	public int scannerData[][];
 	public ArrayList<Point>[] deploySquares;
-
-	public ArrayList<Point> floorSquares;// = new ArrayList<Point>()[2];
+	public ArrayList<Point> floorSquares;
 
 	public MapLoader(MoonbaseAssaultServer _moonbaseAssaultServer) {
 		super();
@@ -183,12 +182,13 @@ public class MapLoader {
 		this.totalFloors = 0;
 		this.totalCeilings = 0;
 
-		doInteriorFloorsAndCeilings(true, false);
-		//this.printMap();
-		doInteriorFloorsAndCeilings(false, false);
-		//this.printMap();
-		doInteriorFloorsAndCeilings(true, true);
-		//this.printMap();
+		this.printMap();
+		doInteriorFloorsAndCeilings(true, false); // Across first, ignore 1x1
+		this.printMap();
+		doInteriorFloorsAndCeilings(false, false); // down first, ignore 1x1
+		this.printMap();
+		doInteriorFloorsAndCeilings(true, true); // across again, filling in 1x1
+		this.printMap();
 
 		// One big moon floor
 		FloorOrCeiling moonrock = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Big Ext Floor", 0, 0, 0, mapsize, .5f, mapsize, MATextures.MOONROCK, true);
@@ -287,45 +287,18 @@ public class MapLoader {
 
 	private void doInteriorFloorsAndCeilings(boolean acrossFirst, boolean do1x1) {
 		floorSquares = new ArrayList<Point>();
-		//boolean found = true;
-		//while (found) {
-		//found = false;
 		for (int y=0 ; y<mapsize ; y++) {
 			for (int x=0 ; x<mapsize ; x++) {
 				if (mapCode[x][y] == INT_FLOOR) {
-					//found = true;
 					interiorFloorAndCeiling(x, y, acrossFirst, do1x1);
+					//this.printMap();
 				}
 			}
 		}
-		//}
 	}
 
 
 	private void interiorFloorAndCeiling(int sx, int sy, boolean acrossFirst, boolean do1x1) {
-		// Go across
-		/*int ex;
-		for (ex=sx ; ex<mapsize ; ex++) {
-			if (mapCode[ex][sy] != INT_FLOOR) {
-				break;
-			}
-			//mapCode[ex][sy] = HANDLED;
-		}
-		// Cover rect
-		boolean breakout = false;
-		int ey;
-		for (ey=sy+1 ; ey<mapsize ; ey++) {
-			for (int x=sx ; x<=ex ; x++) {
-				if (mapCode[x][sy] != INT_FLOOR) {
-					breakout = true;
-					break;
-				}
-			}
-			if (breakout) {
-				break;
-			}
-		}*/
-		
 		Point p = null;
 		if (acrossFirst) {
 			p = this.acrossThenDown(sx, sy);
@@ -339,7 +312,8 @@ public class MapLoader {
 		int d = ey-sy;
 
 		if (!do1x1) {
-			if (w == 1 && d == 1) {
+			//if (w == 1 && d == 1) {
+			if (w <= 2 && d <= 2) {
 				return;
 			}
 		}
@@ -379,14 +353,13 @@ public class MapLoader {
 			if (mapCode[ex][sy] != INT_FLOOR) {
 				break;
 			}
-			//mapCode[ex][sy] = HANDLED;
 		}
 		// Cover rect
 		boolean breakout = false;
 		int ey;
 		for (ey=sy+1 ; ey<mapsize ; ey++) {
 			for (int x=sx ; x<ex ; x++) {
-				if (mapCode[x][sy] != INT_FLOOR) {
+				if (mapCode[x][ey] != INT_FLOOR) {
 					breakout = true;
 					break;
 				}
@@ -413,7 +386,7 @@ public class MapLoader {
 		int ex;
 		for (ex=sx+1 ; ex<mapsize ; ex++) {
 			for (int y=sy ; y<ey ; y++) {
-				if (mapCode[sx][y] != INT_FLOOR) {
+				if (mapCode[ex][y] != INT_FLOOR) {
 					breakout = true;
 					break;
 				}
@@ -453,7 +426,7 @@ public class MapLoader {
 			System.out.println("");
 		}
 
-
+		Globals.p("Created " + this.totalWalls + " walls, " + this.totalFloors + " floors, " + this.totalCeilings + " ceilings, " + totalDoors + " doors.");
 
 	}
 }

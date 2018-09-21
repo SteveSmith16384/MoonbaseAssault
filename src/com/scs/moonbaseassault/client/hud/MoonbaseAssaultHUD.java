@@ -186,7 +186,7 @@ public class MoonbaseAssaultHUD extends Node {
 
 
 	private void setGameStatus(String s) {
-		this.gameStatus = "Game Status: " + s;
+		this.gameStatus = s;
 	}
 
 
