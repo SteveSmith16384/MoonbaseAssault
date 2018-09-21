@@ -10,6 +10,7 @@ public class MATextures {
 	public static final int DOOR_LR = 6;
 	public static final int SPACECRATE1 = 7;
 	public static final int CEILING_GREEBLE = 8;
+	public static final int WALL_LIGHT = 9;
 
 
 	public static String getTex(int code) {
@@ -30,6 +31,8 @@ public class MATextures {
 			return "Textures/spacecrate1.png";
 		case CEILING_GREEBLE:
 			return "Textures/spaceship_wall.png";
+		case WALL_LIGHT:
+			return "Textures/roblox.png";
 		default:
 			throw new IllegalArgumentException("code");
 		}

@@ -4,6 +4,7 @@ import com.jme3.audio.AudioData.DataType;
 import com.jme3.audio.AudioNode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
+import com.scs.moonbaseassault.MASimplePlayerData;
 import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.hud.MoonbaseAssaultHUD;
@@ -108,14 +109,14 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 	private void playMusic() {
 		//if (!Globals.MUTE) {
-			try {
-				musicNode = new AudioNode(assetManager, "Sounds/n-Dimensions (Main Theme - Retro Ver.ogg", DataType.Stream);
-				musicNode.setPositional(false);
-				this.getRootNode().attachChild(musicNode);
-				musicNode.play();
-			} catch (java.lang.IllegalStateException ex) {
-				// Unable to play sounds - no audiocard/speakers?
-			}
+		try {
+			musicNode = new AudioNode(assetManager, "Sounds/n-Dimensions (Main Theme - Retro Ver.ogg", DataType.Stream);
+			musicNode.setPositional(false);
+			this.getRootNode().attachChild(musicNode);
+			musicNode.play();
+		} catch (java.lang.IllegalStateException ex) {
+			// Unable to play sounds - no audiocard/speakers?
+		}
 		//}
 	}
 
@@ -167,12 +168,6 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 				this.guiNode.attachChild(hud); // Re-add since the previous module probably cleared out the guiNode
 			}
 		}
-	}
-
-
-	@Override
-	public int getGameID() {
-		return this.gameData.gameID;
 	}
 
 
@@ -315,7 +310,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 	@Override
 	protected Class[] getListofMessageClasses() {
-		return new Class[] {HudDataMessage.class};
+		return new Class[] {HudDataMessage.class, MASimplePlayerData.class};
 	}
 
 
@@ -355,5 +350,21 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		super.setAvatar(e);
 		setPOVWeapon(new DefaultPOVWeapon(this));
 	}
-	
+
+
+	@Override
+	protected void allEntitiesReceived() {
+		super.allEntitiesReceived();
+
+		switch (this.side) {
+		case MoonbaseAssaultGlobals.SIDE_ATTACKERS:
+			this.showMessage("Destroy the Computers!");
+			break;
+		case MoonbaseAssaultGlobals.SIDE_DEFENDERS:
+			this.showMessage("Defend the Computers!");
+			break;
+		default:
+			throw new RuntimeException("Invalid side:" + side);
+		}
+	}
 }

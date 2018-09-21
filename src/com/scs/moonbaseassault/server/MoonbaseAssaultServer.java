@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.jme3.system.JmeContext;
+import com.scs.moonbaseassault.MASimplePlayerData;
 import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
-import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
-import com.scs.moonbaseassault.entities.FlyingSpaceship2;
 import com.scs.moonbaseassault.entities.MA_AISoldier;
 import com.scs.moonbaseassault.entities.SoldierServerAvatar;
 import com.scs.moonbaseassault.entities.Spaceship1;
@@ -19,6 +18,7 @@ import com.scs.moonbaseassault.shared.MoonbaseAssaultGameData;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.data.GameOptions;
 import com.scs.stevetech1.data.SimpleGameData;
+import com.scs.stevetech1.data.SimplePlayerData;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
@@ -230,7 +230,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	protected Class[] getListofMessageClasses() {
-		return new Class[] {HudDataMessage.class};
+		return new Class[] {HudDataMessage.class, MASimplePlayerData.class};
 	}
 
 
@@ -320,6 +320,12 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	public void gameStatusChanged(final int newStatus) {
 		super.gameStatusChanged(newStatus);
 		this.sendMessageToInGameClients(new HudDataMessage(this.mapData, this.maGameData.computersDestroyed)); // If new game started, show the new map
+	}
+
+
+	@Override
+	protected SimplePlayerData createSimplePlayerData() {
+		return new MASimplePlayerData();
 	}
 
 

@@ -105,9 +105,9 @@ public class MapLoader {
 			}
 		}
 
-		
+
 		//printMap();
-		
+
 		// Generate map!
 		totalWalls = 0;
 		{
@@ -125,7 +125,7 @@ public class MapLoader {
 		}
 
 		//printMap();
-		
+
 		{
 			// Vertical walls
 			int y = 0;
@@ -142,7 +142,7 @@ public class MapLoader {
 		}
 
 		//printMap();
-		
+
 		// Doors && comps
 		{
 			for (int y=0 ; y<mapsize ; y++) {
@@ -182,13 +182,13 @@ public class MapLoader {
 		this.totalFloors = 0;
 		this.totalCeilings = 0;
 
-		this.printMap();
+		//this.printMap();
 		doInteriorFloorsAndCeilings(true, false); // Across first, ignore 1x1
-		this.printMap();
+		//this.printMap();
 		doInteriorFloorsAndCeilings(false, false); // down first, ignore 1x1
-		this.printMap();
+		//this.printMap();
 		doInteriorFloorsAndCeilings(true, true); // across again, filling in 1x1
-		this.printMap();
+		//this.printMap();
 
 		// One big moon floor
 		FloorOrCeiling moonrock = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Big Ext Floor", 0, 0, 0, mapsize, .5f, mapsize, MATextures.MOONROCK, true);
@@ -204,12 +204,13 @@ public class MapLoader {
 		MapBorder borderFront = new MapBorder(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 0, 0, -MapBorder.BORDER_WIDTH, mapsize, Vector3f.UNIT_X);
 		moonbaseAssaultServer.actuallyAddEntity(borderFront);
 
-		Globals.p("Finished.  Created " + this.totalWalls + " walls, " + this.totalFloors + " floors, " + this.totalCeilings + " ceilings, " + totalDoors + " doors.");
+		Globals.p("Finished creating map.  Created " + this.totalWalls + " walls, " + this.totalFloors + " floors, " + this.totalCeilings + " ceilings, " + totalDoors + " doors.");
 
 		Vector3f down = new Vector3f(0, -1, 0);
 
 		// Scenery
-		for (int i=0 ; i<Math.min(30, floorSquares.size()/4) ; i++) {
+		int numGasCannisters = Math.min(30, floorSquares.size()/2); 
+		for (int i=0 ; i<numGasCannisters ; i++) {
 			Point p = this.floorSquares.remove(NumberFunctions.rnd(0,  floorSquares.size()-1));
 			GasCannister gas = new GasCannister(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), p.x+0.5f, INT_FLOOR_HEIGHT + 0.1f, p.y+0.5f);
 			moonbaseAssaultServer.actuallyAddEntity(gas);
@@ -221,7 +222,8 @@ public class MapLoader {
 			//Globals.p("Gas can at " + gas.getWorldTranslation());
 		}
 
-		for (int i=0 ; i<Math.min(30, floorSquares.size()/4) ; i++) {
+		int numCrates = Math.min(30, floorSquares.size()/4);
+		for (int i=0 ; i<numCrates ; i++) {
 			Point p = this.floorSquares.remove(NumberFunctions.rnd(0,  floorSquares.size()-1));
 			float size = .2f; //Must be thin enough for them to be able to move past each other when positioning //  NumberFunctions.rndFloat(.2f, .3f);
 			int rot = NumberFunctions.rnd(0,  90);
@@ -255,6 +257,7 @@ public class MapLoader {
 		moonbaseAssaultServer.actuallyAddEntity(wall);
 		totalWalls++;
 
+		/*
 		if (width > 3 && NumberFunctions.rnd(1, 2) == 1) {
 			// Create offset wall - todo - make non collidabe?
 			float extra = 0.15f;
@@ -264,8 +267,22 @@ public class MapLoader {
 					newWidth, MoonbaseAssaultServer.CEILING_HEIGHT-.4f, 1+(extra*2), 
 					MATextures.MOONBASE_WALL);
 			moonbaseAssaultServer.actuallyAddEntity(wall2);
-			//totalWalls++;
 		}
+		 */
+
+		if (width > 3) {// && NumberFunctions.rnd(1, 2) == 1) {
+			// Create lights
+			for (int i=0 ; i<width ; i+=2) {
+				float w_h = 0.25f;
+				float d = 0.05f;
+				MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
+						sx+0.5f+i, 0.8f, sy-d, 
+						w_h, w_h, 1+(d*2), 
+						MATextures.WALL_LIGHT);
+				moonbaseAssaultServer.actuallyAddEntity(wall2);
+			}
+		}
+
 	}
 
 
@@ -307,7 +324,7 @@ public class MapLoader {
 		}
 		int ex = p.x;
 		int ey = p.y;
-		
+
 		int w = ex-sx;
 		int d = ey-sy;
 
@@ -328,13 +345,13 @@ public class MapLoader {
 		FloorOrCeiling ceiling = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, MATextures.CORRIDOR, false);
 		moonbaseAssaultServer.actuallyAddEntity(ceiling);
 		this.totalCeilings++;
-/*
+		/*
 		if (w > 4 || d > 4) {
 			// Ceiling greeble
 			FloorOrCeiling ceiling2 = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling", sx+.95f, MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy+1, 1, .8f, 1, MATextures.CEILING_GREEBLE, false);
 			moonbaseAssaultServer.actuallyAddEntity(ceiling2);
 		}
-*/
+		 */
 
 		// Mark area as handled
 		for (int y=sy ; y<ey ; y++) {
@@ -346,7 +363,7 @@ public class MapLoader {
 
 	}
 
-	
+
 	private Point acrossThenDown(int sx, int sy) {
 		int ex;
 		for (ex=sx ; ex<mapsize ; ex++) {
@@ -368,7 +385,7 @@ public class MapLoader {
 				break;
 			}
 		}
-		
+
 		return new Point(ex, ey);
 
 	}
@@ -395,12 +412,12 @@ public class MapLoader {
 				break;
 			}
 		}
-		
+
 		return new Point(ex, ey);
 
 	}
 
-	
+
 	private void printMap() {
 		// print map
 		for (int y=0 ; y<mapsize ; y++) {
