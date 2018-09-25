@@ -16,8 +16,8 @@ public class MASounds {
 		case SFX_AI_KILLED: return "";
 		case SFX_LASER_BULLET_FIRED: return "Sounds/laser3.wav";
 		case SFX_EXPLOSION: return "";
-		case SFX_COMPUTER_DESTROYED: return "Sounds/computer_destroyed.mp3";
-		case SFX_SLIDING_DOOR: return "Sounds/slidingdoor.mp3";
+		case SFX_COMPUTER_DESTROYED: return "Sounds/computer_destroyed.wav";
+		case SFX_SLIDING_DOOR: return "Sounds/slidingdoor.wav";
 		default:
 			if (!Globals.RELEASE_MODE) {
 				throw new IllegalArgumentException("Unknown sound id:" + id);

@@ -71,6 +71,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 			this.maintainDirectionForSecs -= tpf_secs;
 		}
 
+		boolean hadTarget = currentTarget != null;
 		if (currentTarget != null) { // Check we can still see enemy
 			if (!this.currentTarget.isAlive()) {
 				this.currentTarget = null;
@@ -105,13 +106,16 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 			soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
 			animCode = AbstractAvatar.ANIM_IDLE;
 			if (SHOOT_AT_ENEMY) {
+				if (!hadTarget) {
+					// Prevent us shooting immediately, to give players a chance.
+					this.soldierEntity.timeToNextShotSecs = Math.max(this.soldierEntity.timeToNextShotSecs, .4f);
+				}
 				this.soldierEntity.shoot((PhysicalEntity)currentTarget);
 			}
 		}
 
 		if (currentTarget == null) { // No current enemy
-			if (this.route == null) { // this.attacker &&
-				//if (this.attacker || (this.computer == null))
+			if (this.route == null) {
 				soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
 				animCode = AbstractAvatar.ANIM_IDLE;
 				getRoute(server);

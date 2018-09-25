@@ -6,6 +6,7 @@ import com.jme3.animation.AnimEventListener;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractOtherPlayersAvatar;
+import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
 public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements AnimEventListener {
@@ -14,7 +15,7 @@ public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements An
 	private int currentAnimCode = -1;
 	
 	public SoldierEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, byte side, boolean friend, String playerName) {
-		super(game, type, eid, x, y, z, new SoldierModel(game.getAssetManager(), side, friend, true), side, playerName);
+		super(game, type, eid, x, y, z, new SoldierModel(game.getAssetManager(), true, side, friend), side, playerName);
 		
 		this.soldier = (SoldierModel)anim;
 	}
@@ -22,11 +23,13 @@ public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements An
 
 	@Override
 	public void setAnimCode_ClientSide(int animCode) {
-		//Globals.p("SoldierEnemyAvatar: setCurrentAnimForCode(" + s + ")");
 		if (animCode != this.currentAnimCode) {
+			if (Globals.DEBUG_NO_JUMP_ANIM) {
+				Globals.p("SoldierEnemyAvatar: setAnimCode_ClientSide(" + animCode + ")");
+			}
 			soldier.setAnim(animCode);
+			this.currentAnimCode = animCode;
 		}
-		this.currentAnimCode = animCode;
 	}
 
 

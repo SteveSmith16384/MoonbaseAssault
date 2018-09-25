@@ -18,6 +18,7 @@ import com.scs.moonbaseassault.entities.MediPack;
 import com.scs.moonbaseassault.entities.MoonbaseWall;
 import com.scs.moonbaseassault.entities.SlidingDoor;
 import com.scs.moonbaseassault.entities.SpaceCrate;
+import com.scs.moonbaseassault.entities.VidScreen;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.server.Globals;
 
@@ -270,15 +271,26 @@ public class MapLoader {
 		}
 		 */
 
-		if (width > 3) {// && NumberFunctions.rnd(1, 2) == 1) {
-			// Create lights
-			for (int i=0 ; i<width ; i+=2) {
-				float w_h = 0.25f;
-				float d = 0.05f;
-				MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
-						sx+0.5f+i, 0.8f, sy-d, 
+		if (width > 3) {
+			if (NumberFunctions.rnd(1, 2) == 1) {
+				// Create lights
+				for (int i=0 ; i<width ; i+=2) {
+					float w_h = 0.25f;
+					float d = 0.05f;
+					MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
+							sx+0.5f+i, 0.8f, sy-d, 
+							w_h, w_h, 1+(d*2), 
+							MATextures.WALL_LIGHT);
+					moonbaseAssaultServer.actuallyAddEntity(wall2);
+				}
+			} else {
+				// Vid screen
+				float w_h = 0.75f;
+				float d = 0.01f;
+				VidScreen wall2 = new VidScreen(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
+						sx+(width/2), 0.5f, sy-d, 
 						w_h, w_h, 1+(d*2), 
-						MATextures.WALL_LIGHT);
+						MATextures.JETPAC_VID);
 				moonbaseAssaultServer.actuallyAddEntity(wall2);
 			}
 		}

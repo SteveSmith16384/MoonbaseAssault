@@ -7,11 +7,11 @@ import com.scs.moonbaseassault.server.ai.ShootingSoldierAI3;
 import com.scs.stevetech1.entities.AbstractBullet;
 import com.scs.stevetech1.shared.IEntityController;
 
-public class MA_AISuperSoldier extends AbstractAISoldier {
+public class MA_AISuperSoldier extends AbstractAISoldier { // Not currently used.
 	
 	public MA_AISuperSoldier(IEntityController _game, int id, float x, float y, float z, byte _side, boolean friend, int csInitialAnimCode, String name) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.AI_SUPER_SOLDIER, x, y, z, _side, 
-				new SoldierModel(_game.getAssetManager(), _side, false, friend), csInitialAnimCode, name);
+				new SoldierModel(_game.getAssetManager(), false, _side, friend), csInitialAnimCode, name);
 
 		if (_game.isServer()) {
 			boolean attacker = side == 1;

@@ -32,7 +32,7 @@ public class SoldierModel implements IAvatarModel {
 	private boolean friend;
 	private boolean player;
 
-	public SoldierModel(AssetManager _assetManager, byte side, boolean _player, boolean _friend) {
+	public SoldierModel(AssetManager _assetManager, boolean _player, byte side, boolean _friend) {
 		assetManager = _assetManager;
 		friend = _friend;
 		player = _player;
@@ -78,7 +78,14 @@ public class SoldierModel implements IAvatarModel {
 			return;			
 		}
 
-		if (this.isJumping && this.jumpEndTime > System.currentTimeMillis() && animCode != AbstractAvatar.ANIM_DIED) {
+		if (Globals.DEBUG_NO_JUMP_ANIM) {
+			if (isJumping) {
+				Globals.p("Here");
+			}
+		}
+
+		boolean jumpEnded = this.jumpEndTime > System.currentTimeMillis();
+		if (this.isJumping && !jumpEnded && animCode != AbstractAvatar.ANIM_DIED) {
 			// Do nothing; only dying can stop a jumping anim
 			return;
 		}

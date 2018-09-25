@@ -16,7 +16,7 @@ public class MA_AISoldier extends AbstractAISoldier {
 	
 	public MA_AISoldier(IEntityController _game, int id, float x, float y, float z, byte _side, boolean friend, int csInitialAnimCode, String name) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.AI_SOLDIER, x, y, z, _side, 
-				new SoldierModel(_game.getAssetManager(), _side, false, friend), csInitialAnimCode, name);
+				new SoldierModel(_game.getAssetManager(), false, _side, friend), csInitialAnimCode, name);
 
 		if (_game.isServer()) {
 			boolean attacker = side == 1;
@@ -28,8 +28,8 @@ public class MA_AISoldier extends AbstractAISoldier {
 	@Override
 	protected AbstractBullet createAIBullet(Vector3f pos, Vector3f dir) {
 		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
-		AbstractGameServer server = (AbstractGameServer)game;
-		server.playSound(-1, MASounds.SFX_LASER_BULLET_FIRED, -1, pos, Globals.DEFAULT_VOLUME, false);
+		//AbstractGameServer server = (AbstractGameServer)game;
+		//server.playSound(-1, MASounds.SFX_LASER_BULLET_FIRED, -1, pos, Globals.DEFAULT_VOLUME, false);
 		return bullet;
 	}
 

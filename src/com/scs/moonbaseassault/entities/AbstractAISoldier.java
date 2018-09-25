@@ -63,7 +63,7 @@ IDebrisTexture {
 
 	// Weapon
 	private int bullets = BULLETS_IN_MAG;
-	private float timeToNextShot = 0; 
+	public float timeToNextShotSecs = 0; 
 
 	// HUD
 	private BitmapText bmpText;
@@ -122,7 +122,7 @@ IDebrisTexture {
 	@Override
 	public void processByServer(AbstractGameServer server, float tpf_secs) {
 		if (health > 0) {
-			timeToNextShot -= tpf_secs;
+			timeToNextShotSecs -= tpf_secs;
 			if (server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED) {
 				ai.process(server, tpf_secs);
 				this.serverSideCurrentAnimCode = ai.getAnimCode(); // AbstractAvatar.ANIM_WALKING;
@@ -280,7 +280,7 @@ IDebrisTexture {
 
 
 	public void shoot(PhysicalEntity target) {
-		if (this.timeToNextShot <= 0) {
+		if (this.timeToNextShotSecs <= 0) {
 			if (Globals.DEBUG_AI_BULLET_POS) {
 				Globals.p("AI shooting!  AI at " + this.getWorldTranslation());
 			}
@@ -292,9 +292,9 @@ IDebrisTexture {
 
 			this.bullets--;
 			if (this.bullets > 0) {
-				this.timeToNextShot = SHOOT_INTERVAL;
+				this.timeToNextShotSecs = SHOOT_INTERVAL;
 			} else {
-				this.timeToNextShot = RELOAD_INTERVAL;
+				this.timeToNextShotSecs = RELOAD_INTERVAL;
 				bullets = BULLETS_IN_MAG;
 				//Globals.p("AI Reloading");
 			}

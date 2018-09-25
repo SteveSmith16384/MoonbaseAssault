@@ -43,9 +43,9 @@ public class GasCannister extends PhysicalEntity implements IDamagable {
 			key3.setGenerateMips(true);
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
-			Material floorMat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-			floorMat.setTexture("DiffuseMap", tex3);
-			geometry.setMaterial(floorMat);
+			Material mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+			mat.setTexture("DiffuseMap", tex3);
+			geometry.setMaterial(mat);
 		}
 		JMEAngleFunctions.rotateToWorldDirection(geometry, new Vector3f(0, 1, 0));
 		geometry.setLocalTranslation(RAD, -HEIGHT, RAD);

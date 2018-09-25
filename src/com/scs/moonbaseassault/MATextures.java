@@ -11,6 +11,7 @@ public class MATextures {
 	public static final int SPACECRATE1 = 7;
 	public static final int CEILING_GREEBLE = 8;
 	public static final int WALL_LIGHT = 9;
+	public static final int JETPAC_VID = 10;
 
 
 	public static String getTex(int code) {
@@ -32,7 +33,9 @@ public class MATextures {
 		case CEILING_GREEBLE:
 			return "Textures/spaceship_wall.png";
 		case WALL_LIGHT:
-			return "Textures/roblox.png";
+			return "Textures/snow.jpg";
+		case JETPAC_VID:
+			return "Textures/jetpac.gif";
 		default:
 			throw new IllegalArgumentException("code");
 		}

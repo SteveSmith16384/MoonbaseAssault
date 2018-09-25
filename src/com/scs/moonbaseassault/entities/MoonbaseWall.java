@@ -23,13 +23,13 @@ import com.scs.stevetech1.shared.IEntityController;
 
 public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 
-	private static final String INVISIBLE_TEX = "Textures/fence.png";
+	private static final String INVISIBLE_TEX = "Textures/fence.png"; // For debugging
 	private String tex;
 
 	public MoonbaseWall(IEntityController _game, int id, float x, float yBottom, float z, float w, float h, float d, int _tex) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.WALL, "Wall", false, true, false);
 
-		tex = MATextures.getTex(_tex);
+		tex = MATextures.getTex(_tex); // need this for client and server, to say what tex to use for explosions!
 
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
@@ -57,7 +57,7 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 
 			TextureKey key3 = null;
 			if (!Globals.TRANSPARENT_WALLS) {
-				key3 = new TextureKey(tex);
+				key3 = new TextureKey(tex, false);
 			} else {
 				key3 = new TextureKey(INVISIBLE_TEX);
 			}
@@ -65,12 +65,12 @@ public class MoonbaseWall extends PhysicalEntity implements IDebrisTexture {
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
 
-			Material floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-			floor_mat.setTexture("DiffuseMap", tex3);
-			geometry.setMaterial(floor_mat);
+			Material mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+			mat.setTexture("DiffuseMap", tex3);
+			geometry.setMaterial(mat);
 
 			if (Globals.TRANSPARENT_WALLS) {
-				floor_mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+				mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
 				geometry.setQueueBucket(Bucket.Transparent);
 			}
 

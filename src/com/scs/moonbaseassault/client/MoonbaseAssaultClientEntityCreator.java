@@ -19,6 +19,7 @@ import com.scs.moonbaseassault.entities.SoldierClientAvatar;
 import com.scs.moonbaseassault.entities.SoldierEnemyAvatar;
 import com.scs.moonbaseassault.entities.SpaceCrate;
 import com.scs.moonbaseassault.entities.Spaceship1;
+import com.scs.moonbaseassault.entities.VidScreen;
 import com.scs.moonbaseassault.weapons.GrenadeLauncher;
 import com.scs.moonbaseassault.weapons.LaserRifle;
 import com.scs.stevetech1.client.AbstractGameClient;
@@ -55,6 +56,7 @@ public class MoonbaseAssaultClientEntityCreator {
 	public static final int FLYING_SPACESHIP2 = 23;
 	public static final int AI_SUPER_SOLDIER = 24;
 	public static final int MEDIPACK = 25;
+	public static final int VID_SCREEN = 26;
 
 
 	public MoonbaseAssaultClientEntityCreator() {
@@ -122,6 +124,16 @@ public class MoonbaseAssaultClientEntityCreator {
 			float d = (float)data.data.get("d");
 			int tex = (int)data.data.get("tex");
 			MoonbaseWall wall = new MoonbaseWall(game, id, pos.x, pos.y, pos.z, w, h, d, tex);
+			return wall;
+		}
+
+		case VID_SCREEN:
+		{
+			float w = (float)data.data.get("w");
+			float h = (float)data.data.get("h");
+			float d = (float)data.data.get("d");
+			int tex = (int)data.data.get("tex");
+			VidScreen wall = new VidScreen(game, id, pos.x, pos.y, pos.z, w, h, d, tex);
 			return wall;
 		}
 

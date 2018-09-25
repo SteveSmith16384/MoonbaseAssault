@@ -28,6 +28,11 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 	public LaserBullet(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.LASER_BULLET, "LaserBullet", playerOwnerId, _shooter, startPos, _dir, _side, _client, true, SPEED, RANGE);
 
+		if (!game.isServer()) {
+			AbstractGameClient client = (AbstractGameClient)game;
+			client.playSound(MASounds.SFX_LASER_BULLET_FIRED, this.getID(), startPos, Globals.DEFAULT_VOLUME, false);
+		}
+
 	}
 
 
@@ -38,11 +43,6 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 		//laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);
 		
-		if (!game.isServer()) {
-			AbstractGameClient client = (AbstractGameClient)game;
-			client.playSound(MASounds.SFX_LASER_BULLET_FIRED, this.getID(), null, Globals.DEFAULT_VOLUME, false);
-		}
-
 		// Note that we don't create a SRB since we use Rays
 
 	}

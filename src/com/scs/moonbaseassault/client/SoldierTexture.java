@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture2D;
 import com.scs.stevetech1.jme.PaintableImage;
+import com.scs.stevetech1.server.Globals;
 
 import ssmith.lang.NumberFunctions;
 
@@ -29,6 +30,11 @@ public class SoldierTexture {
 
 
 	public static Texture getTexture(boolean friend, boolean player) {
+		if (Globals.DEBUG_OTHER_PLAYER_COLOURS) {
+			if (player) {
+				Globals.p("Getting colour for player");
+			}
+		}
 		int side = friend ? 2 : 1;
 		PaintableImage pi = new PaintableImage(SIZE, SIZE) {
 

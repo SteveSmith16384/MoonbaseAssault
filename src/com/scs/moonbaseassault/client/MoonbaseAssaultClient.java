@@ -149,11 +149,11 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	@Override
-	public void disconnected() {
+	public void disconnectedCode() {
 		this.setModule(new DisconnectedModule(this));
 	}
-
-
+	
+	
 	private void setModule(IModule m) {
 		if (this.currentModule != null) {
 			this.currentModule.destroy();
