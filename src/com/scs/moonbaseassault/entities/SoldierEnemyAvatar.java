@@ -11,13 +11,13 @@ import com.scs.stevetech1.shared.IEntityController;
 
 public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements AnimEventListener {
 	
-	private SoldierModel soldier;
+	private SoldierModel soldierModel;
 	private int currentAnimCode = -1;
 	
 	public SoldierEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, byte side, boolean friend, String playerName) {
 		super(game, type, eid, x, y, z, new SoldierModel(game.getAssetManager(), true, side, friend), side, playerName);
 		
-		this.soldier = (SoldierModel)anim;
+		this.soldierModel = (SoldierModel)anim;
 	}
 	
 
@@ -27,7 +27,7 @@ public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements An
 			if (Globals.DEBUG_NO_JUMP_ANIM) {
 				Globals.p("SoldierEnemyAvatar: setAnimCode_ClientSide(" + animCode + ")");
 			}
-			soldier.setAnim(animCode);
+			soldierModel.setAnim(animCode);
 			this.currentAnimCode = animCode;
 		}
 	}
@@ -42,7 +42,11 @@ public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements An
 	@Override
 	public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
 		if (animName.equals("Jump")) {
-			soldier.isJumping = false;
+			if (Globals.DEBUG_NO_JUMP_ANIM) {
+				Globals.p("SoldierEnemyAvatar: jump anim finished");
+			}
+			// Set anim to idle once jumping finished
+			soldierModel.isJumping = false;
 			this.currentAnimCode = AbstractAvatar.ANIM_IDLE;
 		}
 	}

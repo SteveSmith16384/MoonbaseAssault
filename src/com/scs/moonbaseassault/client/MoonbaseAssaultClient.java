@@ -149,11 +149,11 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	@Override
-	public void disconnectedCode() {
+	public void runWhenDisconnected() {
 		this.setModule(new DisconnectedModule(this));
 	}
-	
-	
+
+
 	private void setModule(IModule m) {
 		if (this.currentModule != null) {
 			this.currentModule.destroy();
@@ -223,35 +223,20 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	@Override
-	protected void playerHasWon() {
+	protected void gameOver(int winningSide) {
 		removeCurrentHUDTextImage();
 		int width = this.cam.getWidth()/2;
 		int height = this.cam.getHeight()/2;
 		int x = (this.cam.getWidth()/2)-(width/2);
 		int y = (int)(this.cam.getHeight() * 0.5f);
-		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/victory.png", x, y, width, height, 5);
-	}
-
-
-	@Override
-	protected void playerHasLost() {
-		removeCurrentHUDTextImage();
-		int width = this.cam.getWidth()/2;
-		int height = this.cam.getHeight()/2;
-		int x = (this.cam.getWidth()/2)-(width/2);
-		int y = (int)(this.cam.getHeight() * 0.5f);
-		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/defeat.png", x, y, width, height, 5);
-	}
-
-
-	@Override
-	protected void gameIsDrawn() {
-		removeCurrentHUDTextImage();
-		int width = this.cam.getWidth()/2;
-		int height = this.cam.getHeight()/2;
-		int x = (this.cam.getWidth()/2)-(width/2);
-		int y = (int)(this.cam.getHeight() * 0.5f);
-		currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/defeat.png", x, y, width, height, 5);
+		if (winningSide == this.side) {
+			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/victory.png", x, y, width, height, 5);
+			//todo playSound(MASounds.WINNER, -1, null, Globals.DEFAULT_VOLUME, false);
+		} else if (winningSide <= 0) {
+			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/gamedrawn.png", x, y, width, height, 5);
+		} else {
+			currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.getGuiNode(), "Textures/text/defeat.png", x, y, width, height, 5);
+		}
 	}
 
 

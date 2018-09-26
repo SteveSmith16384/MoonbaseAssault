@@ -232,8 +232,8 @@ public class MoonbaseAssaultClientEntityCreator {
 				IEntity shooter = game.entities.get(shooterId);
 				Vector3f startPos = (Vector3f) data.data.get("startPos");
 				Vector3f dir = (Vector3f) data.data.get("dir");
-				Grenade snowball = new Grenade(game, id, playerID, shooter, startPos, dir, side, null);
-				return snowball;
+				Grenade grenade = new Grenade(game, id, playerID, shooter, startPos, dir, side, null);
+				return grenade;
 			} else {
 				return null; // it's our bullet, which we've already created locally
 			}
