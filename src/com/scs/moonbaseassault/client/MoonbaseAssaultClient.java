@@ -72,7 +72,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	private MoonbaseAssaultClient(String gameIpAddress, int gamePort, 
 			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,
 			float mouseSensitivity) {
-		super(new ValidateClientSettings(MoonbaseAssaultServer.GAME_ID, "key", 1), "Moonbase Assault", null, 
+		super(new ValidateClientSettings(MoonbaseAssaultServer.GAME_ID, 1, "key"), "Moonbase Assault", null, 
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); 
 
 		ipAddress = gameIpAddress;

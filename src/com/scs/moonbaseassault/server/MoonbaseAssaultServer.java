@@ -16,6 +16,7 @@ import com.scs.moonbaseassault.netmessages.HudDataMessage;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultGameData;
 import com.scs.simplephysics.SimpleRigidBody;
+import com.scs.stevetech1.client.ValidateClientSettings;
 import com.scs.stevetech1.data.GameOptions;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.data.SimplePlayerData;
@@ -77,7 +78,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	private MoonbaseAssaultServer(String gameIpAddress, int gamePort) throws IOException {
-		super(GAME_ID, 1d, "key", new GameOptions(Globals.DEFAULT_TICKRATE, Globals.DEFAULT_SEND_UPDATES_INTERVAL, Globals.DEFAULT_RENDER_DELAY, Globals.DEFAULT_NETWORK_TIMEOUT, 
+		super(new ValidateClientSettings(GAME_ID, 1d, "key"), 
+				new GameOptions(Globals.DEFAULT_TICKRATE, Globals.DEFAULT_SEND_UPDATES_INTERVAL, Globals.DEFAULT_RENDER_DELAY, Globals.DEFAULT_NETWORK_TIMEOUT, 
 				deployDurationSecs*1000, gameDurationSecs*1000, restartDurationSecs*1000, 
 				gameIpAddress, gamePort, 
 				10, 5));
