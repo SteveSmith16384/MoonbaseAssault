@@ -62,7 +62,7 @@ public class MoonbaseAssaultHUD extends Node {
 
 		float xPos = cam.getWidth() * .7f;
 
-		textArea = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
+		textArea = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Please wait..."), ColorRGBA.Green);
 		textArea.setLocalTranslation(xPos, (int)(cam.getHeight()*.6f), 0);
 		this.attachChild(textArea);
 		//textArea.setText("Waiting for data...");
@@ -70,7 +70,7 @@ public class MoonbaseAssaultHUD extends Node {
 		float yPos = cam.getHeight() - lineSpacing;
 
 		yPos -= lineSpacing;
-		abilityGun = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
+		abilityGun = ttfSmall.getFormattedText(new StringContainer(ttfSmall, ""), ColorRGBA.Green);
 		abilityGun.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(abilityGun);
 /*
@@ -80,11 +80,11 @@ public class MoonbaseAssaultHUD extends Node {
 		this.attachChild(abilityOther);
 */
 		yPos -= lineSpacing;
-		healthText = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
+		healthText = ttfSmall.getFormattedText(new StringContainer(ttfSmall, ""), ColorRGBA.Green);
 		healthText.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(healthText);
 
-		log = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Hello World"), ColorRGBA.Green);
+		log = ttfSmall.getFormattedText(new StringContainer(ttfSmall, "Please wait..."), ColorRGBA.Green);
 		log.setLocalTranslation(20, cam.getHeight()-20, 0);
 		this.attachChild(log);
 

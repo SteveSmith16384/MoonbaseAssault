@@ -260,7 +260,7 @@ public class MapLoader {
 
 		/*
 		if (width > 3 && NumberFunctions.rnd(1, 2) == 1) {
-			// Create offset wall - todo - make non collidabe?
+			// Create offset wall
 			float extra = 0.15f;
 			float newWidth = width/4;
 			MoonbaseWall wall2 = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
