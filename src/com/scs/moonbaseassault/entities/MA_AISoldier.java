@@ -59,10 +59,5 @@ public class MA_AISoldier extends AbstractAISoldier {
 		return 0.004f;
 	}
 
-	
-	@Override
-	public void updateClientSideHealth(int amt) {
-	}
-	
 
 }

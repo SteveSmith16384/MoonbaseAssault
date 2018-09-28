@@ -45,10 +45,4 @@ public class MA_AISuperSoldier extends AbstractAISoldier { // Not currently used
 	}
 
 	
-	@Override
-	public void updateClientSideHealth(int amt) {
-		
-	}
-	
-
 }

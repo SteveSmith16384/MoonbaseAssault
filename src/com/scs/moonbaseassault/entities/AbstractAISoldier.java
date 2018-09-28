@@ -88,9 +88,9 @@ IDebrisTexture {
 		}
 
 		// Create box for collisions
-		Box box = new Box(soldierModel.getSize().x/2, soldierModel.getSize().y/2, soldierModel.getSize().z/2);
+		Box box = new Box(soldierModel.getCollisionBoxSize().x/2, soldierModel.getCollisionBoxSize().y/2, soldierModel.getCollisionBoxSize().z/2);
 		Geometry bbGeom = new Geometry("bbGeom_" + name, box);
-		bbGeom.setLocalTranslation(0, soldierModel.getSize().y/2, 0); // origin is centre!
+		bbGeom.setLocalTranslation(0, box.getYExtent(), 0); // origin is centre!
 		bbGeom.setCullHint(CullHint.Always); // Don't draw the collision box
 		bbGeom.setUserData(Globals.ENTITY, this);
 
@@ -114,7 +114,7 @@ IDebrisTexture {
 		HashMap<String, Object> creationData = super.getCreationData();
 		// Need this in case the soldier is dead, in which case they won't send any updates, meaning
 		// they won't get sent an animation code.
-		creationData.put("animcode", this.getCurrentAnimCode());
+		creationData.put("animcode", this.getCurrentAnimCode_ServerSide());
 		return creationData;
 	}
 
@@ -230,7 +230,7 @@ IDebrisTexture {
 	 * Called server-side only,
 	 */
 	@Override
-	public int getCurrentAnimCode() {
+	public int getCurrentAnimCode_ServerSide() {
 		return this.serverSideCurrentAnimCode;
 	}
 
@@ -239,7 +239,7 @@ IDebrisTexture {
 	public void drawOnHud(Node hud, Camera cam) {
 		if (bmpText != null) {
 			if (health > 0) {
-				super.checkHUDNode(hud, bmpText, cam, HUD_DIST, soldierModel.getSize().y);
+				super.checkHUDNode(hud, bmpText, cam, HUD_DIST, soldierModel.getCollisionBoxSize().y);
 			}
 		}
 	}
@@ -333,4 +333,8 @@ IDebrisTexture {
 	}
 
 
+	@Override
+	public void updateClientSideHealth(int amt) {
+	}
+	
 }
