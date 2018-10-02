@@ -24,6 +24,7 @@ import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
+import com.scs.stevetech1.netmessages.MyAbstractMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
@@ -161,7 +162,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
-			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, (byte)2, false, AbstractAvatar.ANIM_IDLE, "AI TEST");
+			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, (byte)2, false, "AI TEST");
 			this.actuallyAddEntity(s);
 			moveAISoldierToStartPosition(s, s.side);
 		}
@@ -170,7 +171,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	public void addAISoldier(byte side, String name) {
-		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, AbstractAvatar.ANIM_IDLE, name);
+		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, name);
 		this.actuallyAddEntity(s);
 		moveAISoldierToStartPosition(s, s.side);
 		//Globals.p("Created AI soldier on side " + side);
@@ -231,7 +232,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	@Override
-	protected Class[] getListofMessageClasses() {
+	protected Class<? extends MyAbstractMessage>[] getListofMessageClasses() {
 		return new Class[] {HudDataMessage.class, MASimplePlayerData.class};
 	}
 

@@ -194,9 +194,8 @@ public class MoonbaseAssaultClientEntityCreator {
 		case AI_SOLDIER:
 		{
 			byte side = (byte)data.data.get("side");
-			int animcode = (int)data.data.get("animcode");
 			String name = (String)data.data.get("name");
-			MA_AISoldier z = new MA_AISoldier(game, id, pos.x, pos.y, pos.z, side, side == game.side, animcode, name);
+			MA_AISoldier z = new MA_AISoldier(game, id, pos.x, pos.y, pos.z, side, side == game.side, name);
 			return z;
 		}
 
@@ -211,16 +210,10 @@ public class MoonbaseAssaultClientEntityCreator {
 		case GRENADE_LAUNCHER: 
 		{
 			int ownerid = (int)data.data.get("ownerid");
-			//if (game.currentAvatar != null) { // We might not have an avatar yet
-			//	if (ownerid == game.currentAvatar.id) { // Don't care about other's abilities?
-			//AbstractAvatar owner = (AbstractAvatar)game.entities.get(ownerid);
 			byte num = (byte)data.data.get("num");
 			int playerID = (int)data.data.get("playerID");
 			GrenadeLauncher gl = new GrenadeLauncher(game, id, playerID, null, ownerid, num, null);
 			return gl;
-			//	}
-			//}
-			//return null;
 		}
 
 		case GRENADE:

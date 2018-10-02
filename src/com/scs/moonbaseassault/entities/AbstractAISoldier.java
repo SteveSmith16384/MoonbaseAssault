@@ -70,7 +70,7 @@ IDebrisTexture {
 	private static BitmapFont font_small;
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, byte _side, 
-			IAvatarModel _model, int _csInitialAnimCode, String name) {
+			IAvatarModel _model, String name) {
 		super(_game, id, type, name, true, false, true);
 
 		side = _side;
@@ -82,9 +82,8 @@ IDebrisTexture {
 			creationData.put("side", side);
 			creationData.put("name", name);
 		} else {
-			//this.soldierModel.createAndGetModel();
 			game.getGameNode().attachChild(this.soldierModel.createAndGetModel());
-			this.setAnimCode_ClientSide(_csInitialAnimCode);
+			this.setAnimCode_ClientSide(AbstractAvatar.ANIM_IDLE);
 		}
 
 		// Create box for collisions
@@ -153,7 +152,6 @@ IDebrisTexture {
 
 	@Override
 	public void fallenOffEdge() {
-		//this.remove();
 		game.markForRemoval(this);
 	}
 
@@ -313,11 +311,6 @@ IDebrisTexture {
 	@Override
 	public float getHealth() {
 		return health;
-	}
-
-
-	public PhysicalEntity getPhysicalEntity() {
-		return this;
 	}
 
 
