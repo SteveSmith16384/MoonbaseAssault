@@ -64,27 +64,7 @@ public class MoonbaseAssaultClientEntityCreator {
 	}
 
 
-	public static String TypeToString(int type) {
-		switch (type) {
-		case SOLDIER_AVATAR: return "Avatar";
-		case COMPUTER: return "COMPUTER";
-		case FLOOR_OR_CEILING: return "FLOOR";
-		case DOOR: return "DOOR";
-		case CRATE: return "CRATE";
-		case WALL: return "WALL";
-		case LASER_BULLET: return "PLAYER_LASER_BULLET";
-		case LASER_RIFLE: return "LASER_RIFLE";
-		case SPACESHIP1: return "SPACESHIP1";
-		case MAP_BORDER: return "INVISIBLE_MAP_BORDER";
-		default: return "Unknown (" + type + ")";
-		}
-	}
-
-
 	public IEntity createEntity(AbstractGameClient game, NewEntityData data) {
-		/*if (Globals.DEBUG_ENTITY_ADD_REMOVE) {
-			Globals.p("Creating " + TypeToString(msg.type));
-		}*/
 		int id = data.entityID;
 		Vector3f pos = (Vector3f)data.data.get("pos");
 
@@ -195,7 +175,8 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			byte side = (byte)data.data.get("side");
 			String name = (String)data.data.get("name");
-			MA_AISoldier z = new MA_AISoldier(game, id, pos.x, pos.y, pos.z, side, side == game.side, name);
+			int animCode = (int) data.data.get("animcode");
+			MA_AISoldier z = new MA_AISoldier(game, id, pos.x, pos.y, pos.z, side, side == game.side, name, animCode);
 			return z;
 		}
 
@@ -251,11 +232,8 @@ public class MoonbaseAssaultClientEntityCreator {
 		{
 			int playerID = (int) data.data.get("playerID");
 			int ownerid = (int) data.data.get("ownerid");
-			//if (ownerid == game.currentAvatar.id) { // Don't care about other's abilities
-			//AbstractAvatar owner = (AbstractAvatar)game.entities.get(ownerid);
 			byte num = (byte) data.data.get("num");
 			HitscanRifle gl = new HitscanRifle(game, id, HITSCAN_RIFLE, playerID, null, ownerid, num, null);
-			//owner.addAbility(gl, num);
 			return gl;
 		}
 

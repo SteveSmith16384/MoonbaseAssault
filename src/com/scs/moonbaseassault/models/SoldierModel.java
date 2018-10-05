@@ -48,7 +48,7 @@ public class SoldierModel implements IAvatarModel {
 			JMEModelFunctions.scaleModelToHeight(model, MODEL_HEIGHT);
 			JMEModelFunctions.moveYOriginTo(model, 0f);
 
-			AnimControl control = JMEModelFunctions.getNodeWithControls((Node)model);
+			AnimControl control = JMEModelFunctions.getNodeWithControls(null, (Node)model);
 			channel = control.createChannel();
 		} else {
 			Box box1 = new Box(MODEL_WIDTH/2, MODEL_HEIGHT/2, MODEL_DEPTH/2);
@@ -128,11 +128,6 @@ public class SoldierModel implements IAvatarModel {
 		}
 
 		currAnimCode = animCode;
-	}
-
-
-	public int getCurrentAnimCode() {
-		return this.currAnimCode;
 	}
 
 

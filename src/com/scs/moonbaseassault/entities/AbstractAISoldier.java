@@ -70,7 +70,7 @@ IDebrisTexture {
 	private static BitmapFont font_small;
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, byte _side, 
-			IAvatarModel _model, String name) {
+			IAvatarModel _model, String name, int startAnimCode) {
 		super(_game, id, type, name, true, false, true);
 
 		side = _side;
@@ -83,7 +83,7 @@ IDebrisTexture {
 			creationData.put("name", name);
 		} else {
 			game.getGameNode().attachChild(this.soldierModel.createAndGetModel());
-			this.setAnimCode_ClientSide(AbstractAvatar.ANIM_IDLE);
+			this.setAnimCode_ClientSide(startAnimCode); // Need this since they may be dead, so we don't want to default to (say) idle
 		}
 
 		// Create box for collisions
@@ -122,9 +122,9 @@ IDebrisTexture {
 	public void processByServer(AbstractGameServer server, float tpf_secs) {
 		if (health > 0) {
 			timeToNextShotSecs -= tpf_secs;
-			if (server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED) {
+			if (server.getGameData().getGameStatus() != SimpleGameData.ST_FINISHED) {
 				ai.process(server, tpf_secs);
-				this.serverSideCurrentAnimCode = ai.getAnimCode(); // AbstractAvatar.ANIM_WALKING;
+				this.serverSideCurrentAnimCode = ai.getAnimCode();
 			} else {
 				this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_IDLE; // Game ended so we're not moving.
@@ -147,6 +147,12 @@ IDebrisTexture {
 	public void processByClient(IClientApp client, float tpf_secs) {
 		// Set position and direction of avatar model, which doesn't get moved automatically
 		this.soldierModel.getModel().setLocalTranslation(this.getWorldTranslation());
+	}
+
+
+	@Override
+	public Vector3f getRotation() {
+		return this.soldierModel.getModel().getLocalRotation().getRotationColumn(2);
 	}
 
 
@@ -255,13 +261,13 @@ IDebrisTexture {
 		JMEAngleFunctions.rotateToWorldDirection(this.soldierModel.getModel(), dir2);
 	}
 
-
+/*
 	@Override
 	public Vector3f getRotation() {
 		return ai.getDirection();
 	}
 
-
+*/
 	@Override
 	public void handleKilledOnClientSide(PhysicalEntity killer) {
 		if (bmpText != null) {

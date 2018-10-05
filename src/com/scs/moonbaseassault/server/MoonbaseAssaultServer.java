@@ -162,7 +162,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
-			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, (byte)2, false, "AI TEST");
+			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, (byte)2, false, "AI TEST", AbstractAvatar.ANIM_IDLE);
 			this.actuallyAddEntity(s);
 			moveAISoldierToStartPosition(s, s.side);
 		}
@@ -171,7 +171,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 
 	public void addAISoldier(byte side, String name) {
-		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, name);
+		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, name, AbstractAvatar.ANIM_IDLE);
 		this.actuallyAddEntity(s);
 		moveAISoldierToStartPosition(s, s.side);
 		//Globals.p("Created AI soldier on side " + side);

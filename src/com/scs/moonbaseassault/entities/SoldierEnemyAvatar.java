@@ -17,7 +17,7 @@ public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements An
 	public SoldierEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, byte side, boolean friend, String playerName) {
 		super(game, type, eid, x, y, z, new SoldierModel(game.getAssetManager(), true, side, friend), side, playerName);
 		
-		this.soldierModel = (SoldierModel)anim;
+		this.soldierModel = (SoldierModel)model;
 	}
 	
 

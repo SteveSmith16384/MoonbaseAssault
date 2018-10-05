@@ -207,12 +207,12 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 		throw new RuntimeException("Invalid direction: " + i);
 	}
 
-
+/*
 	@Override
 	public Vector3f getDirection() {
 		return currDir;
 	}
-
+*/
 
 	@Override
 	public int getAnimCode() {
