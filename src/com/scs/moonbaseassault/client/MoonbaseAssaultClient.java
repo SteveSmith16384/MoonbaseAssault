@@ -279,7 +279,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	@Override
-	protected Class<? extends MyAbstractMessage>[] getListofMessageClasses() {
+	protected Class<? extends Object>[] getListofMessageClasses() {
 		return new Class[] {HudDataMessage.class, MASimplePlayerData.class};
 	}
 

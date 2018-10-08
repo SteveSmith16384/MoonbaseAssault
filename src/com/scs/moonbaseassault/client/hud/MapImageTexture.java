@@ -95,7 +95,8 @@ public class MapImageTexture extends PaintableImage {
 	private void paintSquare(Graphics2D g, int mx, int my, int pxlSizeMult) {
 		int x = (mx)*pixelSize;
 		int y = (data[0].length-1-my)*pixelSize;
-		g.fillRect(x, y, pixelSize*pxlSizeMult, pixelSize*pxlSizeMult);
+		int size = Math.max(pixelSize*pxlSizeMult, pxlSizeMult);
+		g.fillRect(x, y, size, size);
 	}
 
 }
