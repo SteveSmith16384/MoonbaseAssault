@@ -13,6 +13,7 @@ import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.MATextures;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.simplephysics.SimpleRigidBody;
@@ -95,7 +96,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 				if (this.getWorldTranslation().y > topPos) {
 					this.getWorldTranslation().y = topPos;
 				}
-				if (Globals.DEBUG_SLIDING_DOORS) {
+				if (MoonbaseAssaultGlobals.DEBUG_SLIDING_DOORS) {
 					Globals.p("Door is opening");
 				}
 			} else {
@@ -114,7 +115,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 						this.adjustWorldTranslation(MOVE_UP.mult(tpf_secs));
 						this.startOpening();
 					} else {
-						if (Globals.DEBUG_SLIDING_DOORS) {
+						if (MoonbaseAssaultGlobals.DEBUG_SLIDING_DOORS) {
 							Globals.p("Door is closing");
 						}
 					}

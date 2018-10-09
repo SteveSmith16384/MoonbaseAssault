@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture2D;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.stevetech1.jme.PaintableImage;
 import com.scs.stevetech1.server.Globals;
 
@@ -30,7 +31,7 @@ public class SoldierTexture {
 
 
 	public static Texture getTexture(boolean friend, boolean player) {
-		if (Globals.DEBUG_OTHER_PLAYER_COLOURS) {
+		if (MoonbaseAssaultGlobals.DEBUG_OTHER_PLAYER_COLOURS) {
 			if (player) {
 				Globals.p("Getting colour for player");
 			}

@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.SoldierTexture;
 import com.scs.stevetech1.components.IAvatarModel;
 import com.scs.stevetech1.entities.AbstractAvatar;
@@ -78,7 +79,7 @@ public class SoldierModel implements IAvatarModel {
 			return;			
 		}
 
-		if (Globals.DEBUG_NO_JUMP_ANIM) {
+		if (MoonbaseAssaultGlobals.DEBUG_NO_JUMP_ANIM) {
 			if (isJumping) {
 				Globals.p("Here");
 			}

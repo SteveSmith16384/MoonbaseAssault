@@ -3,6 +3,7 @@ package com.scs.moonbaseassault.entities;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.AnimEventListener;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractOtherPlayersAvatar;
@@ -24,7 +25,7 @@ public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements An
 	@Override
 	public void setAnimCode_ClientSide(int animCode) {
 		if (animCode != this.currentAnimCode) {
-			if (Globals.DEBUG_NO_JUMP_ANIM) {
+			if (MoonbaseAssaultGlobals.DEBUG_NO_JUMP_ANIM) {
 				Globals.p("SoldierEnemyAvatar: setAnimCode_ClientSide(" + animCode + ")");
 			}
 			soldierModel.setAnim(animCode);
@@ -42,7 +43,7 @@ public class SoldierEnemyAvatar extends AbstractOtherPlayersAvatar implements An
 	@Override
 	public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
 		if (animName.equals("Jump")) {
-			if (Globals.DEBUG_NO_JUMP_ANIM) {
+			if (MoonbaseAssaultGlobals.DEBUG_NO_JUMP_ANIM) {
 				Globals.p("SoldierEnemyAvatar: jump anim finished");
 			}
 			// Set anim to idle once jumping finished
