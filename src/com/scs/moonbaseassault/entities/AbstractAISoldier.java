@@ -75,8 +75,8 @@ IDebrisTexture {
 
 		side = _side;
 		soldierModel = _model; // Need it for dimensions for bb
-
-
+		//this.soldierModel.createAndGetModel();
+		
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
 			creationData.put("side", side);
@@ -152,7 +152,8 @@ IDebrisTexture {
 
 	@Override
 	public Vector3f getRotation() {
-		return this.soldierModel.getModel().getLocalRotation().getRotationColumn(2);
+		// This is called serverside, so use the main node.
+		return this.getMainNode().getLocalRotation().getRotationColumn(2);
 	}
 
 
@@ -261,13 +262,7 @@ IDebrisTexture {
 		JMEAngleFunctions.rotateToWorldDirection(this.soldierModel.getModel(), dir2);
 	}
 
-/*
-	@Override
-	public Vector3f getRotation() {
-		return ai.getDirection();
-	}
 
-*/
 	@Override
 	public void handleKilledOnClientSide(PhysicalEntity killer) {
 		if (bmpText != null) {
@@ -335,5 +330,5 @@ IDebrisTexture {
 	@Override
 	public void updateClientSideHealth(int amt) {
 	}
-	
+
 }

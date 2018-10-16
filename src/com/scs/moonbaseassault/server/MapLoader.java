@@ -351,8 +351,11 @@ public class MapLoader {
 		moonbaseAssaultServer.actuallyAddEntity(floor);
 		this.totalFloors++;
 
-		MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+0.5f, .3f, sy+0.5f); 
-		moonbaseAssaultServer.actuallyAddEntity(medi);
+		if (w > 1 || d > 1) {
+			//MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+0.5f, .3f, sy+0.5f); 
+			MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+(w/2), .3f, sy+(d/2)); 
+			moonbaseAssaultServer.actuallyAddEntity(medi);
+		}
 
 		FloorOrCeiling ceiling = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, MATextures.CORRIDOR, false);
 		moonbaseAssaultServer.actuallyAddEntity(ceiling);
