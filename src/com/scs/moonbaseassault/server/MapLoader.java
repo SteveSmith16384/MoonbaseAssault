@@ -27,6 +27,10 @@ import ssmith.lang.NumberFunctions;
 
 public class MapLoader {
 
+	private static final float WALL_THICKNESS = 1f; //0.2f;
+	private static final float INT_FLOOR_HEIGHT = 0.05f;
+	private static final float WALL_START_OFFSET = 0f;//(1-WALL_THICKNESS)/2;
+
 	public static final int HANDLED = 0;
 	public static final int INT_FLOOR = 1;
 	public static final int EXT_FLOOR = 2;
@@ -35,8 +39,6 @@ public class MapLoader {
 	public static final int DOOR_UD = 5;
 	public static final int COMPUTER = 6;
 	public static final int DESTROYED_COMPUTER = 7;
-
-	private static final float INT_FLOOR_HEIGHT = 0.05f;
 
 	private int mapCode[][];
 	private int mapsize;
@@ -250,10 +252,10 @@ public class MapLoader {
 		}
 		x--;
 		//Globals.p("Creating wall at " + sx + ", " + sy + " length: " + (x-sx));
-		float width = x-sx+1;
+		float width = x-sx+1-(WALL_START_OFFSET*2);
 		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
-				sx, 0f, sy, 
-				width, MoonbaseAssaultServer.CEILING_HEIGHT, 1, 
+				sx+WALL_START_OFFSET, 0f, sy+WALL_START_OFFSET, 
+				width, MoonbaseAssaultServer.CEILING_HEIGHT, WALL_THICKNESS, 
 				MATextures.MOONBASE_WALL);
 		moonbaseAssaultServer.actuallyAddEntity(wall);
 		totalWalls++;
@@ -308,7 +310,11 @@ public class MapLoader {
 		}
 		y--;
 		//Globals.p("Creating wall at " + sx + ", " + sy + " length: " + (y-sy));
-		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx, 0f, sy, 1, MoonbaseAssaultServer.CEILING_HEIGHT, y-sy+1, MATextures.MOONBASE_WALL);
+		float depth = y-sy+1-(WALL_START_OFFSET*2);
+		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
+				sx+WALL_START_OFFSET, 0f, sy+WALL_START_OFFSET, 
+				WALL_THICKNESS, MoonbaseAssaultServer.CEILING_HEIGHT, depth, 
+				MATextures.MOONBASE_WALL);
 		moonbaseAssaultServer.actuallyAddEntity(wall);
 		totalWalls++;
 	}
