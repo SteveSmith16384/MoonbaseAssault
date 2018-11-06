@@ -7,8 +7,6 @@ This game is designed to be a multiplayer realtime version of the Laser Squad (h
 
 [![Moonbase Assault Gameplay](http://img.youtube.com/vi/E38SdsO-nEI/0.jpg)](http://www.youtube.com/watch?v=E38SdsO-nEI)
 
-Current Status: It generally works, though lacks polish.
-
 
 ## Game Design
 * There are two sides.
@@ -18,7 +16,10 @@ Current Status: It generally works, though lacks polish.
 * Human players always play as the defenders.
 
 
-## Compiling
+## Compiling Requirements
+* Java
+* SteveTech1 (https://bitbucket.org/SteveSmith16384/stetech1)
+
 If you are trying to compile this, you'll probably want to use the development branch of SteveTech1, since that's what I usually develop against.
 
 

@@ -60,10 +60,9 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 			Texture tex3 = game.getAssetManager().loadTexture(key3);
 			tex3.setWrap(WrapMode.Repeat);
 
-			Material floor_mat = null;
-				floor_mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-				floor_mat.setTexture("DiffuseMap", tex3);
-			geometry.setMaterial(floor_mat);
+			Material mat = new Material(game.getAssetManager(),"Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+			mat.setTexture("DiffuseMap", tex3);
+			geometry.setMaterial(mat);
 		}
 		this.mainNode.attachChild(geometry);
 		if (rotDegrees != 0) {
@@ -84,13 +83,13 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 
 
 	@Override
-	public void processByServer(AbstractGameServer server, float tpf_secs) {
-		super.processByServer(server, tpf_secs);
+	public void processByServer(AbstractGameServer server, float tpfSecs) {
+		super.processByServer(server, tpfSecs);
 
 		if (this.isOpening) {
 			float topPos = MoonbaseAssaultServer.CEILING_HEIGHT-.1f;
 			if (this.getWorldTranslation().y < topPos) {
-				this.adjustWorldTranslation(MOVE_UP.mult(tpf_secs));
+				this.adjustWorldTranslation(MOVE_UP.mult(tpfSecs));
 				//this.getMainNode().move(MOVE_UP.mult(tpf_secs));
 				// position accurately at top in case of large jump
 				if (this.getWorldTranslation().y > topPos) {
@@ -105,14 +104,14 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 		} else {
 			if (timeUntilClose <= 0) {
 				if (this.getWorldTranslation().y > 0) {
-					this.adjustWorldTranslation(MOVE_UP.mult(tpf_secs).mult(-1));
+					this.adjustWorldTranslation(MOVE_UP.mult(tpfSecs).mult(-1));
 					// position accurately at top in case of large jump
 					if (this.getWorldTranslation().y < 0) {
 						this.getWorldTranslation().y = 0;
 					}
 					if (!this.simpleRigidBody.checkForCollisions(true).isEmpty()) { //todo - need this?
 						// Move back up
-						this.adjustWorldTranslation(MOVE_UP.mult(tpf_secs));
+						this.adjustWorldTranslation(MOVE_UP.mult(tpfSecs));
 						this.startOpening();
 					} else {
 						if (MoonbaseAssaultGlobals.DEBUG_SLIDING_DOORS) {
@@ -121,7 +120,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 					}
 				}
 			} else {
-				timeUntilClose -= tpf_secs;
+				timeUntilClose -= tpfSecs;
 			}
 		}
 	}
