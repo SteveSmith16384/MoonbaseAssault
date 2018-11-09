@@ -17,6 +17,7 @@ import com.scs.stevetech1.components.IAffectedByPhysics;
 import com.scs.stevetech1.components.IAnimatedClientSide;
 import com.scs.stevetech1.components.IAnimatedServerSide;
 import com.scs.stevetech1.components.IAvatarModel;
+import com.scs.stevetech1.components.ICanShoot;
 import com.scs.stevetech1.components.IDamagable;
 import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IDontCollideWithComrades;

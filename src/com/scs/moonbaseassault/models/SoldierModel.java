@@ -29,7 +29,7 @@ public class SoldierModel implements IAvatarModel {
 	private AnimChannel channel;
 	public boolean isJumping = false;
 	private int currAnimCode = -1;
-	private float jumpEndTime;
+	private long jumpEndTime;
 	private boolean friend;
 	private boolean player;
 
@@ -85,7 +85,7 @@ public class SoldierModel implements IAvatarModel {
 			}
 		}
 
-		boolean jumpEnded = this.jumpEndTime > System.currentTimeMillis();
+		boolean jumpEnded = this.jumpEndTime < System.currentTimeMillis();
 		if (this.isJumping && !jumpEnded && animCode != AbstractAvatar.ANIM_DIED) {
 			// Do nothing; only dying can stop a jumping anim
 			return;
@@ -121,7 +121,7 @@ public class SoldierModel implements IAvatarModel {
 			channel.setLoopMode(LoopMode.DontLoop);
 			channel.setAnim("Jump");
 			isJumping = true;
-			jumpEndTime = System.currentTimeMillis() + channel.getAnimMaxTime();
+			jumpEndTime = System.currentTimeMillis() + (long)(channel.getAnimMaxTime() * 1000); // System.currentTimeMillis() - jumpEndTime
 			break;
 
 		default:
