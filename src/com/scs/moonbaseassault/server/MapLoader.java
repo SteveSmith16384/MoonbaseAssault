@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.MATextures;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.entities.Computer;
 import com.scs.moonbaseassault.entities.DestroyedComputer;
 import com.scs.moonbaseassault.entities.FloorOrCeiling;
@@ -151,7 +152,7 @@ public class MapLoader {
 			for (int y=0 ; y<mapsize ; y++) {
 				for (int x=0 ; x<mapsize ; x++) {
 					if (mapCode[x][y] == DOOR_LR) {
-						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultServer.CEILING_HEIGHT, MATextures.DOOR_LR, 0);
+						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultGlobals.CEILING_HEIGHT, MATextures.DOOR_LR, 0);
 						moonbaseAssaultServer.actuallyAddEntity(door);
 						mapCode[x][y] = INT_FLOOR; // So we create a floor below it
 						this.totalDoors++;
@@ -160,7 +161,7 @@ public class MapLoader {
 						moonbaseAssaultServer.actuallyAddEntity(gft);
 
 					} else if (mapCode[x][y] == DOOR_UD) {
-						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultServer.CEILING_HEIGHT, MATextures.DOOR_LR, 270);
+						SlidingDoor door = new SlidingDoor(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), x, 0, y, 1, MoonbaseAssaultGlobals.CEILING_HEIGHT, MATextures.DOOR_LR, 270);
 						moonbaseAssaultServer.actuallyAddEntity(door);
 						mapCode[x][y] = INT_FLOOR; // So we create a floor below it
 						this.totalDoors++;
@@ -255,7 +256,7 @@ public class MapLoader {
 		float width = x-sx+1-(WALL_START_OFFSET*2);
 		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
 				sx+WALL_START_OFFSET, 0f, sy+WALL_START_OFFSET, 
-				width, MoonbaseAssaultServer.CEILING_HEIGHT, WALL_THICKNESS, 
+				width, MoonbaseAssaultGlobals.CEILING_HEIGHT, WALL_THICKNESS, 
 				MATextures.MOONBASE_WALL);
 		moonbaseAssaultServer.actuallyAddEntity(wall);
 		totalWalls++;
@@ -313,7 +314,7 @@ public class MapLoader {
 		float depth = y-sy+1-(WALL_START_OFFSET*2);
 		MoonbaseWall wall = new MoonbaseWall(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), 
 				sx+WALL_START_OFFSET, 0f, sy+WALL_START_OFFSET, 
-				WALL_THICKNESS, MoonbaseAssaultServer.CEILING_HEIGHT, depth, 
+				WALL_THICKNESS, MoonbaseAssaultGlobals.CEILING_HEIGHT, depth, 
 				MATextures.MOONBASE_WALL);
 		moonbaseAssaultServer.actuallyAddEntity(wall);
 		totalWalls++;
@@ -358,12 +359,14 @@ public class MapLoader {
 		this.totalFloors++;
 
 		if (w > 1 || d > 1) {
-			//MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+0.5f, .3f, sy+0.5f); 
-			MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+(w/2), .3f, sy+(d/2)); 
-			moonbaseAssaultServer.actuallyAddEntity(medi);
+			if (NumberFunctions.rnd(1,  3) == 1) {
+				//MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+0.5f, .3f, sy+0.5f); 
+				MediPack medi = new MediPack(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), sx+(w/2), .3f, sy+(d/2)); 
+				moonbaseAssaultServer.actuallyAddEntity(medi);
+			}
 		}
 
-		FloorOrCeiling ceiling = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultServer.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, MATextures.CORRIDOR, false);
+		FloorOrCeiling ceiling = new FloorOrCeiling(moonbaseAssaultServer, moonbaseAssaultServer.getNextEntityID(), "Ceiling",      sx,      MoonbaseAssaultGlobals.CEILING_HEIGHT+0.5f, sy,   w, .5f, d, MATextures.CORRIDOR, false);
 		moonbaseAssaultServer.actuallyAddEntity(ceiling);
 		this.totalCeilings++;
 		/*

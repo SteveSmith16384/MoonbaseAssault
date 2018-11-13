@@ -6,6 +6,7 @@ import java.util.List;
 import com.jme3.math.Vector3f;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.stevetech1.entities.PhysicalEntity;
+import com.scs.stevetech1.server.Globals;
 
 import ssmith.astar.AStar;
 import ssmith.astar.WayPoints;
@@ -16,6 +17,8 @@ public class FindComputerThread extends Thread {
 	private MoonbaseAssaultServer game;
 	private PhysicalEntity unit;
 	public WayPoints route;
+	
+	public static int totalThreads = 0;
 
 	public FindComputerThread(MoonbaseAssaultServer _game, PhysicalEntity _unit) {
 		super("FindComputerThread")	;
@@ -29,6 +32,10 @@ public class FindComputerThread extends Thread {
 
 	public void run() {
 		synchronized (game) { // to ensure they are checked one by one
+			totalThreads++;
+			if (Globals.DEBUG_SLOW_MA) {
+				Globals.p("FindComputerThreads=" + totalThreads);
+			}
 			int closestDist = 9999;
 			AStar astar = new AStar(game);
 			List<Point> comps = game.getComputerSquares();
@@ -43,6 +50,10 @@ public class FindComputerThread extends Thread {
 						break;
 					}
 				}
+			}
+			totalThreads--;
+			if (Globals.DEBUG_SLOW_MA) {
+				Globals.p("FindComputerThreads=" + totalThreads);
 			}
 		}
 	}

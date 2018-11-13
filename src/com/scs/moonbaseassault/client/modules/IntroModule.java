@@ -6,9 +6,6 @@ import java.util.List;
 
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
-import com.jme3.input.MouseInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -16,10 +13,10 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.client.intro.SimpleMoonbaseWall;
 import com.scs.moonbaseassault.server.MapLoader;
-import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 
 import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
@@ -286,7 +283,7 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 		}
 		x--;
 		float width = x-sx+1;
-		SimpleMoonbaseWall wall = new SimpleMoonbaseWall(client, sx, 0f, sy, width, MoonbaseAssaultServer.CEILING_HEIGHT, 1, "Textures/ufo2_03.png");
+		SimpleMoonbaseWall wall = new SimpleMoonbaseWall(client, sx, 0f, sy, width, MoonbaseAssaultGlobals.CEILING_HEIGHT, 1, "Textures/ufo2_03.png");
 		walls.add(wall);
 	}
 
@@ -300,7 +297,7 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 			mapCode[sx][y] = HANDLED;
 		}
 		y--;
-		SimpleMoonbaseWall wall = new SimpleMoonbaseWall(client, sx, 0f, sy, 1, MoonbaseAssaultServer.CEILING_HEIGHT, y-sy+1, "Textures/ufo2_03.png");
+		SimpleMoonbaseWall wall = new SimpleMoonbaseWall(client, sx, 0f, sy, 1, MoonbaseAssaultGlobals.CEILING_HEIGHT, y-sy+1, "Textures/ufo2_03.png");
 		walls.add(wall);
 	}
 

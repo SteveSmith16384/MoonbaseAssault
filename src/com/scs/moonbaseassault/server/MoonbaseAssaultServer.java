@@ -17,6 +17,7 @@ import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultGameData;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.ValidateClientSettings;
+import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.data.GameOptions;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.data.SimplePlayerData;
@@ -41,9 +42,6 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	public static final String GAME_ID = "Moonbase Assault";
 
-	public static final float CEILING_HEIGHT = 1.4f;
-	public static final float LASER_DIAM = 0.02f;
-
 	private static long deployDurationSecs, gameDurationSecs, restartDurationSecs;
 
 	private int mapData[][]; // Also used to tell the client what the scanner should show
@@ -66,7 +64,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			}
 			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
 			int gamePort = props.getPropertyAsInt("gamePort", MoonbaseAssaultGlobals.PORT);
-			
+
 			deployDurationSecs = props.getPropertyAsInt("deployDurationSecs", 10);
 			gameDurationSecs = props.getPropertyAsInt("gameDurationSecs", 240);
 			restartDurationSecs = props.getPropertyAsInt("restartDurationSecs", 10);
@@ -81,9 +79,9 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	private MoonbaseAssaultServer(String gameIpAddress, int gamePort) throws IOException {
 		super(new ValidateClientSettings(GAME_ID, 1d, "key"), 
 				new GameOptions(Globals.DEFAULT_TICKRATE, Globals.DEFAULT_SEND_UPDATES_INTERVAL, Globals.DEFAULT_RENDER_DELAY, Globals.DEFAULT_NETWORK_TIMEOUT, 
-				deployDurationSecs*1000, gameDurationSecs*1000, restartDurationSecs*1000, 
-				gameIpAddress, gamePort, 
-				10, 5));
+						deployDurationSecs*1000, gameDurationSecs*1000, restartDurationSecs*1000, 
+						gameIpAddress, gamePort, 
+						10, 5));
 
 		start(JmeContext.Type.Headless);
 	}
@@ -174,7 +172,15 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 		MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, side, false, name, AbstractAvatar.ANIM_IDLE);
 		this.actuallyAddEntity(s);
 		moveAISoldierToStartPosition(s, s.side);
-		//Globals.p("Created AI soldier on side " + side);
+		if (Globals.DEBUG_SLOW_MA) {
+			int total = 0;
+			for(IEntity e : this.entitiesForProcessing) {
+				if (e instanceof MA_AISoldier) {
+					total++;
+				}
+			}
+			Globals.p("Total AI soldiers=" + total);
+		}
 	}
 
 
@@ -209,11 +215,11 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	public void collisionOccurred(SimpleRigidBody<PhysicalEntity> a, SimpleRigidBody<PhysicalEntity> b) {
 		PhysicalEntity pa = a.userObject; //pa.getMainNode().getWorldBound();
 		PhysicalEntity pb = b.userObject; //pb.getMainNode().getWorldBound();
-/*
+		/*
 		if (pa.type != MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING && pb.type != MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING) {
 			//Globals.p("Collision between " + pa + " and " + pb);
 		}
-*/
+		 */
 		super.collisionOccurred(a, b);
 
 	}
@@ -227,6 +233,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	protected void playerJoinedGame(ClientData client) {
+		super.playerJoinedGame(client);
 		this.gameNetworkServer.sendMessageToClient(client, new HudDataMessage(this.mapData, this.maGameData.computersDestroyed));
 	}
 

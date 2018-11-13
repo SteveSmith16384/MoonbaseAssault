@@ -15,7 +15,6 @@ import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.MATextures;
 import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
-import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.components.INotifiedOfCollision;
 import com.scs.stevetech1.components.IProcessByServer;
@@ -87,7 +86,7 @@ public class SlidingDoor extends PhysicalEntity implements INotifiedOfCollision,
 		super.processByServer(server, tpfSecs);
 
 		if (this.isOpening) {
-			float topPos = MoonbaseAssaultServer.CEILING_HEIGHT-.1f;
+			float topPos = MoonbaseAssaultGlobals.CEILING_HEIGHT-.1f;
 			if (this.getWorldTranslation().y < topPos) {
 				this.adjustWorldTranslation(MOVE_UP.mult(tpfSecs));
 				//this.getMainNode().move(MOVE_UP.mult(tpf_secs));

@@ -122,6 +122,7 @@ public class SoldierModel implements IAvatarModel {
 			channel.setAnim("Jump");
 			isJumping = true;
 			jumpEndTime = System.currentTimeMillis() + (long)(channel.getAnimMaxTime() * 1000); // System.currentTimeMillis() - jumpEndTime
+			jumpEndTime -= 200;
 			break;
 
 		default:

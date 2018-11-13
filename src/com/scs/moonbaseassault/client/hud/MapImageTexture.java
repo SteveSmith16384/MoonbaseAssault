@@ -75,6 +75,9 @@ public class MapImageTexture extends PaintableImage {
 					}
 				} else if (e instanceof AbstractAvatar) {
 					g.setColor(new Color(1f, 1f, 1f, ALPHA)); // White
+					AbstractAvatar ai = (AbstractAvatar)e;
+					Vector3f pos = ai.getWorldTranslation();
+					paintSquare(g, (int)pos.x, (int)pos.z, 1);
 				} else if (e instanceof AbstractOtherPlayersAvatar) {
 					AbstractOtherPlayersAvatar avatar = (AbstractOtherPlayersAvatar)e;
 					if (avatar.getSide() == client.side || MoonbaseAssaultGlobals.SHOW_ALL_UNITS_ON_HUD) {

@@ -4,8 +4,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.MASounds;
+import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
-import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IEntity;
@@ -39,7 +39,7 @@ public class LaserBullet extends AbstractBullet implements INotifiedOfCollision 
 	@Override
 	protected void createModelAndSimpleRigidBody(Vector3f dir) {
 		Vector3f origin = Vector3f.ZERO;
-		Spatial laserNode = BeamLaserModel.Factory(game.getAssetManager(), origin, origin.add(dir.mult(LENGTH)), ColorRGBA.Pink, !game.isServer(), "Textures/cells3.png", MoonbaseAssaultServer.LASER_DIAM, Globals.BULLETS_CONES);
+		Spatial laserNode = BeamLaserModel.Factory(game.getAssetManager(), origin, origin.add(dir.mult(LENGTH)), ColorRGBA.Pink, !game.isServer(), "Textures/cells3.png", MoonbaseAssaultGlobals.LASER_DIAM, Globals.BULLETS_CONES);
 		//laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);
 		

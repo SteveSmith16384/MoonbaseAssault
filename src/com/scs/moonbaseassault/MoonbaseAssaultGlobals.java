@@ -2,12 +2,14 @@ package com.scs.moonbaseassault;
 
 public class MoonbaseAssaultGlobals {
 
-	// Debuggin
+	public static final float CEILING_HEIGHT = 1.4f;
+	public static final float LASER_DIAM = 0.08f;//0.02f;
+
+	// Debugging
 	public static final boolean DEBUG_NO_JUMP_ANIM = false;
 	public static final boolean DEBUG_SLIDING_DOORS = false;
 	public static final boolean DEBUG_OTHER_PLAYER_COLOURS = false;
 
-	
 	public static final boolean SHOW_ALL_UNITS_ON_HUD = true;
 
 	public static final byte SIDE_ATTACKERS = 1;
