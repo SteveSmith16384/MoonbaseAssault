@@ -14,7 +14,6 @@ import com.scs.moonbaseassault.client.MoonbaseAssaultClientEntityCreator;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.client.IClientApp;
-import com.scs.stevetech1.components.INotifiedOfCollision;
 import com.scs.stevetech1.components.IPlayerCollectable;
 import com.scs.stevetech1.components.IProcessByClient;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
@@ -79,11 +78,11 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, IPlaye
 
 	@Override
 	public void processByClient(IClientApp client, float tpfSecs) {
-		rotDegrees += (tpfSecs * 0.05f);
+		/*rotDegrees += (tpfSecs * 0.05f);
 		if (rotDegrees > 360) {
 			rotDegrees -= 360;
-		}
-		float rads = (float)Math.toRadians(rotDegrees);
+		}*/
+		float rads = (float)Math.toRadians((tpfSecs * 0.05f));
 		geometry.rotate(0, rads, 0);
 
 	}

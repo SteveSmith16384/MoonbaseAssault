@@ -1,27 +1,14 @@
 package com.scs.moonbaseassault.client.modules;
 
-import java.awt.Point;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
-import com.scs.moonbaseassault.entities.MA_AISoldier;
-import com.scs.stevetech1.client.povweapon.DefaultPOVWeapon;
-import com.scs.stevetech1.components.IEntity;
-import com.scs.stevetech1.entities.AbstractServerAvatar;
-import com.scs.stevetech1.entities.PhysicalEntity;
-
-import ssmith.util.RealtimeInterval;
 
 public class MainModule extends AbstractModule {
 
-	//private RealtimeInterval updateHUDInterval;
 	private boolean requestedToJoin = false;
 
 	public MainModule(MoonbaseAssaultClient client) {

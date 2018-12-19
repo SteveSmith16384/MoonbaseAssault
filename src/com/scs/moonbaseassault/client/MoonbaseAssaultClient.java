@@ -77,6 +77,8 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 		ipAddress = gameIpAddress;
 		port = gamePort;
+		
+		super.cameraSystem.setupFollowCam(0.7f, 0.2f);
 
 		start();
 	}

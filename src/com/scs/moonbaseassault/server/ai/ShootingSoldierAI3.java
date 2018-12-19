@@ -15,6 +15,7 @@ import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.ITargetableByAI;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
+import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.server.IArtificialIntelligence;
@@ -37,7 +38,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 	private float waitForSecs = 0; // e.g. wait for door to open
 	private float maintainDirectionForSecs = 0; // e.g. collided with comrade
 
-	private boolean attacker; // Might need this in the future
+	private boolean attacker; // Might need this in the future?
 	private FindComputerThread fcThread;
 	private WayPoints route = null;
 	private float speed;
@@ -58,7 +59,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 		} else {
 			speed = AbstractAISoldier.RUNNING_SPEED;
 		}
-		changeDirection(getRandomDirection()); // Start us pointing in the right direction
+		changeDirection(JMEAngleFunctions.getRandomDirection_4()); // Start us pointing in the right direction
 	}
 
 
@@ -179,7 +180,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 			// Change direction to away from blockage, unless it's a door
 			if (pe instanceof MoonbaseWall || pe instanceof Computer || pe instanceof MapBorder) {
 				//Globals.p("AISoldier has collided with " + pe);
-				changeDirection(getRandomDirection());
+				changeDirection(JMEAngleFunctions.getRandomDirection_4());
 				maintainDirectionForSecs = 1f; // Hopefully allow us to walk around the corner which we've probably clipped
 				this.route = null;
 			} else if (pe instanceof SlidingDoor) {
@@ -195,7 +196,7 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 		soldierEntity.getMainNode().lookAt(soldierEntity.getWorldTranslation().add(currDir), Vector3f.UNIT_Y); // Point us in the right direction
 	}
 
-
+/*
 	private static Vector3f getRandomDirection() {
 		int i = NumberFunctions.rnd(0,  3);
 		switch (i) {
@@ -205,12 +206,6 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 		case 3: return new Vector3f(0f, 0, -1f);
 		}
 		throw new RuntimeException("Invalid direction: " + i);
-	}
-
-/*
-	@Override
-	public Vector3f getDirection() {
-		return currDir;
 	}
 */
 

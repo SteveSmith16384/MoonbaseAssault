@@ -62,13 +62,13 @@ public class CreateUnitsSystem {
 			}
 
 			// Create attackers
-			while (numAttackers < 5) { // 2 players, one AI?
+			while (numAttackers < 2) { // 2 players, one AI?
 				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_ATTACKERS, getName());
 				numAttackers++;
 			}
 
 			// Create defenders
-			while (numDefenders < numAttackers*2 || numDefenders < 8) {
+			while (numDefenders < numAttackers*2) {// || numDefenders < 4) {
 				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
 				numDefenders++;
 			}
