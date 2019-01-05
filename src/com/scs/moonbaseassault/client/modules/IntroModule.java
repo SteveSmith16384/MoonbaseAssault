@@ -199,7 +199,7 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 
 
 	public void loadMap(String s) throws IOException {
-		String text = Functions.readAllFileFromJar(s);
+		String text = Functions.readAllTextFileFromJar(s);
 		String[] lines = text.split("\n");
 
 		walls = new ArrayList<Node>();
