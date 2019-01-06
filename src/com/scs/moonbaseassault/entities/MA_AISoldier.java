@@ -15,7 +15,6 @@ public class MA_AISoldier extends AbstractAISoldier {
 	
 	public MA_AISoldier(IEntityController _game, int id, float x, float y, float z, byte _side, boolean friend, String name, int startAnimCode) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.AI_SOLDIER, x, y, z, _side, 
-				//new YBotModel(_game.getAssetManager(), false, _side, friend), name, startAnimCode);
 		new SoldierModel(_game.getAssetManager(), false, _side, friend), name, startAnimCode);
 
 		if (_game.isServer()) {

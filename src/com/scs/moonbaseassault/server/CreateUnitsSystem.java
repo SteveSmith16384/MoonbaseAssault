@@ -4,6 +4,7 @@ import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.entities.AbstractAISoldier;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
+import com.scs.stevetech1.server.Globals;
 
 import ssmith.lang.NumberFunctions;
 import ssmith.util.RealtimeInterval;
@@ -30,9 +31,12 @@ public class CreateUnitsSystem {
 	private String getName() {
 		return names[NumberFunctions.rnd(0, names.length-1)] + " " + names[NumberFunctions.rnd(0, names.length-1)];
 	}
-	
-	
+
+
 	public void process() {
+		/*if (Globals.DEBUG_3D_PROBLEM) {
+			return;
+		}*/
 		if (recalcNumUnitsInterval.hitInterval()) {
 
 			int numAttackers = 0;
@@ -61,18 +65,24 @@ public class CreateUnitsSystem {
 				}
 			}
 
-			// Create attackers
-			while (numAttackers < 2) { // 2 players, one AI?
-				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_ATTACKERS, getName());
-				numAttackers++;
-			}
+			if (Globals.DEBUG_3D_PROBLEM) {
+				if (numDefenders < 1) {
+					server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
+				}				
+			} else {
 
-			// Create defenders
-			while (numDefenders < numAttackers*2) {// || numDefenders < 4) {
-				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
-				numDefenders++;
-			}
+				// Create attackers
+				while (numAttackers < 2) { // 2 players, one AI?
+					server.addAISoldier(MoonbaseAssaultGlobals.SIDE_ATTACKERS, getName());
+					numAttackers++;
+				}
 
+				// Create defenders
+				while (numDefenders < numAttackers*2) {// || numDefenders < 4) {
+					server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
+					numDefenders++;
+				}
+			}
 		}
 	}
 

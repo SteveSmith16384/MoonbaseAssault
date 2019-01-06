@@ -128,8 +128,11 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		MapLoader map = new MapLoader(this);
 		try {
-			//map.loadMap("serverdata/moonbaseassault_small.csv");
+			if (Globals.DEBUG_3D_PROBLEM) {
+			map.loadMap("serverdata/moonbaseassault_empty.csv");
+			} else {
 			map.loadMap("serverdata/moonbaseassault.csv");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -213,9 +216,10 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	public void collisionOccurred(SimpleRigidBody<PhysicalEntity> a, SimpleRigidBody<PhysicalEntity> b) {
+		/*
 		PhysicalEntity pa = a.userObject; //pa.getMainNode().getWorldBound();
 		PhysicalEntity pb = b.userObject; //pb.getMainNode().getWorldBound();
-		/*
+		
 		if (pa.type != MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING && pb.type != MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING) {
 			//Globals.p("Collision between " + pa + " and " + pb);
 		}

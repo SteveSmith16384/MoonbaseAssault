@@ -65,6 +65,9 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 
 	@Override
 	public void process(AbstractGameServer server, float tpf_secs) {
+		if (Globals.DEBUG_3D_PROBLEM) {
+			return;
+		}
 		if (this.waitForSecs > 0) {
 			this.waitForSecs -= tpf_secs;
 		} 

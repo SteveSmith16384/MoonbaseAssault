@@ -76,7 +76,7 @@ IDebrisTexture {
 
 		side = _side;
 		soldierModel = _model; // Need it for dimensions for bb
-		//this.soldierModel.createAndGetModel();
+		//this.soldierModel.createAndGetModel(); // scs new
 		
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
@@ -93,6 +93,8 @@ IDebrisTexture {
 		bbGeom.setLocalTranslation(0, box.getYExtent(), 0); // origin is centre!
 		bbGeom.setCullHint(CullHint.Always); // Don't draw the collision box
 		bbGeom.setUserData(Globals.ENTITY, this);
+		
+		//soldierModel.getModel().getWorldBound();
 
 		this.mainNode.attachChild(bbGeom);
 		mainNode.setLocalTranslation(x, y, z);
@@ -148,6 +150,7 @@ IDebrisTexture {
 	public void processByClient(IClientApp client, float tpf_secs) {
 		// Set position and direction of avatar model, which doesn't get moved automatically
 		this.soldierModel.getModel().setLocalTranslation(this.getWorldTranslation());
+		//this.soldierModel.getModel().getWorldBound();
 	}
 
 
@@ -220,6 +223,12 @@ IDebrisTexture {
 
 	@Override
 	public void setAnimCode_ClientSide(int animCode) {
+		if (Globals.USE_BOXES_FOR_AVATARS_SOLDIER) {
+			return;
+		}
+		if (Globals.DEBUG_3D_PROBLEM) {
+			return;
+		}
 		if (soldierModel != null) {
 			this.soldierModel.setAnim(animCode);
 		}
