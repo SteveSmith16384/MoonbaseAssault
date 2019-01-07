@@ -15,6 +15,7 @@ import com.scs.moonbaseassault.client.modules.IntroJonlan;
 import com.scs.moonbaseassault.client.modules.IntroModule;
 import com.scs.moonbaseassault.client.modules.MainModule;
 import com.scs.moonbaseassault.client.modules.PreGameModule;
+import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.moonbaseassault.netmessages.HudDataMessage;
 import com.scs.moonbaseassault.server.MoonbaseAssaultServer;
 import com.scs.moonbaseassault.shared.MoonbaseAssaultCollisionValidator;
@@ -101,6 +102,8 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		hud = new MoonbaseAssaultHUD(this, this.getCamera());
 
 		if (Globals.RELEASE_MODE) {
+			this.setModule(new IntroModule(this));
+		} else if (Globals.DEBUG_3D_PROBLEM) {
 			this.setModule(new IntroModule(this));
 		} else {
 			this.startConnectToServerModule();
@@ -338,6 +341,11 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		default:
 			throw new RuntimeException("Invalid side:" + side);
 		}
+		
+		if (Globals.DEBUG_3D_PROBLEM) {
+			SoldierModel m = new SoldierModel(this.getAssetManager(), false, (byte)0, false);
+			this.getRootNode().attachChild(m.createAndGetModel());
+		}
 	}
 
 
@@ -346,5 +354,5 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		this.hud.showCollectBox();
 	}
 
-
+	
 }

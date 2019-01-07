@@ -44,23 +44,27 @@ public class SoldierModel implements IAvatarModel {
 	public Spatial createAndGetModel() {
 		if (!Globals.USE_BOXES_FOR_AVATARS_SOLDIER) {
 			model = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
-			JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture(friend, player));
-			//if (!Globals.DEBUG_3D_PROBLEM) {
+			if (!Globals.DEBUG_3D_PROBLEM) {
+				JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture(friend, player));
+			} else {
+				JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Textures/cells3.png");
+			}
 			JMEModelFunctions.scaleModelToHeight(model, MODEL_HEIGHT);
-			//} else {
-			//	model.setLocalScale(.001f);
-			//}
 			JMEModelFunctions.moveYOriginTo(model, 0f);
 
-			AnimControl control = JMEModelFunctions.getNodeWithControls(null, (Node)model);
-			channel = control.createChannel();
+			if (!Globals.DEBUG_3D_PROBLEM) {
+				AnimControl control = JMEModelFunctions.getNodeWithControls(null, (Node)model);
+				channel = control.createChannel();
+			}
 		} else {
 			Box box1 = new Box(MODEL_WIDTH/2, MODEL_HEIGHT/2, MODEL_DEPTH/2);
 			model = new Geometry("Soldier", box1);
 			model.setLocalTranslation(0, MODEL_HEIGHT/2, 0); // Move origin to floor
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Textures/greensun.jpg");
 		}
+		if (!Globals.DEBUG_3D_PROBLEM) {
 		model.setShadowMode(ShadowMode.Cast); // model.getWorldBound()
+		}
 		return model;
 	}
 

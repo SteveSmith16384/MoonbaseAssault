@@ -34,9 +34,10 @@ public class CreateUnitsSystem {
 
 
 	public void process() {
-		/*if (Globals.DEBUG_3D_PROBLEM) {
+		if (Globals.DEBUG_3D_PROBLEM) {
 			return;
-		}*/
+		}
+		
 		if (recalcNumUnitsInterval.hitInterval()) {
 
 			int numAttackers = 0;
