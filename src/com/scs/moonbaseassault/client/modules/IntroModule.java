@@ -33,7 +33,7 @@ import ssmith.lang.NumberFunctions;
  * 6 - Disconnected module
  * 
  */
-public class IntroModule extends AbstractModule { //implements ActionListener {
+public class IntroModule extends AbstractModule {
 
 	private static final int STAGE_TITLE = 0;
 	private static final int STAGE_EXPLODE_TITLE = 2;

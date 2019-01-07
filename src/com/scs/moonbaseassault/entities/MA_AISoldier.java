@@ -17,9 +17,11 @@ public class MA_AISoldier extends AbstractAISoldier {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.AI_SOLDIER, x, y, z, _side, 
 		new SoldierModel(_game.getAssetManager(), false, _side, friend), name, startAnimCode);
 
+		if (!Globals.DEBUG_3D_PROBLEM) {
 		if (_game.isServer()) {
 			boolean attacker = side == 1;
 			ai = new ShootingSoldierAI3(this, attacker, !attacker);
+		}
 		}
 	}
 

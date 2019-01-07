@@ -152,6 +152,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			}
 		}
 
+		if (!Globals.DEBUG_3D_PROBLEM) {
 		Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
 		this.actuallyAddEntity(ss);
 
@@ -160,7 +161,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		//FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
 		//this.actuallyAddEntity(fs);
-
+		}
+		
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
 			MA_AISoldier s = new MA_AISoldier(this, this.getNextEntityID(), 0,0,0, (byte)2, false, "AI TEST", AbstractAvatar.ANIM_IDLE);
