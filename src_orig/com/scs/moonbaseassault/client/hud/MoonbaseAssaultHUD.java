@@ -162,7 +162,7 @@ public class MoonbaseAssaultHUD extends Node {
 			str.append(line + "\n");
 		}
 		this.log.setText(str.toString());
-		//this.log.updateGeometry();  // scs problem?!
+		this.log.updateGeometry();
 	}
 
 

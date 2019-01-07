@@ -5,6 +5,7 @@ import com.jme3.audio.AudioNode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 import com.scs.moonbaseassault.MASimplePlayerData;
 import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
@@ -27,6 +28,7 @@ import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.hud.AbstractHUDImage;
+import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.netmessages.MyAbstractMessage;
 import com.scs.stevetech1.netmessages.NewEntityData;
 import com.scs.stevetech1.server.Globals;
@@ -100,11 +102,14 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		playMusic();
 
 		hud = new MoonbaseAssaultHUD(this, this.getCamera());
+		if (Globals.DEBUG_3D_PROBLEM) {
+			hud.setCullHint(CullHint.Always);
+		}
 
 		if (Globals.RELEASE_MODE) {
 			this.setModule(new IntroModule(this));
 			/*} else if (Globals.DEBUG_3D_PROBLEM) {
-                       this.setModule(new IntroModule(this));*/
+			this.setModule(new IntroModule(this));*/
 		} else {
 			this.startConnectToServerModule();
 		}
@@ -307,7 +312,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	@Override
 	protected void showMessage(String msg) {
 		if (this.hud != null) {
-			hud.appendToLog(msg); // scs problem!
+			hud.appendToLog(msg);
 		}
 	}
 
@@ -318,7 +323,6 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 			hud.appendToLog(msg);
 		}
 	}
-
 
 
 	@Override
@@ -355,9 +359,9 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 			m.getModel().setLocalTranslation(1,  1,  1);
 			this.getGameNode().attachChild(m.getModel());*/
 
-			//Spatial m = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
+			Spatial m = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
 			//Spatial m = assetManager.loadModel("Models/ybot.blend");
-			Spatial m = assetManager.loadModel("Models/Animated Human.blend");
+			//Spatial m = assetManager.loadModel("Models/Animated Human.blend");
 			m.setLocalTranslation(1,  1,  1);
 			this.getGameNode().attachChild(m);
 
