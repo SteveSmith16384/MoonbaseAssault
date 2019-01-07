@@ -60,7 +60,7 @@ public class MapLoader {
 
 
 	public void loadMap(String s) throws FileNotFoundException, IOException, URISyntaxException {
-		String text = Functions.readAllFileFromJar(s);
+		String text = Functions.readAllTextFileFromJar(s);
 		String[] lines = text.split("\n");
 
 		mapsize = Integer.parseInt(lines[0].split(",")[0]);

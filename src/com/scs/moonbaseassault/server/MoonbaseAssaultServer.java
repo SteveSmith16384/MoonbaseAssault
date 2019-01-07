@@ -90,7 +90,7 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 	@Override
 	public void simpleInitApp() {
 		try {
-			String text = Functions.readAllFileFromJar("serverdata/ai_names.txt");
+			String text = Functions.readAllTextFileFromJar("serverdata/ai_names.txt");
 			String[] lines = text.split("\n");
 			createUnitsSystem = new CreateUnitsSystem(this, lines);
 		} catch (Exception e) {
