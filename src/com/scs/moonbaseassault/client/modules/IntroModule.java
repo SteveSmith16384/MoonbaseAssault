@@ -107,10 +107,6 @@ public class IntroModule extends AbstractModule {
 		dlsr.setLight(sun);
 		client.getViewPort().addProcessor(dlsr);
 
-		if (Globals.DEBUG_3D_PROBLEM) {
-			SoldierModel m = new SoldierModel(client.getAssetManager(), false, (byte)0, false);
-			client.getRootNode().attachChild(m.createAndGetModel());
-		}
 	}
 
 
@@ -147,10 +143,8 @@ public class IntroModule extends AbstractModule {
 				}
 
 				// Move cameras back
-				if (!Globals.DEBUG_3D_PROBLEM) {
-					this.client.getCamera().getLocation().z -= tpfSecs;
-					this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
-				}
+				this.client.getCamera().getLocation().z -= tpfSecs;
+				this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
 			} else {
 				// Start moving cam
 				this.moveFrac += tpfSecs;

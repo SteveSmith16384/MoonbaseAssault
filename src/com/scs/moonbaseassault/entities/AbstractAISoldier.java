@@ -227,9 +227,6 @@ IDebrisTexture {
 		if (Globals.USE_BOXES_FOR_AVATARS_SOLDIER) {
 			return;
 		}
-		if (Globals.DEBUG_3D_PROBLEM) {
-			return;
-		}
 		if (soldierModel != null) {
 			this.soldierModel.setAnim(animCode);
 		}

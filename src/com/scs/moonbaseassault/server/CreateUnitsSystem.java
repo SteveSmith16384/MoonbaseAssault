@@ -34,10 +34,6 @@ public class CreateUnitsSystem {
 
 
 	public void process() {
-		if (Globals.DEBUG_3D_PROBLEM) {
-			return;
-		}
-		
 		if (recalcNumUnitsInterval.hitInterval()) {
 
 			int numAttackers = 0;
@@ -66,23 +62,16 @@ public class CreateUnitsSystem {
 				}
 			}
 
-			if (Globals.DEBUG_3D_PROBLEM) {
-				if (numDefenders < 1) {
-					server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
-				}				
-			} else {
+			// Create attackers
+			while (numAttackers < 2) { // 2 players, one AI?
+				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_ATTACKERS, getName());
+				numAttackers++;
+			}
 
-				// Create attackers
-				while (numAttackers < 2) { // 2 players, one AI?
-					server.addAISoldier(MoonbaseAssaultGlobals.SIDE_ATTACKERS, getName());
-					numAttackers++;
-				}
-
-				// Create defenders
-				while (numDefenders < numAttackers*2) {// || numDefenders < 4) {
-					server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
-					numDefenders++;
-				}
+			// Create defenders
+			while (numDefenders < numAttackers*2) {// || numDefenders < 4) {
+				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
+				numDefenders++;
 			}
 		}
 	}

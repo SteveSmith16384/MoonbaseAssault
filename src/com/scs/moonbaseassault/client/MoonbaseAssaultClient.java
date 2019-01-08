@@ -307,7 +307,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 	@Override
 	protected void showMessage(String msg) {
 		if (this.hud != null) {
-			hud.appendToLog(msg); // scs problem!
+			hud.appendToLog(msg);
 		}
 	}
 

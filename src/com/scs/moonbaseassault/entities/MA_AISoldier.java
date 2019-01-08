@@ -12,20 +12,18 @@ import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
 public class MA_AISoldier extends AbstractAISoldier {
-	
+
 	public MA_AISoldier(IEntityController _game, int id, float x, float y, float z, byte _side, boolean friend, String name, int startAnimCode) {
 		super(_game, id, MoonbaseAssaultClientEntityCreator.AI_SOLDIER, x, y, z, _side, 
-		new SoldierModel(_game.getAssetManager(), false, _side, friend), name, startAnimCode);
+				new SoldierModel(_game.getAssetManager(), false, _side, friend), name, startAnimCode);
 
-		if (!Globals.DEBUG_3D_PROBLEM) {
 		if (_game.isServer()) {
 			boolean attacker = side == 1;
 			ai = new ShootingSoldierAI3(this, attacker, !attacker);
 		}
-		}
 	}
 
-	
+
 	@Override
 	protected AbstractBullet createAIBullet(Vector3f pos, Vector3f dir) {
 		LaserBullet bullet = new LaserBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
@@ -34,7 +32,7 @@ public class MA_AISoldier extends AbstractAISoldier {
 		return bullet;
 	}
 
-	
+
 	@Override
 	public void handleKilledOnClientSide(PhysicalEntity killer) {
 		AbstractGameClient client = (AbstractGameClient)game;
@@ -48,7 +46,7 @@ public class MA_AISoldier extends AbstractAISoldier {
 		return "Textures/blood.png";
 	}
 
-	
+
 	@Override
 	public float getMinDebrisSize() {
 		return 0.001f;

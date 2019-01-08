@@ -17,8 +17,9 @@ public class ModelViewer_MA extends ModelViewer {
 
 	@Override
 	public Spatial getModel() {
-		Spatial model = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
-		JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture(false, false));
+		Spatial model = assetManager.loadModel("Models/third_person.blend");
+		//Spatial model = assetManager.loadModel("Models/Policeman.fbx");
+		//JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture(false, false));
 
 		JMEModelFunctions.scaleModelToHeight(model, .7f);
 		JMEModelFunctions.moveYOriginTo(model, 0f);
