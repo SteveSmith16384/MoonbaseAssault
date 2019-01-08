@@ -16,7 +16,9 @@ import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.client.MoonbaseAssaultClient;
 import com.scs.moonbaseassault.client.intro.SimpleMoonbaseWall;
+import com.scs.moonbaseassault.models.SoldierModel;
 import com.scs.moonbaseassault.server.MapLoader;
+import com.scs.stevetech1.server.Globals;
 
 import ssmith.lang.Functions;
 import ssmith.lang.NumberFunctions;
@@ -31,7 +33,7 @@ import ssmith.lang.NumberFunctions;
  * 6 - Disconnected module
  * 
  */
-public class IntroModule extends AbstractModule { //implements ActionListener {
+public class IntroModule extends AbstractModule {
 
 	private static final int STAGE_TITLE = 0;
 	private static final int STAGE_EXPLODE_TITLE = 2;
@@ -70,7 +72,7 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 		bmpText.setText("Click mouse to Start");
 
 		introNode = new Node("IntroNode");
-		
+
 		SimpleMoonbaseWall floor = new SimpleMoonbaseWall(client, -50, -1, -50, 100, 1f, 100f, "Textures/moonrock.png");
 		this.introNode.attachChild(floor);
 
@@ -111,11 +113,11 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 	@Override
 	public void simpleUpdate(float tpfSecs) {
 		super.simpleUpdate(tpfSecs);
-		
+
 		if (tpfSecs > 1) {
 			tpfSecs = 1;
 		}
-		
+
 		if (waitFor > 0 ) {
 			waitFor -= tpfSecs;
 			return;
@@ -143,7 +145,6 @@ public class IntroModule extends AbstractModule { //implements ActionListener {
 				// Move cameras back
 				this.client.getCamera().getLocation().z -= tpfSecs;
 				this.client.getCamera().lookAt(new Vector3f(mapSize/2, 0, mapSize/2), Vector3f.UNIT_Y);
-
 			} else {
 				// Start moving cam
 				this.moveFrac += tpfSecs;

@@ -44,8 +44,11 @@ public class SoldierModel implements IAvatarModel {
 	public Spatial createAndGetModel() {
 		if (!Globals.USE_BOXES_FOR_AVATARS_SOLDIER) {
 			model = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
+			//if (!Globals.DEBUG_3D_PROBLEM) {
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture(friend, player));
-
+			/*} else {
+				JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Textures/cells3.png");
+			}*/
 			JMEModelFunctions.scaleModelToHeight(model, MODEL_HEIGHT);
 			JMEModelFunctions.moveYOriginTo(model, 0f);
 
@@ -57,7 +60,7 @@ public class SoldierModel implements IAvatarModel {
 			model.setLocalTranslation(0, MODEL_HEIGHT/2, 0); // Move origin to floor
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Textures/greensun.jpg");
 		}
-		model.setShadowMode(ShadowMode.Cast);
+		model.setShadowMode(ShadowMode.Cast); // model.getWorldBound()
 		return model;
 	}
 

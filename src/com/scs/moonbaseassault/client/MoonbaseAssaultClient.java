@@ -4,6 +4,7 @@ import com.jme3.audio.AudioData.DataType;
 import com.jme3.audio.AudioNode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.scs.moonbaseassault.MASimplePlayerData;
 import com.scs.moonbaseassault.MASounds;
 import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
@@ -77,7 +78,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 		ipAddress = gameIpAddress;
 		port = gamePort;
-		
+
 		super.cameraSystem.setupFollowCam(0.7f, 0.2f);
 
 		start();
@@ -102,6 +103,8 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 		if (Globals.RELEASE_MODE) {
 			this.setModule(new IntroModule(this));
+			/*} else if (Globals.DEBUG_3D_PROBLEM) {
+                       this.setModule(new IntroModule(this));*/
 		} else {
 			this.startConnectToServerModule();
 		}
@@ -164,7 +167,7 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		this.currentModule = m;
 
 		if (currentModule instanceof MainModule) {
-			if (this.hud.getParent() == null) {
+			if (this.hud != null && this.hud.getParent() == null) {
 				this.guiNode.attachChild(hud); // Re-add since the previous module probably cleared out the guiNode
 			}
 		}
@@ -178,10 +181,12 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 
 	@Override
-	public void simpleUpdate(float tpfSecs) {
+	public void simpleUpdate(float tpfSecs) { // this.getGuiNode() //this.getRootNode()
 		super.simpleUpdate(tpfSecs);
 		this.currentModule.simpleUpdate(tpfSecs);
-		this.hud.processByClient(this, tpfSecs);
+		if (hud != null) {
+			this.hud.processByClient(this, tpfSecs);
+		}
 	}
 
 
@@ -301,14 +306,19 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 
 	@Override
 	protected void showMessage(String msg) {
-		hud.appendToLog(msg);
+		if (this.hud != null) {
+			hud.appendToLog(msg);
+		}
 	}
 
 
 	@Override
 	protected void appendToLog(String msg) {
-		hud.appendToLog(msg);
+		if (this.hud != null) {
+			hud.appendToLog(msg);
+		}
 	}
+
 
 
 	@Override
@@ -337,6 +347,20 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 			break;
 		default:
 			throw new RuntimeException("Invalid side:" + side);
+		}
+
+		if (Globals.DEBUG_3D_PROBLEM) {
+			/*SoldierModel m = new SoldierModel(this.getAssetManager(), false, (byte)1, false);
+			m.createAndGetModel();
+			m.getModel().setLocalTranslation(1,  1,  1);
+			this.getGameNode().attachChild(m.getModel());*/
+
+			//Spatial m = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
+			//Spatial m = assetManager.loadModel("Models/ybot.blend");
+			Spatial m = assetManager.loadModel("Models/Animated Human.blend");
+			m.setLocalTranslation(1,  1,  1);
+			this.getGameNode().attachChild(m);
+
 		}
 	}
 

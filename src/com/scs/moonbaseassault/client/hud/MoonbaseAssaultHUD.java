@@ -19,15 +19,13 @@ import com.jme3.scene.shape.Quad;
 import com.jme3.ui.Picture;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.data.SimpleGameData;
+import com.scs.stevetech1.server.Globals;
 
 import ssmith.util.RealtimeInterval;
 
 public class MoonbaseAssaultHUD extends Node {
 
-	private static final int MAX_LINES = 6;
-
 	private RealtimeInterval updateHudTextInterval = new RealtimeInterval(1000);
-
 	private Camera cam;
 	private Geometry damage_box;
 	private ColorRGBA dam_box_col = new ColorRGBA(1, 0, 0, 0.0f);
@@ -39,8 +37,8 @@ public class MoonbaseAssaultHUD extends Node {
 	private TrueTypeContainer abilityGun, abilityOther, healthText; // Update instantly 
 	private String debugText, gameStatus, gameTime, pingText, compsDestroyedText, numPlayers, gameID;
 	private TrueTypeContainer textArea; // For showing all other stats 
-	private TrueTypeContainer log;
-	private LinkedList<String> logLines = new LinkedList<>();
+	private final TrueTypeContainer log;
+	private final LinkedList<String> logLines = new LinkedList<>();
 
 	public MoonbaseAssaultHUD(AbstractGameClient _game, Camera _cam) { 
 		super("HUD");
@@ -110,6 +108,11 @@ public class MoonbaseAssaultHUD extends Node {
 
 	public void processByClient(AbstractGameClient client, float tpf) {
 		if (updateHudTextInterval.hitInterval()) {
+			
+			if (Globals.DEBUG_3D_PROBLEM) {
+				this.appendToLog("hello");
+			}
+			
 			if (client.gameData != null) {
 				this.gameID = "Game ID: " + client.gameData.gameID;
 				this.setGameStatus(SimpleGameData.getStatusDesc(client.gameData.getGameStatus()));
@@ -154,7 +157,7 @@ public class MoonbaseAssaultHUD extends Node {
 
 	public void appendToLog(String s) {
 		this.logLines.add(s);
-		while (this.logLines.size() > MAX_LINES) {
+		while (this.logLines.size() > 4) { // Increasing this seems to break some 3D models?!
 			this.logLines.remove(0);
 		}
 		StringBuilder str = new StringBuilder();

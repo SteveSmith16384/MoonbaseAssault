@@ -4,6 +4,7 @@ import com.scs.moonbaseassault.MoonbaseAssaultGlobals;
 import com.scs.moonbaseassault.entities.AbstractAISoldier;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
+import com.scs.stevetech1.server.Globals;
 
 import ssmith.lang.NumberFunctions;
 import ssmith.util.RealtimeInterval;
@@ -30,8 +31,8 @@ public class CreateUnitsSystem {
 	private String getName() {
 		return names[NumberFunctions.rnd(0, names.length-1)] + " " + names[NumberFunctions.rnd(0, names.length-1)];
 	}
-	
-	
+
+
 	public void process() {
 		if (recalcNumUnitsInterval.hitInterval()) {
 
@@ -72,7 +73,6 @@ public class CreateUnitsSystem {
 				server.addAISoldier(MoonbaseAssaultGlobals.SIDE_DEFENDERS, getName());
 				numDefenders++;
 			}
-
 		}
 	}
 

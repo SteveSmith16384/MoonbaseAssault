@@ -128,8 +128,11 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		MapLoader map = new MapLoader(this);
 		try {
-			//map.loadMap("serverdata/moonbaseassault_small.csv");
-			map.loadMap("serverdata/moonbaseassault.csv");
+			if (Globals.DEBUG_3D_PROBLEM) {
+				map.loadMap("serverdata/moonbaseassault_empty.csv");
+			} else {
+				map.loadMap("serverdata/moonbaseassault.csv");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -149,14 +152,16 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			}
 		}
 
-		Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
-		this.actuallyAddEntity(ss);
+		if (!Globals.DEBUG_3D_PROBLEM) {
+			Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
+			this.actuallyAddEntity(ss);
 
-		ss = new Spaceship1(this, this.getNextEntityID(), 48, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
-		this.actuallyAddEntity(ss);
+			ss = new Spaceship1(this, this.getNextEntityID(), 48, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
+			this.actuallyAddEntity(ss);
 
-		//FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
-		//this.actuallyAddEntity(fs);
+			//FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
+			//this.actuallyAddEntity(fs);
+		}
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {
@@ -213,9 +218,10 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 	@Override
 	public void collisionOccurred(SimpleRigidBody<PhysicalEntity> a, SimpleRigidBody<PhysicalEntity> b) {
+		/*
 		PhysicalEntity pa = a.userObject; //pa.getMainNode().getWorldBound();
 		PhysicalEntity pb = b.userObject; //pb.getMainNode().getWorldBound();
-		/*
+
 		if (pa.type != MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING && pb.type != MoonbaseAssaultClientEntityCreator.FLOOR_OR_CEILING) {
 			//Globals.p("Collision between " + pa + " and " + pb);
 		}
