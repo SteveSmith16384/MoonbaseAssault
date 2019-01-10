@@ -348,20 +348,6 @@ public final class MoonbaseAssaultClient extends AbstractGameClient {
 		default:
 			throw new RuntimeException("Invalid side:" + side);
 		}
-
-		if (Globals.DEBUG_3D_PROBLEM) {
-			/*SoldierModel m = new SoldierModel(this.getAssetManager(), false, (byte)1, false);
-			m.createAndGetModel();
-			m.getModel().setLocalTranslation(1,  1,  1);
-			this.getGameNode().attachChild(m.getModel());*/
-
-			//Spatial m = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
-			//Spatial m = assetManager.loadModel("Models/ybot.blend");
-			Spatial m = assetManager.loadModel("Models/Animated Human.blend");
-			m.setLocalTranslation(1,  1,  1);
-			this.getGameNode().attachChild(m);
-
-		}
 	}
 
 

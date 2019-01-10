@@ -128,11 +128,8 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 
 		MapLoader map = new MapLoader(this);
 		try {
-			if (Globals.DEBUG_3D_PROBLEM) {
-				map.loadMap("serverdata/moonbaseassault_empty.csv");
-			} else {
-				map.loadMap("serverdata/moonbaseassault.csv");
-			}
+			//map.loadMap("serverdata/moonbaseassault_empty.csv");
+			map.loadMap("serverdata/moonbaseassault.csv");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -152,16 +149,14 @@ public class MoonbaseAssaultServer extends AbstractGameServer implements IAStarM
 			}
 		}
 
-		if (!Globals.DEBUG_3D_PROBLEM) {
-			Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
-			this.actuallyAddEntity(ss);
+		Spaceship1 ss = new Spaceship1(this, this.getNextEntityID(), 8, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
+		this.actuallyAddEntity(ss);
 
-			ss = new Spaceship1(this, this.getNextEntityID(), 48, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
-			this.actuallyAddEntity(ss);
+		ss = new Spaceship1(this, this.getNextEntityID(), 48, 2f, 8, JMEAngleFunctions.getYAxisRotation(-1, 0));
+		this.actuallyAddEntity(ss);
 
-			//FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
-			//this.actuallyAddEntity(fs);
-		}
+		//FlyingSpaceship2 fs = new FlyingSpaceship2(this, this.getNextEntityID(), 8, 5f, 8);
+		//this.actuallyAddEntity(fs);
 
 		// Add AI soldiers
 		if (Globals.TEST_AI) {

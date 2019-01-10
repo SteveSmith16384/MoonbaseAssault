@@ -109,10 +109,6 @@ public class MoonbaseAssaultHUD extends Node {
 	public void processByClient(AbstractGameClient client, float tpf) {
 		if (updateHudTextInterval.hitInterval()) {
 			
-			if (Globals.DEBUG_3D_PROBLEM) {
-				this.appendToLog("hello");
-			}
-			
 			if (client.gameData != null) {
 				this.gameID = "Game ID: " + client.gameData.gameID;
 				this.setGameStatus(SimpleGameData.getStatusDesc(client.gameData.getGameStatus()));

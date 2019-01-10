@@ -65,14 +65,6 @@ public class MediPack extends PhysicalEntity implements IProcessByClient, IPlaye
 
 		geometry.setUserData(Globals.ENTITY, this);
 		
-
-		if (Globals.TEST_OUTLINE_SHADER) {
-			if (!_game.isServer()) {
-				AbstractGameClient client = (AbstractGameClient)game;
-				client.showOutlineEffect(this.getMainNode(), 5, ColorRGBA.Red);
-			}
-		}
-
 	}
 
 
