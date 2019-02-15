@@ -55,7 +55,7 @@ public class MapBorder extends PhysicalEntity {
 				w, 0, w, d, 0, d, 0, 0  // bottom
 		}));
 		Geometry geometry = new Geometry("MapBorderBox", box1);
-		if (!_game.isServer()) {			
+		if (!_game.isServer()) {
 			if (INVISIBLE) {
 				geometry.setCullHint(CullHint.Always);
 			} else {
