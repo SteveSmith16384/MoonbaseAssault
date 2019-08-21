@@ -30,13 +30,13 @@ public class SoldierTexture {
 	}
 
 
-	public static Texture getTexture(boolean friend, boolean player) {
+	public static Texture getTexture(boolean friend, final boolean player) {
 		if (MoonbaseAssaultGlobals.DEBUG_OTHER_PLAYER_COLOURS) {
 			if (player) {
 				Globals.p("Getting colour for player");
 			}
 		}
-		int side = friend ? 2 : 1;
+		final int side = friend ? 2 : 1;
 		PaintableImage pi = new PaintableImage(SIZE, SIZE) {
 
 			@Override
