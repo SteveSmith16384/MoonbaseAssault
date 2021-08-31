@@ -18,7 +18,7 @@ This game is designed to be a multiplayer realtime version of the Laser Squad (h
 
 ## Compiling Requirements
 * Java
-* SteveTech1 (https://bitbucket.org/SteveSmith16384/stetech1)
+* SteveTech1 ( https://github.com/SteveSmith16384/SteveTech1 )
 
 If you are trying to compile this, you'll probably want to use the development branch of SteveTech1, since that's what I usually develop against.
 
